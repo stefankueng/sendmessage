@@ -25,6 +25,7 @@
 CMainDlg::CMainDlg(HWND hParent)
 	: m_hParent(hParent)
 	, m_bStartSearchWindow(false)
+	, m_hwndFoundWindow(NULL)
 {
 }
 
@@ -277,10 +278,12 @@ bool CMainDlg::DoMouseUp(UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 
 	ReleaseCapture();
 
-	TCHAR szText[256];
-	_stprintf_s(szText, 256, _T("0x%08X"), m_hwndFoundWindow);
-	SetDlgItemText(*this, IDC_WINDOW, szText);
-
+	if (CheckWindowValidity(m_hwndFoundWindow))
+	{
+		TCHAR szText[256];
+		_stprintf_s(szText, 256, _T("0x%08X"), m_hwndFoundWindow);
+		SetDlgItemText(*this, IDC_WINDOW, szText);
+	}
 	m_bStartSearchWindow = false;
 
 	return true;
@@ -316,6 +319,11 @@ bool CMainDlg::CheckWindowValidity(HWND hwndToCheck)
 
 	// It also must not be one of the dialog box's children...
 	hwndTemp = GetParent(hwndToCheck);
+	if (hwndTemp == *this)
+	{
+		return false;
+	}
+	hwndTemp = GetParent(hwndTemp);
 	if (hwndTemp == *this)
 	{
 		return false;
