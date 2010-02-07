@@ -17,6 +17,10 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 #pragma once
+#include <string>
+#include <algorithm>
+#include <functional>
+#include <ctype.h>
 
 #ifdef UNICODE
 #define _tcswildcmp	wcswildcmp
@@ -51,3 +55,40 @@ int wcswildcmp(const wchar_t * wild, const wchar_t * string);
 
 bool WriteAsciiStringToClipboard(const wchar_t * sClipdata, HWND hOwningWnd);
 
+class CStringUtils
+{
+public:
+	// trim from both ends
+	static inline std::string &trim(std::string &s) {
+		return ltrim(rtrim(s));
+	}
+
+	// trim from start
+	static inline std::string &ltrim(std::string &s) {
+		s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(isspace))));
+		return s;
+	}
+
+	// trim from end
+	static inline std::string &rtrim(std::string &s) {
+		s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(isspace))).base(), s.end());
+		return s;
+	}
+
+	// trim from both ends
+	static inline std::wstring &trim(std::wstring &s) {
+		return ltrim(rtrim(s));
+	}
+
+	// trim from start
+	static inline std::wstring &ltrim(std::wstring &s) {
+		s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(isspace))));
+		return s;
+	}
+
+	// trim from end
+	static inline std::wstring &rtrim(std::wstring &s) {
+		s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(isspace))).base(), s.end());
+		return s;
+	}
+};
