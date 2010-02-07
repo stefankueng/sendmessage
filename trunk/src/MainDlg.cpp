@@ -431,6 +431,7 @@ bool CMainDlg::SendPostMessage(UINT id)
 	}
 
 	LRESULT res = 0;
+	GetLastError();
 	if (id == IDC_SENDMESSAGE)
 	{
 		res = SendMessage(hTargetWnd, msg, wparam, lparam);
@@ -439,5 +440,7 @@ bool CMainDlg::SendPostMessage(UINT id)
 	{
 		res = PostMessage(hTargetWnd, msg, wparam, lparam);
 	}
+	_stprintf_s(buf, MAX_PATH, _T("0x%08X (%ld)"), res, res);
+	SetDlgItemText(*this, IDC_RETVALUE, buf);
 	return true;
 }
