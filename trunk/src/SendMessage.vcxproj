@@ -94,6 +94,7 @@
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="AeroControls.h" />
     <ClInclude Include="AeroGlass.h" />
+    <ClInclude Include="auto_buffer.h" />
     <ClInclude Include="BaseDialog.h" />
     <ClInclude Include="BaseWindow.h" />
     <ClInclude Include="CmdLineParser.h" />
@@ -103,11 +104,14 @@
     <ClInclude Include="MainDlg.h" />
     <ClInclude Include="registry.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceFile.h" />
+    <ClInclude Include="ResourceTextFile.h" />
     <ClInclude Include="SendMessage.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UnicodeUtils.h" />
+    <ClInclude Include="XMLite.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AboutDlg.cpp" />
@@ -123,6 +127,8 @@
     <ClCompile Include="hyperlink.cpp" />
     <ClCompile Include="MainDlg.cpp" />
     <ClCompile Include="Registry.cpp" />
+    <ClCompile Include="ResourceFile.cpp" />
+    <ClCompile Include="ResourceTextFile.cpp" />
     <ClCompile Include="SendMessage.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -130,12 +136,14 @@
     </ClCompile>
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="UnicodeUtils.cpp" />
+    <ClCompile Include="XMLite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\searchw.cur" />
     <None Include="resources\searchw.ico" />
     <None Include="resources\SendMessage.ico" />
     <None Include="resources\small.ico" />
+    <None Include="resources\windowmessages.xml" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SendMessage.rc" />

@@ -61,6 +61,19 @@ LRESULT CMainDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			m_hRectanglePen = CreatePen(PS_SOLID, 3, RGB(0, 0, 0));
 
+			m_xmlResource.Open(hResource, MAKEINTRESOURCE(IDR_WINDOWMESSAGESXML), _T("TEXT"), CResourceTextFile::ConvertToUnicode);
+			m_xml.Load(m_xmlResource.GetTextBuffer());
+			// now fill the window message combo box
+			XNodes childs;
+			childs = m_xml.GetChilds(_T("Message") );
+			for( size_t i = 0 ; i < childs.size(); ++i)
+			{
+				std::wstring desc = childs[i]->GetAttrValue(_T("description"));
+				TCHAR * endptr = NULL;
+				UINT msg = _tcstol(childs[i]->GetAttrValue(_T("value")), &endptr, 0);
+				LRESULT index = SendDlgItemMessage(*this, IDC_MESSAGE, CB_ADDSTRING, 0, (LPARAM)desc.c_str());
+				SendDlgItemMessage(*this, IDC_MESSAGE, CB_SETITEMDATA, index, msg);
+			}
 
 			WINDOWPLACEMENT wpl = {0};
 			DWORD size = sizeof(wpl);
@@ -110,7 +123,7 @@ LRESULT CMainDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-LRESULT CMainDlg::DoCommand(int id, int /*msg*/)
+LRESULT CMainDlg::DoCommand(int id, int msg)
 {
 	switch (id)
 	{
@@ -125,10 +138,60 @@ LRESULT CMainDlg::DoCommand(int id, int /*msg*/)
 	case IDC_SENDMESSAGE:
 	case IDC_POSTMESSAGE:
 		SendPostMessage(id);
+		break;
 	case IDC_ABOUTLINK:
 		{
 			CAboutDlg dlgAbout(*this);
 			dlgAbout.DoModal(hResource, IDD_ABOUTBOX, *this);
+		}
+		break;
+	case IDC_MESSAGE:
+		{
+			switch (msg)
+			{
+			case CBN_EDITCHANGE:
+			case CBN_SELCHANGE:
+				{
+					// the selected window message has changed, adjust the wparam and lparam comboboxes
+					LRESULT selIndex = SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETCURSEL, 0, 0);
+					SendDlgItemMessage(*this, IDC_WPARAM, CB_RESETCONTENT, 0, 0);
+					SendDlgItemMessage(*this, IDC_LPARAM, CB_RESETCONTENT, 0, 0);
+					if (selIndex != CB_ERR)
+					{
+						LRESULT textlen = SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETLBTEXTLEN, selIndex, 0);
+						auto_buffer<TCHAR> textbuf(textlen + 1);
+						SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETLBTEXT, selIndex, (LPARAM)(TCHAR*)textbuf);
+						XNodes childs;
+						childs = m_xml.GetChilds(_T("Message") );
+						for( size_t i = 0 ; i < childs.size(); ++i)
+						{
+							std::wstring d = childs[i]->GetAttrValue(_T("description"));
+							if (d.compare(textbuf) == 0)
+							{
+								XNodes wparams = childs[i]->GetChilds(_T("wparam"));
+								for (size_t j = 0; j < wparams.size(); ++j)
+								{
+									std::wstring desc = wparams[j]->GetAttrValue(_T("description"));
+									TCHAR * endptr = NULL;
+									UINT msg = _tcstol(wparams[j]->GetAttrValue(_T("value")), &endptr, 0);
+									LRESULT index = SendDlgItemMessage(*this, IDC_WPARAM, CB_ADDSTRING, 0, (LPARAM)desc.c_str());
+									SendDlgItemMessage(*this, IDC_WPARAM, CB_SETITEMDATA, index, msg);
+								}
+								XNodes lparams = childs[i]->GetChilds(_T("lparam"));
+								for (size_t j = 0; j < lparams.size(); ++j)
+								{
+									std::wstring desc = lparams[j]->GetAttrValue(_T("description"));
+									TCHAR * endptr = NULL;
+									UINT msg = _tcstol(lparams[j]->GetAttrValue(_T("value")), &endptr, 0);
+									LRESULT index = SendDlgItemMessage(*this, IDC_LPARAM, CB_ADDSTRING, 0, (LPARAM)desc.c_str());
+									SendDlgItemMessage(*this, IDC_LPARAM, CB_SETITEMDATA, index, msg);
+								}
+							}
+						}
+					}
+				}
+				break;
+			}
 		}
 		break;
 	}
@@ -331,28 +394,50 @@ bool CMainDlg::SendPostMessage(UINT id)
 
 	TCHAR * endptr = NULL;
 	hTargetWnd = (HWND)_tcstol(buf, &endptr, 0);
-	if (buf != endptr)
+	if (hTargetWnd == NULL)
+		return false;
+
+	UINT msg = 0;
+	WPARAM wparam = 0;
+	LPARAM lparam = 0;
+
+	GetDlgItemText(*this, IDC_MESSAGE, buf, MAX_PATH);
+	msg = _tcstol(buf, &endptr, 0);
+	if (msg == 0)
 	{
-		GetDlgItemText(*this, IDC_MESSAGE, buf, MAX_PATH);
-		UINT msg = _tcstol(buf, &endptr, 0);
+		LRESULT selIndex = SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETCURSEL, 0, 0);
+		if (selIndex != CB_ERR)
+			msg = SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETITEMDATA, selIndex, 0);
+	}
+	if (msg == 0)
+		return false;
 
-		GetDlgItemText(*this, IDC_WPARAM, buf, MAX_PATH);
-		WPARAM wparam = (WPARAM)_tcstol(buf, &endptr, 0);
-
-		GetDlgItemText(*this, IDC_LPARAM, buf, MAX_PATH);
-		LPARAM lparam = (LPARAM)_tcstol(buf, &endptr, 0);
-
-		LRESULT res = 0;
-		if (id == IDC_SENDMESSAGE)
-		{
-			res = SendMessage(hTargetWnd, msg, wparam, lparam);
-		}
-		else
-		{
-			res = PostMessage(hTargetWnd, msg, wparam, lparam);
-		}
-		return true;
+	GetDlgItemText(*this, IDC_WPARAM, buf, MAX_PATH);
+	wparam = (WPARAM)_tcstol(buf, &endptr, 0);
+	if (wparam == 0)
+	{
+		LRESULT selIndex = SendDlgItemMessage(*this, IDC_WPARAM, CB_GETCURSEL, 0, 0);
+		if (selIndex != CB_ERR)
+			wparam = SendDlgItemMessage(*this, IDC_WPARAM, CB_GETITEMDATA, selIndex, 0);
 	}
 
-	return false;
+	GetDlgItemText(*this, IDC_LPARAM, buf, MAX_PATH);
+	lparam = (LPARAM)_tcstol(buf, &endptr, 0);
+	if (lparam == 0)
+	{
+		LRESULT selIndex = SendDlgItemMessage(*this, IDC_LPARAM, CB_GETCURSEL, 0, 0);
+		if (selIndex != CB_ERR)
+			lparam = SendDlgItemMessage(*this, IDC_LPARAM, CB_GETITEMDATA, selIndex, 0);
+	}
+
+	LRESULT res = 0;
+	if (id == IDC_SENDMESSAGE)
+	{
+		res = SendMessage(hTargetWnd, msg, wparam, lparam);
+	}
+	else
+	{
+		res = PostMessage(hTargetWnd, msg, wparam, lparam);
+	}
+	return true;
 }

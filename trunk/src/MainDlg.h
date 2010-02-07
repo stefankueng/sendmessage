@@ -20,6 +20,8 @@
 #include "basedialog.h"
 #include "AeroControls.h"
 #include "HyperLink.h"
+#include "ResourceTextFile.h"
+#include "XMLite.h"
 #include <string>
 #include <vector>
 
@@ -56,5 +58,6 @@ private:
 	bool					m_bStartSearchWindow;
 	HWND					m_hwndFoundWindow;
 	HPEN					m_hRectanglePen;
-
+	CResourceTextFile		m_xmlResource;
+	XNode 					m_xml;
 };
