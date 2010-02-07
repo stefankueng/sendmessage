@@ -20,6 +20,7 @@
 #include "Resource.h"
 #include "MainDlg.h"
 #include "AboutDlg.h"
+#include "WindowTreeDlg.h"
 
 
 CMainDlg::CMainDlg(HWND hParent)
@@ -90,6 +91,7 @@ LRESULT CMainDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			m_aerocontrols.SubclassControl(GetDlgItem(*this, IDC_STATIC_X_POS));
 			m_aerocontrols.SubclassControl(GetDlgItem(*this, IDC_STATIC_Y_POS));
 			m_aerocontrols.SubclassControl(GetDlgItem(*this, IDC_EDIT_STATUS));
+			m_aerocontrols.SubclassControl(GetDlgItem(*this, IDC_WINDOWTREE));
 			m_aerocontrols.SubclassControl(GetDlgItem(*this, IDOK));
 
 		}
@@ -137,6 +139,19 @@ LRESULT CMainDlg::DoCommand(int id, int msg)
 		break;
 	case IDC_SEARCHW:
 		SearchWindow();
+		break;
+	case IDC_WINDOWTREE:
+		{
+			CWindowTreeDlg treeDlg(*this);
+			if (treeDlg.DoModal(hResource, IDD_WINDOWSTREE, *this) == IDOK)
+			{
+				m_hwndFoundWindow = treeDlg.GetSelectedWindow();
+				DisplayInfoOnFoundWindow(m_hwndFoundWindow);
+				TCHAR szText[256];
+				_stprintf_s(szText, 256, _T("0x%08X"), m_hwndFoundWindow);
+				SetDlgItemText(*this, IDC_WINDOW, szText);
+			}
+		}
 		break;
 	case IDC_SENDMESSAGE:
 	case IDC_POSTMESSAGE:

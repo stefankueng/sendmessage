@@ -39,6 +39,9 @@
     <ClInclude Include="Debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DlgResizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="FormatMessageWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -75,6 +78,9 @@
     <ClInclude Include="UnicodeUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WindowTreeDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="XMLite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -99,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Debug.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgResizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="hyperlink.cpp">
@@ -126,6 +135,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UnicodeUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowTreeDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XMLite.cpp">
