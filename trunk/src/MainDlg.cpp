@@ -442,5 +442,33 @@ bool CMainDlg::SendPostMessage(UINT id)
 	}
 	_stprintf_s(buf, MAX_PATH, _T("0x%08X (%ld)"), res, res);
 	SetDlgItemText(*this, IDC_RETVALUE, buf);
+
+	DWORD err = GetLastError();
+	if (err)
+	{
+		LPVOID lpMsgBuf;
+		LPVOID lpDisplayBuf;
+
+		FormatMessage(
+			FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+			FORMAT_MESSAGE_FROM_SYSTEM |
+			FORMAT_MESSAGE_IGNORE_INSERTS,
+			NULL,
+			err,
+			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+			(LPTSTR) &lpMsgBuf,
+			0, NULL);
+
+		lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf)+40)*sizeof(TCHAR)); 
+		_stprintf_s((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf)/sizeof(TCHAR), _T("error %d: %s"), err, lpMsgBuf); 
+		SetDlgItemText(*this, IDC_ERROR, (LPCTSTR)lpDisplayBuf);
+
+		LocalFree(lpMsgBuf);
+		LocalFree(lpDisplayBuf);
+	}
+	else
+		SetDlgItemText(*this, IDC_ERROR, _T(""));
+
+
 	return true;
 }
