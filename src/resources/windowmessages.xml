@@ -1,0 +1,27 @@
+<Messages>
+  <Message description="WM_ENDSESSION" value="0x0016">
+    <wparam description="endsession" value="1" />
+    <wparam description="other" value="0" />
+    <lparam description="ENDSESSION_CLOSEAPP" value="0x01" />
+    <lparam description="ENDSESSION_LOGOFF" value="0x80000000" />
+  </Message>
+  <Message description="WM_QUERYENDSESSION" value="0x0011">
+    <wparam description="reserved" value="0" />
+    <lparam description="ENDSESSION_CLOSEAPP" value="0x01" />
+    <lparam description="ENDSESSION_LOGOFF" value="0x80000000" />
+    <lparam description="UNKNOWN" value="0" />
+  </Message>
+  <Message description="WM_POWERBROADCAST" value="0x218">
+    <wparam description="PBT_APMPOWERSTATUSCHANGE" value="0x0A" />
+    <wparam description="PBT_APMRESUMEAUTOMATIC" value="0x12" />
+    <wparam description="PBT_APMRESUMESUSPEND" value="0x07" />
+    <wparam description="PBT_APMSUSPEND" value="0x04" />
+    <wparam description="PBT_POWERSETTINGCHANGE" value="0x8013" />
+    <wparam description="PBT_APMBATTERYLOW" value="0x09" />
+    <wparam description="PBT_APMOEMEVENT" value="0x0B" />
+    <wparam description="PBT_APMQUERYSUSPEND" value="0x00" />
+    <wparam description="PBT_APMQUERYSUSPENDFAILED" value="0x02" />
+    <wparam description="PBT_APMRESUMECRITICAL" value="0x06" />
+    <lparam description="not used" value="0" />
+  </Message>
+</Messages>
