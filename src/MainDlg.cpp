@@ -83,6 +83,7 @@ LRESULT CMainDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				ShowWindow(*this, SW_SHOW);
 
 			ExtendFrameIntoClientArea(IDC_SENDGROUP, IDC_SENDGROUP, IDC_SENDGROUP, IDC_SENDGROUP);
+			m_aerocontrols.SubclassControl(GetDlgItem(*this, IDC_SEARCHW));
 			m_aerocontrols.SubclassControl(GetDlgItem(*this, IDC_ABOUTLINK));
 			m_aerocontrols.SubclassControl(GetDlgItem(*this, IDC_POS));
 			m_aerocontrols.SubclassControl(GetDlgItem(*this, IDC_STATIC_X_POS));
@@ -110,6 +111,7 @@ LRESULT CMainDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONUP :
 		if (m_bStartSearchWindow)
 			DoMouseUp(uMsg, wParam, lParam);
+		break;
 	case WM_SETCURSOR:
 		if (m_bStartSearchWindow)
 		{
@@ -260,6 +262,7 @@ bool CMainDlg::DoMouseMove(UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*
 		// We now highlight the found window.
 		HighlightFoundWindow(m_hwndFoundWindow);
 	}
+	SetCursor(LoadCursor(hResource, MAKEINTRESOURCE(IDC_SEARCHW)));
 
 	return true;
 }
