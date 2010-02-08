@@ -61,7 +61,7 @@ LRESULT CMainDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			m_link.ConvertStaticToHyperlink(hwndDlg, IDC_ABOUTLINK, _T(""));
 
-			m_hRectanglePen = CreatePen(PS_SOLID, 3, RGB(0, 0, 0));
+			m_hRectanglePen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
 
 			m_xmlResource.Open(hResource, MAKEINTRESOURCE(IDR_WINDOWMESSAGESXML), _T("TEXT"), CResourceTextFile::ConvertToUnicode);
 			m_xml.Load(m_xmlResource.GetTextBuffer());
