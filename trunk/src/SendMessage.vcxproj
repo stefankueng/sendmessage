@@ -150,6 +150,7 @@
     <None Include="resources\windowmessages.xml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="SendMessage.rc2" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SendMessage.rc" />

@@ -160,6 +160,9 @@
     <None Include="resources\windowmessages.xml">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="SendMessage.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SendMessage.rc">
