@@ -293,13 +293,26 @@ bool CMainDlg::DoMouseUp(UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 
 	ReleaseCapture();
 
-	if (CheckWindowValidity(m_hwndFoundWindow))
-	{
-		TCHAR szText[256];
-		_stprintf_s(szText, 256, _T("0x%08X"), m_hwndFoundWindow);
-		SetDlgItemText(*this, IDC_WINDOW, szText);
-	}
 	m_bStartSearchWindow = false;
+
+	if (m_hwndFoundWindow == NULL)
+		return false;
+	if (IsWindow(m_hwndFoundWindow) == FALSE)
+		return false;
+	if (m_hwndFoundWindow == *this)
+		return false;
+
+	HWND hwndTemp = GetParent(m_hwndFoundWindow);
+	if (hwndTemp == *this)
+		return false;
+
+	hwndTemp = GetParent(hwndTemp);
+	if (hwndTemp == *this)
+		return false;
+
+	TCHAR szText[256];
+	_stprintf_s(szText, 256, _T("0x%08X"), m_hwndFoundWindow);
+	SetDlgItemText(*this, IDC_WINDOW, szText);
 
 	return true;
 }
