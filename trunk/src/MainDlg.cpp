@@ -263,9 +263,6 @@ bool CMainDlg::DoMouseMove(UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*
 	{
 		// We have just found a new window.
 
-		// Display some information on this found window.
-		DisplayInfoOnFoundWindow(hwndFoundWindow);
-
 		// If there was a previously found window, we must instruct it to refresh itself. 
 		// This is done to remove any highlighting effects drawn by us.
 		if (m_hwndFoundWindow)
@@ -274,6 +271,9 @@ bool CMainDlg::DoMouseMove(UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*
 		}
 
 		m_hwndFoundWindow = hwndFoundWindow;
+
+		// Display some information on this found window.
+		DisplayInfoOnFoundWindow(hwndFoundWindow);
 
 		// We now highlight the found window.
 		HighlightFoundWindow(m_hwndFoundWindow);
@@ -327,14 +327,14 @@ bool CMainDlg::CheckWindowValidity(HWND hwndToCheck)
 		return false;
 	}
 
-	// It must also be a valid window as far as the OS is concerned.
-	if (IsWindow(hwndToCheck) == FALSE)
+	// Ensure that the window is not the current one which has already been found.
+	if (hwndToCheck == m_hwndFoundWindow)
 	{
 		return false;
 	}
 
-	// Ensure that the window is not the current one which has already been found.
-	if (hwndToCheck == m_hwndFoundWindow)
+	// It must also be a valid window as far as the OS is concerned.
+	if (IsWindow(hwndToCheck) == FALSE)
 	{
 		return false;
 	}
@@ -414,7 +414,7 @@ bool CMainDlg::HighlightFoundWindow(HWND hwndFoundWindow)
 		hPrevBrush = SelectObject(hWindowDC, GetStockObject(HOLLOW_BRUSH));
 
 		// Draw a rectangle in the DC covering the entire window area of the found window.
-		Rectangle(hWindowDC, 0, 0, rect.right - rect.left, rect.bottom - rect.top);
+		Rectangle(hWindowDC, 1, 1, rect.right - rect.left - 2, rect.bottom - rect.top - 2);
 
 		SelectObject(hWindowDC, hPrevPen);
 		SelectObject(hWindowDC, hPrevBrush);
