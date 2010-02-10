@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ApplicationName>SendMessage</ApplicationName>
+    <OutputDirectory>$(DeploymentProject)\\bin\\$(Configuration)</OutputDirectory>
+  </PropertyGroup>
+
+  <Target Name="Clean">
+    <RemoveDir Directories="$(OutputDirectory)" Condition="Exists($(OutputDirectory))"></RemoveDir>
+  </Target>
+
+  <Target Name="VersionInfo">
+    <Exec Command="SubWCRev.exe . version.in src/version.h" ContinueOnError="false"></Exec>
+  </Target>
+
+  <Target Name="Build" DependsOnTargets="Clean;VersionInfo">
+    <Exec Command="devenv.com SendMessage.sln /Rebuild Release"></Exec>
+  </Target>
+
+</Project>
