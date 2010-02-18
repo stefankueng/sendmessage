@@ -143,6 +143,7 @@
     <ClCompile Include="XMLite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\SendMessage.proj" />
     <None Include="resources\searchw.cur" />
     <None Include="resources\searchw.ico" />
     <None Include="resources\SendMessage.ico" />

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<Import Project="$(MSBuildExtensionsPath)\ExtensionPack\MSBuild.ExtensionPack.tasks"/>
-	<Import Project="version.proj"/>
+<Project DefaultTargets="Sign" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\MSBuild.ExtensionPack.tasks"/>
+  <Import Project="version.proj"/>
+
+  <ItemGroup>
+    <SignInfoFile Include="signinfo.txt"/>
+  </ItemGroup>
 
   <Target Name="Clean">
     <RemoveDir Directories="$(OutputDirectory)" Condition="Exists($(OutputDirectory))"></RemoveDir>
@@ -10,14 +14,25 @@
 
   <Target Name="VersionInfo">
     <Exec Command="SubWCRev.exe . src/version.in src/version.h" ContinueOnError="false"></Exec>
-	<MSBuild.ExtensionPack.FileSystem.File TaskAction="Replace" RegexPattern="\$MajorVersion\$" Replacement="$(MajorVersion)" Files="$(MSBuildProjectDirectory)\src\version.h"/>	
-	<MSBuild.ExtensionPack.FileSystem.File TaskAction="Replace" RegexPattern="\$MinorVersion\$" Replacement="$(MinorVersion)" Files="$(MSBuildProjectDirectory)\src\version.h"/>	
-	<MSBuild.ExtensionPack.FileSystem.File TaskAction="Replace" RegexPattern="\$MicroVersion\$" Replacement="$(MicroVersion)" Files="$(MSBuildProjectDirectory)\src\version.h"/>	
+    <MSBuild.ExtensionPack.FileSystem.File TaskAction="Replace" RegexPattern="\$MajorVersion\$" Replacement="$(MajorVersion)" Files="$(MSBuildProjectDirectory)\src\version.h"/>
+    <MSBuild.ExtensionPack.FileSystem.File TaskAction="Replace" RegexPattern="\$MinorVersion\$" Replacement="$(MinorVersion)" Files="$(MSBuildProjectDirectory)\src\version.h"/>
+    <MSBuild.ExtensionPack.FileSystem.File TaskAction="Replace" RegexPattern="\$MicroVersion\$" Replacement="$(MicroVersion)" Files="$(MSBuildProjectDirectory)\src\version.h"/>
   </Target>
 
   <Target Name="Build" DependsOnTargets="Clean;VersionInfo">
     <Exec Command="devenv.com SendMessage.sln /Rebuild Release"></Exec>
-	<MSBuild.ExtensionPack.FileSystem.File TaskAction="Move" Path="$(MSBuildProjectDirectory)\bin\release\SendMessage.exe" TargetPath="$(MSBuildProjectDirectory)\bin\SendMessage-$(MajorVersion).$(MinorVersion).$(MicroVersion).exe"/>
+    <MSBuild.ExtensionPack.FileSystem.File TaskAction="Move" Path="$(MSBuildProjectDirectory)\bin\release\SendMessage.exe" TargetPath="$(MSBuildProjectDirectory)\bin\SendMessage-$(MajorVersion).$(MinorVersion).$(MicroVersion).exe"/>
   </Target>
+
+  <Target Name="Sign" DependsOnTargets="Build">
+    <ReadLinesFromFile ContinueOnError="true"
+        File="@(SignInfoFile)" >
+      <Output
+          TaskParameter="Lines"
+          PropertyName="SignInfo"/>
+    </ReadLinesFromFile>
+    <Exec Command="signtool.exe sign $(SignInfo) $(MSBuildProjectDirectory)\bin\SendMessage-$(MajorVersion).$(MinorVersion).$(MicroVersion).exe" />
+  </Target>
+
 
 </Project>
