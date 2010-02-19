@@ -149,7 +149,6 @@
     <None Include="resources\searchw.cur" />
     <None Include="resources\searchw.ico" />
     <None Include="resources\SendMessage.ico" />
-    <None Include="resources\small.ico" />
     <None Include="resources\windowmessages.xml">
       <SubType>Designer</SubType>
     </None>

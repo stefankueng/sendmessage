@@ -157,9 +157,6 @@
     <None Include="resources\SendMessage.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="resources\small.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="resources\windowmessages.xml">
       <Filter>Resource Files</Filter>
     </None>
