@@ -1,0 +1,56 @@
+<Messages>
+  <Message description="WM_ENDSESSION" value="0x0016">
+    <wparam description="endsession" value="1" />
+    <wparam description="other" value="0" />
+    <lparam description="ENDSESSION_CLOSEAPP" value="0x01" />
+    <lparam description="ENDSESSION_LOGOFF" value="0x80000000" />
+  </Message>
+  <Message description="WM_QUERYENDSESSION" value="0x0011">
+    <wparam description="reserved" value="0" />
+    <lparam description="ENDSESSION_CLOSEAPP" value="0x01" />
+    <lparam description="ENDSESSION_LOGOFF" value="0x80000000" />
+    <lparam description="UNKNOWN" value="0" />
+  </Message>
+  <Message description="WM_POWERBROADCAST" value="0x218">
+    <wparam description="PBT_APMPOWERSTATUSCHANGE" value="0x0A" />
+    <wparam description="PBT_APMRESUMEAUTOMATIC" value="0x12" />
+    <wparam description="PBT_APMRESUMESUSPEND" value="0x07" />
+    <wparam description="PBT_APMSUSPEND" value="0x04" />
+    <wparam description="PBT_POWERSETTINGCHANGE" value="0x8013" />
+    <wparam description="PBT_APMBATTERYLOW" value="0x09" />
+    <wparam description="PBT_APMOEMEVENT" value="0x0B" />
+    <wparam description="PBT_APMQUERYSUSPEND" value="0x00" />
+    <wparam description="PBT_APMQUERYSUSPENDFAILED" value="0x02" />
+    <wparam description="PBT_APMRESUMECRITICAL" value="0x06" />
+    <lparam description="not used" value="0" />
+  </Message>
+  <Message description="WM_DISPLAYCHANGE" value="0x007E">
+    <wparam description="8-bit" value="8" />
+    <wparam description="16-bit" value="16" />
+    <wparam description="24-bit" value="24" />
+    <wparam description="32-bit" value="32" />
+    <lparam description="800x600" value="0x03200258" />
+    <lparam description="1024x768" value="0x04000300" />
+    <lparam description="1280x720" value="0x050002d0" />
+    <lparam description="1280x1024" value="0x05000400" />
+    <lparam description="1920x1080" value="0x07800438" />
+    <lparam description="1920*1200" value="0x078004b0" />
+  </Message>
+  <Message description="WM_SETTINGCHANGE" value="0x001A" />
+  <Message description="WM_PALETTECHANGED" value="0x0311" >
+    <wparam description="windhow handle" value="0" />
+    <lparam description="not used" value="0" />
+  </Message>
+  <Message description="WM_PALETTEISCHANGING" value="0x0310" >
+    <wparam description="windhow handle" value="0" />
+    <lparam description="not used" value="0" />
+  </Message>
+  <message description="WM_SYSCOLORCHANGE" value="0x0015" >
+    <wparam description="not used" value="0" />
+    <lparam description="not used" value="0" />
+  </message>
+  <message description="WM_FONTCHANGE" value="0x001D" >
+    <wparam description="not used" value="0" />
+    <lparam description="not used" value="0" />
+  </message>
+</Messages>
