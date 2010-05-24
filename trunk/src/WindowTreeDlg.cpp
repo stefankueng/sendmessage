@@ -153,10 +153,11 @@ void CWindowTreeDlg::GetWindowString(HWND hwnd, TCHAR * buf, int bufsize)
     TCHAR tmpbuf[4096] = {0};
     TCHAR szClassName[100] = {0};
     TCHAR szProcName[MAX_PATH] = {0};
-    TCHAR * pProcName = NULL;
+    TCHAR * pProcName = szProcName;
 
     GetWindowText(hwnd, tmpbuf, 4096);
-    GetClassName(hwnd, szClassName, _countof(szClassName));
+    if (GetClassName(hwnd, szClassName, _countof(szClassName))==0)
+        szClassName[0] = 0;
     DWORD pid = 0;
     GetWindowThreadProcessId(hwnd, &pid);
     if (pid)
@@ -167,12 +168,15 @@ void CWindowTreeDlg::GetWindowString(HWND hwnd, TCHAR * buf, int bufsize)
             if (GetProcessImageFileName(hProc, szProcName, MAX_PATH))
             {
                 pProcName = _tcsrchr(szProcName, '\\');
-                pProcName++;
+                if (pProcName)
+                    pProcName++;
+                else
+                    pProcName = szProcName;
             }
             CloseHandle(hProc);
         }
     }
-    _stprintf_s(buf, bufsize, _T("Window 0x%08X : Process \"%s\" : class \"%s\" : title \"%s\""), hwnd, pProcName, szClassName, tmpbuf);
+    _sntprintf_s(buf, bufsize, _TRUNCATE, _T("Window 0x%08X : Process \"%s\" : class \"%s\" : title \"%s\""), hwnd, pProcName, szClassName, tmpbuf);
 }
 
 HWND CWindowTreeDlg::GetSelectedWindowHandle()
