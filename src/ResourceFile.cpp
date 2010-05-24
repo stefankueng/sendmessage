@@ -25,224 +25,224 @@
 
 CResourceFile::CResourceFile()
   : m_pBytes(NULL),
-	m_bText(FALSE),
-	m_nBufLen(0),
-	m_nPosition(0),
-	m_bIsOpen(FALSE),
-	m_bDoNotDeleteBuffer(FALSE)
+    m_bText(FALSE),
+    m_nBufLen(0),
+    m_nPosition(0),
+    m_bIsOpen(FALSE),
+    m_bDoNotDeleteBuffer(FALSE)
 {
 }
 
 CResourceFile::CResourceFile(const CResourceFile& rf)
 {
-	if (rf.m_bDoNotDeleteBuffer)
-	{
-		// buffer is allocated externally or has been detached
-		m_pBytes = rf.m_pBytes;
-	}
-	else
-	{
-		m_pBytes = new BYTE [rf.m_nBufLen + 2];
-		memset(m_pBytes, 0, rf.m_nBufLen+2);
-		memcpy(m_pBytes, rf.m_pBytes, rf.m_nBufLen);
-	}
+    if (rf.m_bDoNotDeleteBuffer)
+    {
+        // buffer is allocated externally or has been detached
+        m_pBytes = rf.m_pBytes;
+    }
+    else
+    {
+        m_pBytes = new BYTE [rf.m_nBufLen + 2];
+        memset(m_pBytes, 0, rf.m_nBufLen+2);
+        memcpy(m_pBytes, rf.m_pBytes, rf.m_nBufLen);
+    }
 
-	m_nBufLen = rf.m_nBufLen;
-	m_nPosition = 0;
-	m_bIsOpen = rf.m_bIsOpen;
-	m_bText = rf.m_bText;
-	m_bDoNotDeleteBuffer = rf.m_bDoNotDeleteBuffer;
+    m_nBufLen = rf.m_nBufLen;
+    m_nPosition = 0;
+    m_bIsOpen = rf.m_bIsOpen;
+    m_bText = rf.m_bText;
+    m_bDoNotDeleteBuffer = rf.m_bDoNotDeleteBuffer;
 }
 
 CResourceFile::~CResourceFile()
 {
-	Close();
+    Close();
 }
 
 BOOL CResourceFile::Open(HINSTANCE hInstance, 
-						 LPCTSTR lpszResId, 
-						 LPCTSTR lpszResType)
+                         LPCTSTR lpszResId, 
+                         LPCTSTR lpszResType)
 {
-	BOOL rc = FALSE;
+    BOOL rc = FALSE;
 
-	Close();
+    Close();
 
-	_ASSERTE(lpszResId);
-	_ASSERTE(lpszResType);
+    _ASSERTE(lpszResId);
+    _ASSERTE(lpszResType);
 
-	if (lpszResId && lpszResType)
-	{
-		TCHAR *pszRes = NULL;
+    if (lpszResId && lpszResType)
+    {
+        TCHAR *pszRes = NULL;
 
-		// is this a resource name string or an id?
-		if (HIWORD(lpszResId) == 0)
-		{
-			// id
-			pszRes = MAKEINTRESOURCE(LOWORD((UINT)(UINT_PTR)lpszResId));
-		}
-		else
-		{
-			// string
-			pszRes = (TCHAR *)lpszResId;
-		}
+        // is this a resource name string or an id?
+        if (HIWORD(lpszResId) == 0)
+        {
+            // id
+            pszRes = MAKEINTRESOURCE(LOWORD((UINT)(UINT_PTR)lpszResId));
+        }
+        else
+        {
+            // string
+            pszRes = (TCHAR *)lpszResId;
+        }
 
-		HRSRC hrsrc = FindResource(hInstance, pszRes, lpszResType);
-		_ASSERTE(hrsrc);
+        HRSRC hrsrc = FindResource(hInstance, pszRes, lpszResType);
+        _ASSERTE(hrsrc);
 
-		if (hrsrc)
-		{
-			DWORD dwSize = SizeofResource(hInstance, hrsrc);	// in bytes
+        if (hrsrc)
+        {
+            DWORD dwSize = SizeofResource(hInstance, hrsrc);	// in bytes
 
-			HGLOBAL hglob = LoadResource(hInstance, hrsrc);
-			_ASSERTE(hglob);
+            HGLOBAL hglob = LoadResource(hInstance, hrsrc);
+            _ASSERTE(hglob);
 
-			if (hglob)
-			{
-				LPVOID lplock = LockResource(hglob);
-				_ASSERTE(lplock);
+            if (hglob)
+            {
+                LPVOID lplock = LockResource(hglob);
+                _ASSERTE(lplock);
 
-				if (lplock)
-				{
-					// save resource as byte buffer
+                if (lplock)
+                {
+                    // save resource as byte buffer
 
-					m_pBytes = new BYTE [dwSize+16];
-					memset(m_pBytes, 0, dwSize+16);
-					m_nBufLen = (int) dwSize;
-					memcpy(m_pBytes, lplock, m_nBufLen);
+                    m_pBytes = new BYTE [dwSize+16];
+                    memset(m_pBytes, 0, dwSize+16);
+                    m_nBufLen = (int) dwSize;
+                    memcpy(m_pBytes, lplock, m_nBufLen);
 
-					m_nPosition = 0;
-					m_bIsOpen = TRUE;
-					m_bDoNotDeleteBuffer = FALSE;	// ok to delete the buffer
-					rc = TRUE;
-				}
-			}
-		}
-	}
+                    m_nPosition = 0;
+                    m_bIsOpen = TRUE;
+                    m_bDoNotDeleteBuffer = FALSE;	// ok to delete the buffer
+                    rc = TRUE;
+                }
+            }
+        }
+    }
 
-	return rc;
+    return rc;
 }
 
 void CResourceFile::Close()
 {
-	m_bIsOpen = FALSE;
-	if (m_pBytes && !m_bDoNotDeleteBuffer)
-		delete [] m_pBytes;
-	m_pBytes = NULL;
-	m_nBufLen = 0;
-	m_nPosition = 0;
+    m_bIsOpen = FALSE;
+    if (m_pBytes && !m_bDoNotDeleteBuffer)
+        delete [] m_pBytes;
+    m_pBytes = NULL;
+    m_nBufLen = 0;
+    m_nPosition = 0;
 }
 
 BYTE * CResourceFile::DetachByteBuffer()
 {
-	BYTE *p = NULL;
+    BYTE *p = NULL;
 
-	if (m_bIsOpen && !m_bText)
-	{
-		m_bDoNotDeleteBuffer = TRUE; 
-		p = m_pBytes;
-	}
-	
-	return p;
+    if (m_bIsOpen && !m_bText)
+    {
+        m_bDoNotDeleteBuffer = TRUE; 
+        p = m_pBytes;
+    }
+    
+    return p;
 }
 
 BYTE * CResourceFile::DuplicateByteBuffer()
 {
-	BYTE *dup = NULL;
+    BYTE *dup = NULL;
 
-	if (IsOpen() && !m_bText)
-	{
-		dup = (BYTE *) malloc(m_nBufLen+2);
-		memset(dup, 0, m_nBufLen+2);
-		memcpy(dup, m_pBytes, m_nBufLen);
-	}
+    if (IsOpen() && !m_bText)
+    {
+        dup = (BYTE *) malloc(m_nBufLen+2);
+        memset(dup, 0, m_nBufLen+2);
+        memcpy(dup, m_pBytes, m_nBufLen);
+    }
 
-	return dup;
+    return dup;
 }
 
 void CResourceFile::SetByteBuffer(BYTE * buf, DWORD len)
 {
-	_ASSERTE(buf);
-	_ASSERTE(len != 0);
-	_ASSERTE(m_pBytes == NULL);
+    _ASSERTE(buf);
+    _ASSERTE(len != 0);
+    _ASSERTE(m_pBytes == NULL);
 
-	if (buf && (len > 0))
-	{
-		m_pBytes = buf;
-		m_nBufLen = len;
-		m_bText = FALSE;
-		m_bDoNotDeleteBuffer = TRUE;	// do not delete this buffer
-		m_bIsOpen = TRUE;
-	}
+    if (buf && (len > 0))
+    {
+        m_pBytes = buf;
+        m_nBufLen = len;
+        m_bText = FALSE;
+        m_bDoNotDeleteBuffer = TRUE;	// do not delete this buffer
+        m_bIsOpen = TRUE;
+    }
 }
 
 int CResourceFile::Read(BYTE *buf, int nBufLen)
 {
-	int nOldPosition = m_nPosition;
-	int nIndex = 0;
-	if (buf)
-		*buf = _T('\0');
+    int nOldPosition = m_nPosition;
+    int nIndex = 0;
+    if (buf)
+        *buf = _T('\0');
 
-	if (m_bIsOpen && m_pBytes && !m_bText)
-	{
-		while (!IsAtEOF())
-		{
-			BYTE b = m_pBytes[m_nPosition++];
+    if (m_bIsOpen && m_pBytes && !m_bText)
+    {
+        while (!IsAtEOF())
+        {
+            BYTE b = m_pBytes[m_nPosition++];
 
-			if (buf && (nIndex < nBufLen))
-				buf[nIndex] = b;
+            if (buf && (nIndex < nBufLen))
+                buf[nIndex] = b;
 
-			nIndex++;
-		}
-	}
+            nIndex++;
+        }
+    }
 
-	// if we were just getting buffer size, restore position
-	if (!buf)
-		m_nPosition = nOldPosition;
+    // if we were just getting buffer size, restore position
+    if (!buf)
+        m_nPosition = nOldPosition;
 
-	return nIndex;
+    return nIndex;
 }
 
 int CResourceFile::SeekToBegin()
 {
-	return Seek(0, SEEK_SET);
+    return Seek(0, SEEK_SET);
 }
 
 int CResourceFile::SeekToEnd()
 {
-	return Seek(0, SEEK_END);
+    return Seek(0, SEEK_END);
 }
 
 int CResourceFile::Seek(int offset, int origin)
 {
-	int rc = -1;
+    int rc = -1;
 
-	if (IsOpen())
-	{
-		switch (origin)
-		{
-			default:
-			case SEEK_SET:		// beginning of file
-				if (offset <= m_nBufLen)
-				{
-					m_nPosition = offset;
-					rc = m_nPosition;
-				}
-				break;
+    if (IsOpen())
+    {
+        switch (origin)
+        {
+            default:
+            case SEEK_SET:		// beginning of file
+                if (offset <= m_nBufLen)
+                {
+                    m_nPosition = offset;
+                    rc = m_nPosition;
+                }
+                break;
 
-			case SEEK_CUR:		// current position of file pointer
-				if ((m_nPosition + offset) <= m_nBufLen)
-				{
-					m_nPosition += offset;
-					rc = m_nPosition;
-				}
-				break;
+            case SEEK_CUR:		// current position of file pointer
+                if ((m_nPosition + offset) <= m_nBufLen)
+                {
+                    m_nPosition += offset;
+                    rc = m_nPosition;
+                }
+                break;
 
-			case SEEK_END:		// end of file
-				m_nPosition = m_nBufLen;
-				rc = m_nPosition;
-				break;
-		}
-	}
+            case SEEK_END:		// end of file
+                m_nPosition = m_nBufLen;
+                rc = m_nPosition;
+                break;
+        }
+    }
 
-	return rc;
+    return rc;
 }

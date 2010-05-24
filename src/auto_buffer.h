@@ -41,39 +41,39 @@ private:
 
 public:
 
-	explicit auto_buffer (size_t size = 0) throw()
+    explicit auto_buffer (size_t size = 0) throw()
         : buffer (size == 0 ? NULL : new T[size])
-	{	
-	}
+    {
+    }
 
-	~auto_buffer()
-	{	
-		delete[] buffer;
-	}
+    ~auto_buffer()
+    {
+        delete[] buffer;
+    }
 
-	operator T*() const throw()
-    {	
-		return buffer;
-	}
+    operator T*() const throw()
+    {
+        return buffer;
+    }
 
-	operator void*() const throw()
-    {	
-		return buffer;
-	}
+    operator void*() const throw()
+    {
+        return buffer;
+    }
 
     operator bool() const throw()
     {
         return buffer != NULL;
     }
 
-	T* operator->() const throw()
-	{
-		return buffer;
+    T* operator->() const throw()
+    {
+        return buffer;
     }
 
-	T *get() const throw()
-	{
-		return buffer;
+    T *get() const throw()
+    {
+        return buffer;
     }
 
     T* release() throw()

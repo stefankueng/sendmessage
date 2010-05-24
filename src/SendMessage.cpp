@@ -26,7 +26,7 @@
 #pragma comment(lib, "comctl32.lib")
 
 // Global Variables:
-HINSTANCE hInst;								// current instance
+HINSTANCE hInst;                                // current instance
 
 // Forward declarations of functions included in this code module:
 
@@ -35,37 +35,37 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
                      LPTSTR    lpCmdLine,
                      int       nCmdShow)
 {
-	UNREFERENCED_PARAMETER(hPrevInstance);
-	UNREFERENCED_PARAMETER(lpCmdLine);
-	UNREFERENCED_PARAMETER(nCmdShow);
+    UNREFERENCED_PARAMETER(hPrevInstance);
+    UNREFERENCED_PARAMETER(lpCmdLine);
+    UNREFERENCED_PARAMETER(nCmdShow);
 
-	::OleInitialize(NULL);
-	::CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
-	// we need some of the common controls
-	INITCOMMONCONTROLSEX icex;
-	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
-	icex.dwICC = ICC_LINK_CLASS|ICC_LISTVIEW_CLASSES|ICC_PAGESCROLLER_CLASS
-		|ICC_PROGRESS_CLASS|ICC_STANDARD_CLASSES|ICC_TAB_CLASSES|ICC_TREEVIEW_CLASSES
-		|ICC_UPDOWN_CLASS|ICC_USEREX_CLASSES|ICC_WIN95_CLASSES;
-	InitCommonControlsEx(&icex);
+    ::OleInitialize(NULL);
+    ::CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+    // we need some of the common controls
+    INITCOMMONCONTROLSEX icex;
+    icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
+    icex.dwICC = ICC_LINK_CLASS|ICC_LISTVIEW_CLASSES|ICC_PAGESCROLLER_CLASS
+        |ICC_PROGRESS_CLASS|ICC_STANDARD_CLASSES|ICC_TAB_CLASSES|ICC_TREEVIEW_CLASSES
+        |ICC_UPDOWN_CLASS|ICC_USEREX_CLASSES|ICC_WIN95_CLASSES;
+    InitCommonControlsEx(&icex);
 
-	CCmdLineParser parser(lpCmdLine);
+    CCmdLineParser parser(lpCmdLine);
 
-	int ret = 0;
-	if (parser.HasKey(_T("about"))||parser.HasKey(_T("?"))||parser.HasKey(_T("help")))
-	{
-		CAboutDlg aboutDlg(NULL);
-		ret= aboutDlg.DoModal(hInstance, IDD_ABOUTBOX, NULL, NULL);
-	}
-	else
-	{
-		CMainDlg mainDlg(NULL);
-		ret = mainDlg.DoModal(hInstance, IDD_MAINDLG, NULL, IDR_MAINDLG);
-	}
+    int ret = 0;
+    if (parser.HasKey(_T("about"))||parser.HasKey(_T("?"))||parser.HasKey(_T("help")))
+    {
+        CAboutDlg aboutDlg(NULL);
+        ret= aboutDlg.DoModal(hInstance, IDD_ABOUTBOX, NULL, NULL);
+    }
+    else
+    {
+        CMainDlg mainDlg(NULL);
+        ret = mainDlg.DoModal(hInstance, IDD_MAINDLG, NULL, IDR_MAINDLG);
+    }
 
-	::CoUninitialize();
-	::OleUninitialize();
-	return ret;
+    ::CoUninitialize();
+    ::OleUninitialize();
+    return ret;
 }
 
 

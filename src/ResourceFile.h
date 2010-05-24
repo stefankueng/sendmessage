@@ -21,38 +21,38 @@
 class CResourceFile
 {
 public:
-	CResourceFile();
-	CResourceFile(const CResourceFile&);
-	virtual ~CResourceFile();
+    CResourceFile();
+    CResourceFile(const CResourceFile&);
+    virtual ~CResourceFile();
 
-	BYTE *	GetByteBuffer()			{ return m_pBytes; }
-	int		GetLength()				{ return m_nBufLen; }
-	int		GetPosition()			{ return m_nPosition; }
-	BOOL	IsAtEOF()				{ return m_nPosition >= GetLength(); }
-	BOOL	IsOpen()				{ return m_bIsOpen; }
+    BYTE *  GetByteBuffer()         { return m_pBytes; }
+    int     GetLength()             { return m_nBufLen; }
+    int     GetPosition()           { return m_nPosition; }
+    BOOL    IsAtEOF()               { return m_nPosition >= GetLength(); }
+    BOOL    IsOpen()                { return m_bIsOpen; }
 
 public:
-	virtual void	Close();
-	virtual BYTE *	DetachByteBuffer();
-	virtual BYTE *	DuplicateByteBuffer();
-	virtual BOOL	Open(HINSTANCE hInstance, 
-					LPCTSTR lpszResId, 
-					LPCTSTR lpszResType);
-	virtual int		Read(BYTE *buf, int nBufLen);
-	virtual int		Seek(int offset, int origin); 
-	virtual int		SeekToBegin();
-	virtual int		SeekToEnd();
-	virtual void	SetByteBuffer(BYTE * buf, DWORD len);
+    virtual void    Close();
+    virtual BYTE *  DetachByteBuffer();
+    virtual BYTE *  DuplicateByteBuffer();
+    virtual BOOL    Open(HINSTANCE hInstance,
+                    LPCTSTR lpszResId,
+                    LPCTSTR lpszResType);
+    virtual int     Read(BYTE *buf, int nBufLen);
+    virtual int     Seek(int offset, int origin);
+    virtual int     SeekToBegin();
+    virtual int     SeekToEnd();
+    virtual void    SetByteBuffer(BYTE * buf, DWORD len);
 
 protected:
-	BYTE  *		m_pBytes;				// binary buffer
-	int			m_nBufLen;				// size of m_pszResource: TCHARs for text, 
-										// bytes for binary
-	int			m_nPosition;			// buffer position: TCHARs for text, 
-										// bytes for binary
-	BOOL		m_bText;				// TRUE = text, FALSE = binary
-	BOOL		m_bIsOpen;				// TRUE = text file resource is open
-	BOOL		m_bDoNotDeleteBuffer;	// TRUE = buffer allocated externally
-										// or detached; do not delete
+    BYTE  *     m_pBytes;               // binary buffer
+    int         m_nBufLen;              // size of m_pszResource: TCHARs for text,
+                                        // bytes for binary
+    int         m_nPosition;            // buffer position: TCHARs for text,
+                                        // bytes for binary
+    BOOL        m_bText;                // TRUE = text, FALSE = binary
+    BOOL        m_bIsOpen;              // TRUE = text file resource is open
+    BOOL        m_bDoNotDeleteBuffer;   // TRUE = buffer allocated externally
+                                        // or detached; do not delete
 };
 

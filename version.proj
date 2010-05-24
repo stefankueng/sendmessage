@@ -2,9 +2,9 @@
 
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<MajorVersion>1</MajorVersion>
-	<MinorVersion>0</MinorVersion>
-	<MicroVersion>1</MicroVersion>
+    <MajorVersion>1</MajorVersion>
+    <MinorVersion>0</MinorVersion>
+    <MicroVersion>1</MicroVersion>
   </PropertyGroup>
 
 </Project>
