@@ -27,25 +27,25 @@
 class CWindowTreeDlg : public CDialog
 {
 public:
-	CWindowTreeDlg(HWND hParent);
-	~CWindowTreeDlg(void);
+    CWindowTreeDlg(HWND hParent);
+    ~CWindowTreeDlg(void);
 
-	HWND					GetSelectedWindow() { return m_SelectedWindow; }
+    HWND                    GetSelectedWindow() { return m_SelectedWindow; }
 protected:
-	LRESULT CALLBACK		DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-	LRESULT					DoCommand(int id, int msg);
-	bool					PreTranslateMessage(MSG* pMsg);
-	static void				GetWindowString(HWND hwnd, TCHAR * buf, int bufsize);
-	bool					RefreshTree();
-	static BOOL CALLBACK 	WindowEnumerator(HWND hwnd, LPARAM lParam);
-	static BOOL CALLBACK 	ChildWindowEnumerator(HWND hwnd, LPARAM lParam);
-	HWND					GetSelectedWindowHandle();
+    LRESULT CALLBACK        DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    LRESULT                 DoCommand(int id, int msg);
+    bool                    PreTranslateMessage(MSG* pMsg);
+    static void             GetWindowString(HWND hwnd, TCHAR * buf, int bufsize);
+    bool                    RefreshTree();
+    static BOOL CALLBACK    WindowEnumerator(HWND hwnd, LPARAM lParam);
+    static BOOL CALLBACK    ChildWindowEnumerator(HWND hwnd, LPARAM lParam);
+    HWND                    GetSelectedWindowHandle();
 
 private:
-	HWND					m_hParent;
-	AeroControlBase			m_aerocontrols;
-	CDlgResizer				m_resizer;
-	HTREEITEM				m_lastTreeItem;
-	HWND					m_SelectedWindow;
+    HWND                    m_hParent;
+    AeroControlBase         m_aerocontrols;
+    CDlgResizer             m_resizer;
+    HTREEITEM               m_lastTreeItem;
+    HWND                    m_SelectedWindow;
 
 };

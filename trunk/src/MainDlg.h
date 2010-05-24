@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-#define ID_ABOUTBOX			0x0010
+#define ID_ABOUTBOX         0x0010
 
 /**
  * main dialog.
@@ -33,31 +33,31 @@
 class CMainDlg : public CDialog
 {
 public:
-	CMainDlg(HWND hParent);
-	~CMainDlg(void);
+    CMainDlg(HWND hParent);
+    ~CMainDlg(void);
 
 protected:
-	LRESULT CALLBACK		DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-	LRESULT					DoCommand(int id, int msg);
-	bool					PreTranslateMessage(MSG* pMsg);
+    LRESULT CALLBACK        DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    LRESULT                 DoCommand(int id, int msg);
+    bool                    PreTranslateMessage(MSG* pMsg);
 
-	void					SaveWndPosition();
-	bool					SearchWindow();
-	bool					DoMouseMove(UINT message, WPARAM wParam, LPARAM lParam);
-	bool					DoMouseUp(UINT message, WPARAM wParam, LPARAM lParam);
-	bool					CheckWindowValidity(HWND hwndToCheck);
-	bool					DisplayInfoOnFoundWindow(HWND hwndFoundWindow);
-	bool					RefreshWindow(HWND hwndWindowToBeRefreshed);
-	bool					HighlightFoundWindow(HWND hwndFoundWindow);
-	bool					SendPostMessage(UINT id);
+    void                    SaveWndPosition();
+    bool                    SearchWindow();
+    bool                    DoMouseMove(UINT message, WPARAM wParam, LPARAM lParam);
+    bool                    DoMouseUp(UINT message, WPARAM wParam, LPARAM lParam);
+    bool                    CheckWindowValidity(HWND hwndToCheck);
+    bool                    DisplayInfoOnFoundWindow(HWND hwndFoundWindow);
+    bool                    RefreshWindow(HWND hwndWindowToBeRefreshed);
+    bool                    HighlightFoundWindow(HWND hwndFoundWindow);
+    bool                    SendPostMessage(UINT id);
 
 private:
-	HWND					m_hParent;
-	CHyperLink				m_link;
-	AeroControlBase			m_aerocontrols;
-	bool					m_bStartSearchWindow;
-	HWND					m_hwndFoundWindow;
-	HPEN					m_hRectanglePen;
-	CResourceTextFile		m_xmlResource;
-	XNode 					m_xml;
+    HWND                    m_hParent;
+    CHyperLink              m_link;
+    AeroControlBase         m_aerocontrols;
+    bool                    m_bStartSearchWindow;
+    HWND                    m_hwndFoundWindow;
+    HPEN                    m_hRectanglePen;
+    CResourceTextFile       m_xmlResource;
+    XNode                   m_xml;
 };

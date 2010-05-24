@@ -22,41 +22,41 @@
 class CResourceTextFile : public CResourceFile
 {
 public:
-	CResourceTextFile();
-	CResourceTextFile(const CResourceTextFile&);
-	virtual ~CResourceTextFile();
+    CResourceTextFile();
+    CResourceTextFile(const CResourceTextFile&);
+    virtual ~CResourceTextFile();
 
-	enum ConvertAction
-	{
-		NoConvertAction = 0, ConvertToUnicode, ConvertToAnsi
-	};
+    enum ConvertAction
+    {
+        NoConvertAction = 0, ConvertToUnicode, ConvertToAnsi
+    };
 
-	enum BomAction
-	{
-		NoBomAction = 0, RemoveBom, AddBom
-	};
+    enum BomAction
+    {
+        NoBomAction = 0, RemoveBom, AddBom
+    };
 
-	TCHAR *	DuplicateTextBuffer();
-	TCHAR *	GetTextBuffer()				{ return m_pszText; }
-	BomAction	GetBomAction()			{ return m_eBomAction; }
-	ConvertAction GetConvertAction()	{ return m_eConvertAction; }
+    TCHAR * DuplicateTextBuffer();
+    TCHAR * GetTextBuffer()             { return m_pszText; }
+    BomAction   GetBomAction()          { return m_eBomAction; }
+    ConvertAction GetConvertAction()    { return m_eConvertAction; }
 
 public:
-	void	Close();
-	TCHAR *	DetachTextBuffer();
-	BOOL	Open(HINSTANCE hInstance, 
-				 LPCTSTR lpszResId, 
-				 LPCTSTR lpszResType = _T("TEXT"),
-				 ConvertAction eConvert = NoConvertAction, 
-				 BomAction eBomAction = NoBomAction);
-	int		ReadLine(TCHAR *buf, int nBufLen);
-	BOOL	SetTextBuffer(TCHAR * buf, DWORD len, 
-						  ConvertAction eConvert = NoConvertAction, 
-						  BomAction eBomAction = NoBomAction);
+    void    Close();
+    TCHAR * DetachTextBuffer();
+    BOOL    Open(HINSTANCE hInstance,
+                 LPCTSTR lpszResId,
+                 LPCTSTR lpszResType = _T("TEXT"),
+                 ConvertAction eConvert = NoConvertAction,
+                 BomAction eBomAction = NoBomAction);
+    int     ReadLine(TCHAR *buf, int nBufLen);
+    BOOL    SetTextBuffer(TCHAR * buf, DWORD len,
+                          ConvertAction eConvert = NoConvertAction,
+                          BomAction eBomAction = NoBomAction);
 
 protected:
-	TCHAR *			m_pszText;			// text file buffer
-	BomAction		m_eBomAction;		// BOM action requested at file open
-	ConvertAction	m_eConvertAction;	// conversion requested at file open
+    TCHAR *         m_pszText;          // text file buffer
+    BomAction       m_eBomAction;       // BOM action requested at file open
+    ConvertAction   m_eConvertAction;   // conversion requested at file open
 };
 
