@@ -370,7 +370,7 @@ bool CMainDlg::DisplayInfoOnFoundWindow(HWND hwndFoundWindow)
 	GetWindowRect(hwndFoundWindow, &rect);
 
 	// Get the class name of the found window.
-	GetClassName(hwndFoundWindow, szClassName, sizeof(szClassName));
+	GetClassName(hwndFoundWindow, szClassName, _countof(szClassName));
 
 	// Display some information on the found window.
 	_stprintf_s
