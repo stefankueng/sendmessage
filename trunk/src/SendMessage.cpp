@@ -171,10 +171,18 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     }
     else if (parser.HasKey(L"message"))
     {
-        UINT msg = parser.GetLongVal(L"message");
-        WPARAM wParam = parser.GetLongVal(L"wparam");
-        LPARAM lParam = (LPARAM)parser.GetLongLongVal(L"lparam");
-        bool bSend = !!parser.HasKey(L"send");
+        UINT    msg     = 0;
+        WPARAM  wParam  = 0;
+        LPARAM  lParam  = 0;
+
+        if (parser.HasVal(L"message"))
+            msg = parser.GetLongVal(L"message");
+        if (parser.HasVal(L"wparam"))
+            wParam = parser.GetLongVal(L"wparam");
+        if (parser.HasVal(L"lparam"))
+            lParam = (LPARAM)parser.GetLongLongVal(L"lparam");
+
+        bool bSend = !parser.HasKey(L"post");
 
         std::set<HWND> hwndset;
 
