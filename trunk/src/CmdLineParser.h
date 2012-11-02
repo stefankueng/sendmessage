@@ -1,6 +1,6 @@
-// SendMessage - a tool to send custom messages
+// TortoiseSVN - a Windows shell extension for easy version control
 
-// Copyright (C) 2010 - Stefan Kueng
+// Copyright (C) 2003-2007,2009 - TortoiseSVN
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -19,18 +19,13 @@
 #pragma once
 #include <map>
 #include <string>
+#include "tstring.h"
 
 using std::map;
 
-#ifndef stdstring
-#   ifdef UNICODE
-#       define stdstring std::wstring
-#   else
-#       define stdstring std::string
-#   endif
-#endif
 
 /**
+ * \ingroup Utils
  *
  * A helper class for parsing command lines.
  * It provides methods to extract 'key' and 'value'
@@ -60,7 +55,7 @@ using std::map;
 class CCmdLineParser
 {
 public:
-    typedef map<stdstring, stdstring> CValsMap;
+    typedef map<tstring, tstring> CValsMap;
     typedef CValsMap::const_iterator ITERPOS;
 public:
     /**
@@ -91,7 +86,7 @@ public:
      * \param sValue returns the value
      * \return the next position
      */
-    ITERPOS getNext(ITERPOS& pos, stdstring& sKey, stdstring& sValue) const;
+    ITERPOS getNext(ITERPOS& pos, tstring& sKey, tstring& sValue) const;
 
     /**
      * Checks if the position is the last or if there are more key/value pairs in the command line.
@@ -129,12 +124,13 @@ public:
      */
     LONG GetLongVal(LPCTSTR sKey) const;
 
+    __int64 GetLongLongVal(LPCTSTR sKey) const;
 private:
     BOOL Parse(LPCTSTR sCmdLine);
     CValsMap::const_iterator findKey(LPCTSTR sKey) const;
     const CValsMap& getVals() const { return m_valueMap; }
 private:
-    stdstring   m_sCmdLine;
+    tstring     m_sCmdLine;
     CValsMap    m_valueMap;
 
     static const TCHAR m_sDelims[];
