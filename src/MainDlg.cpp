@@ -1,6 +1,6 @@
 // SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010 - Stefan Kueng
+// Copyright (C) 2010, 2012 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -142,7 +142,7 @@ LRESULT CMainDlg::DoCommand(int id, int msg)
         break;
     case IDC_WINDOWTREE:
         {
-            CWindowTreeDlg treeDlg(*this);
+            CWindowTreeDlg treeDlg(*this, GetSelectedHandle());
             if (treeDlg.DoModal(hResource, IDD_WINDOWSTREE, *this) == IDOK)
             {
                 m_hwndFoundWindow = treeDlg.GetSelectedWindow();
@@ -424,21 +424,27 @@ bool CMainDlg::HighlightFoundWindow(HWND hwndFoundWindow)
     return true;
 }
 
-bool CMainDlg::SendPostMessage(UINT id)
+HWND CMainDlg::GetSelectedHandle()
 {
     TCHAR buf[MAX_PATH];
 
-    HWND hTargetWnd = NULL;
     GetDlgItemText(*this, IDC_WINDOW, buf, MAX_PATH);
 
     TCHAR * endptr = NULL;
-    hTargetWnd = (HWND)_tcstol(buf, &endptr, 0);
+    return (HWND)_tcstol(buf, &endptr, 0);
+}
+
+bool CMainDlg::SendPostMessage(UINT id)
+{
+    HWND hTargetWnd = GetSelectedHandle();
     if (hTargetWnd == NULL)
         return false;
 
     UINT msg = 0;
     WPARAM wparam = 0;
     LPARAM lparam = 0;
+    TCHAR buf[MAX_PATH];
+    TCHAR * endptr = NULL;
 
     GetDlgItemText(*this, IDC_MESSAGE, buf, MAX_PATH);
     msg = _tcstol(buf, &endptr, 0);
