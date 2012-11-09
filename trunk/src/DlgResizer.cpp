@@ -40,10 +40,10 @@ void CDlgResizer::Init(HWND hWndDlg)
 
     RECT rect = { 0 , 0, m_sizeGrip.cx, m_sizeGrip.cy };
 
-    m_wndGrip = ::CreateWindowEx(0, _T("SCROLLBAR"), 
-        (LPCTSTR)NULL, 
+    m_wndGrip = ::CreateWindowEx(0, _T("SCROLLBAR"),
+        (LPCTSTR)NULL,
         WS_CHILD | WS_CLIPSIBLINGS | SBS_SIZEGRIP,
-        rect.left, rect.top, 
+        rect.left, rect.top,
         rect.right-rect.left,
         rect.bottom-rect.top,
         m_hDlg,
@@ -61,7 +61,7 @@ void CDlgResizer::Init(HWND hWndDlg)
         for (int y=0; y<m_sizeGrip.cy; y++)
         {
             ::SetRectRgn(rgn, 0, y, m_sizeGrip.cx-y, y+1);
-            ::CombineRgn(rgnGrip, rgnGrip, rgn, RGN_DIFF); 
+            ::CombineRgn(rgnGrip, rgnGrip, rgn, RGN_DIFF);
         }
         ::SetWindowRgn(m_wndGrip, rgnGrip, FALSE);
 
@@ -77,7 +77,7 @@ void CDlgResizer::AddControl(HWND hWndDlg, UINT ctrlId, UINT resizeType)
 
     ctrlInfo.hWnd = GetDlgItem(hWndDlg, ctrlId);
     ctrlInfo.resizeType = resizeType;
-    
+
     GetWindowRect(ctrlInfo.hWnd, &ctrlInfo.origSize);
     OffsetRect(&ctrlInfo.origSize, -ctrlInfo.origSize.left, -ctrlInfo.origSize.top);
     MapWindowPoints(ctrlInfo.hWnd, hWndDlg, (LPPOINT)&ctrlInfo.origSize, 2);
@@ -100,7 +100,7 @@ void CDlgResizer::DoResize(int width, int height)
         switch (m_controls[i].resizeType)
         {
         case RESIZER_TOPLEFT:
-            break;	// do nothing - the original position is fine
+            break;  // do nothing - the original position is fine
         case RESIZER_TOPRIGHT:
             newpos.left += (width - m_dlgRect.right);
             newpos.right += (width - m_dlgRect.right);

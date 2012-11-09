@@ -140,7 +140,7 @@ struct STRINGRESOURCEIMAGE
     WORD nLength;
     WCHAR achString[];
 };
-#pragma warning(pop)	// C4200
+#pragma warning(pop)    // C4200
 
 int LoadStringEx(HINSTANCE hInstance, UINT uID, LPTSTR lpBuffer, int nBufferMax, WORD wLanguage)
 {
