@@ -26,21 +26,21 @@ typedef struct _tagXmlEntity
 typedef struct _tagXMLEntitys : public std::vector<XENTITY>
 {
     LPXENTITY GetEntity( int entity );
-    LPXENTITY GetEntity( LPTSTR entity );   
+    LPXENTITY GetEntity( LPTSTR entity );
     int GetEntityCount( LPCTSTR str );
     int Ref2Entity( LPCTSTR estr, LPTSTR str, int strlen );
     int Entity2Ref( LPCTSTR str, LPTSTR estr, int estrlen );
     std::wstring Ref2Entity( LPCTSTR estr );
-    std::wstring Entity2Ref( LPCTSTR str ); 
+    std::wstring Entity2Ref( LPCTSTR str );
 
     _tagXMLEntitys(){};
     _tagXMLEntitys( LPXENTITY entities, int count );
 }XENTITYS,*LPXENTITYS;
 extern XENTITYS entityDefault;
 std::wstring XRef2Entity( LPCTSTR estr );
-std::wstring XEntity2Ref( LPCTSTR str );    
+std::wstring XEntity2Ref( LPCTSTR str );
 
-typedef enum 
+typedef enum
 {
     PIE_PARSE_WELFORMED = 0,
     PIE_ALONE_NOT_CLOSED,
@@ -87,7 +87,7 @@ typedef struct _tagXMLAttr
 {
     std::wstring name;
     std::wstring    value;
-    
+
     _tagXMLNode*    parent;
 
     std::wstring GetXML( LPDISP_OPT opt = &optDefault );
@@ -113,7 +113,7 @@ typedef struct _tagXMLNode
     LPXNode parent;     // parent node
     XNodes  childs;     // child node
     XAttrs  attrs;      // attributes
-    NODE_TYPE type;     // node type 
+    NODE_TYPE type;     // node type
     LPXDoc  doc;        // document
 
     // Load/Save XML
@@ -125,28 +125,28 @@ typedef struct _tagXMLNode
     LPTSTR  LoadAttributes( LPCTSTR pszAttrs, LPPARSEINFO pi = &piDefault );
     LPTSTR  LoadAttributes( LPCTSTR pszAttrs, LPCTSTR pszEnd, LPPARSEINFO pi = &piDefault );
     LPTSTR  LoadProcessingInstrunction( LPCTSTR pszXml, LPPARSEINFO pi = &piDefault );
-    LPTSTR  LoadComment( LPCTSTR pszXml, LPPARSEINFO pi = &piDefault ); 
-    LPTSTR  LoadCDATA( LPCTSTR pszXml, LPPARSEINFO pi = &piDefault ); 
+    LPTSTR  LoadComment( LPCTSTR pszXml, LPPARSEINFO pi = &piDefault );
+    LPTSTR  LoadCDATA( LPCTSTR pszXml, LPPARSEINFO pi = &piDefault );
 
     // in own attribute list
-    LPXAttr GetAttr( LPCTSTR attrname ); 
-    LPCTSTR GetAttrValue( LPCTSTR attrname ); 
-    XAttrs  GetAttrs( LPCTSTR name ); 
+    LPXAttr GetAttr( LPCTSTR attrname );
+    LPCTSTR GetAttrValue( LPCTSTR attrname );
+    XAttrs  GetAttrs( LPCTSTR name );
 
     // in one level child nodes
-    LPXNode GetChild( LPCTSTR name ); 
-    LPCTSTR GetChildValue( LPCTSTR name ); 
+    LPXNode GetChild( LPCTSTR name );
+    LPCTSTR GetChildValue( LPCTSTR name );
     std::wstring    GetChildText( LPCTSTR name, LPDISP_OPT opt = &optDefault );
-    XNodes  GetChilds( LPCTSTR name ); 
-    XNodes  GetChilds(); 
+    XNodes  GetChilds( LPCTSTR name );
+    XNodes  GetChilds();
 
     LPXAttr GetChildAttr( LPCTSTR name, LPCTSTR attrname );
     LPCTSTR GetChildAttrValue( LPCTSTR name, LPCTSTR attrname );
-    
+
     // search node
     LPXNode Find( LPCTSTR name );
 
-    // modify DOM 
+    // modify DOM
     int     GetChildCount();
     LPXNode GetChild( int i );
     XNodes::iterator GetChildIterator( LPXNode node );
@@ -187,7 +187,7 @@ typedef struct _tagXMLDocument : public XNode
     PARSEINFO   parse_info;
 
     _tagXMLDocument() { parent = NULL; doc = this; type = XNODE_DOC; }
-    
+
     LPTSTR  Load( LPCTSTR pszXml, LPPARSEINFO pi = NULL );
     LPXNode GetRoot();
 

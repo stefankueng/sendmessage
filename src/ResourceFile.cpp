@@ -59,8 +59,8 @@ CResourceFile::~CResourceFile()
     Close();
 }
 
-BOOL CResourceFile::Open(HINSTANCE hInstance, 
-                         LPCTSTR lpszResId, 
+BOOL CResourceFile::Open(HINSTANCE hInstance,
+                         LPCTSTR lpszResId,
                          LPCTSTR lpszResType)
 {
     BOOL rc = FALSE;
@@ -91,7 +91,7 @@ BOOL CResourceFile::Open(HINSTANCE hInstance,
 
         if (hrsrc)
         {
-            DWORD dwSize = SizeofResource(hInstance, hrsrc);	// in bytes
+            DWORD dwSize = SizeofResource(hInstance, hrsrc);    // in bytes
 
             HGLOBAL hglob = LoadResource(hInstance, hrsrc);
             _ASSERTE(hglob);
@@ -112,7 +112,7 @@ BOOL CResourceFile::Open(HINSTANCE hInstance,
 
                     m_nPosition = 0;
                     m_bIsOpen = TRUE;
-                    m_bDoNotDeleteBuffer = FALSE;	// ok to delete the buffer
+                    m_bDoNotDeleteBuffer = FALSE;   // ok to delete the buffer
                     rc = TRUE;
                 }
             }
@@ -138,10 +138,10 @@ BYTE * CResourceFile::DetachByteBuffer()
 
     if (m_bIsOpen && !m_bText)
     {
-        m_bDoNotDeleteBuffer = TRUE; 
+        m_bDoNotDeleteBuffer = TRUE;
         p = m_pBytes;
     }
-    
+
     return p;
 }
 
@@ -170,7 +170,7 @@ void CResourceFile::SetByteBuffer(BYTE * buf, DWORD len)
         m_pBytes = buf;
         m_nBufLen = len;
         m_bText = FALSE;
-        m_bDoNotDeleteBuffer = TRUE;	// do not delete this buffer
+        m_bDoNotDeleteBuffer = TRUE;    // do not delete this buffer
         m_bIsOpen = TRUE;
     }
 }
@@ -221,7 +221,7 @@ int CResourceFile::Seek(int offset, int origin)
         switch (origin)
         {
             default:
-            case SEEK_SET:		// beginning of file
+            case SEEK_SET:      // beginning of file
                 if (offset <= m_nBufLen)
                 {
                     m_nPosition = offset;
@@ -229,7 +229,7 @@ int CResourceFile::Seek(int offset, int origin)
                 }
                 break;
 
-            case SEEK_CUR:		// current position of file pointer
+            case SEEK_CUR:      // current position of file pointer
                 if ((m_nPosition + offset) <= m_nBufLen)
                 {
                     m_nPosition += offset;
@@ -237,7 +237,7 @@ int CResourceFile::Seek(int offset, int origin)
                 }
                 break;
 
-            case SEEK_END:		// end of file
+            case SEEK_END:      // end of file
                 m_nPosition = m_nBufLen;
                 rc = m_nPosition;
                 break;
