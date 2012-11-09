@@ -1,6 +1,6 @@
 // SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010 - Stefan Kueng
+// Copyright (C) 2010, 2012 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -23,9 +23,9 @@
 
 #pragma comment(lib, "Psapi.lib")
 
-CWindowTreeDlg::CWindowTreeDlg(HWND hParent)
+CWindowTreeDlg::CWindowTreeDlg(HWND hParent, HWND actualHandle)
     : m_hParent(hParent)
-    , m_SelectedWindow(NULL)
+    , m_SelectedWindow(actualHandle)
 {
 }
 
@@ -108,6 +108,7 @@ bool CWindowTreeDlg::RefreshTree()
     TreeView_DeleteAllItems(GetDlgItem(*this, IDC_WINDOWTREE));
     m_lastTreeItem = TVI_ROOT;
     EnumWindows(WindowEnumerator, (LPARAM)this);
+    SelectTreeItem(m_SelectedWindow);
     return true;
 }
 
@@ -190,4 +191,39 @@ HWND CWindowTreeDlg::GetSelectedWindowHandle()
     tvi.mask = TVIF_PARAM;
     TreeView_GetItem(GetDlgItem(*this, IDC_WINDOWTREE), &tvi);
     return (HWND)tvi.lParam;
+}
+
+void CWindowTreeDlg::SelectTreeItem(HWND windowHwnd)
+{
+    HWND _windowTreeHwnd = GetDlgItem(*this, IDC_WINDOWTREE);
+    HTREEITEM actualItem = TreeView_GetFirstVisible(_windowTreeHwnd);
+
+    // Search by the item into the list
+    while (actualItem != NULL)
+    {
+        TVITEM tvi = {0};
+        tvi.hItem = actualItem;
+        tvi.mask = TVIF_PARAM;
+        TreeView_GetItem(_windowTreeHwnd, &tvi);
+
+        // If it is the item, select it and break the search
+        if ((HWND)tvi.lParam == windowHwnd)
+        {
+            TreeView_SelectItem(_windowTreeHwnd, actualItem);
+            break;
+        }
+
+        // Find the next item in the TreeView
+        HTREEITEM nextItem = TreeView_GetChild(_windowTreeHwnd, actualItem);
+        if (nextItem == NULL)
+            nextItem = TreeView_GetNextSibling(_windowTreeHwnd, actualItem);
+
+        HTREEITEM parentItem = actualItem;
+        while ((nextItem == NULL) && (parentItem != NULL))
+        {
+            parentItem = TreeView_GetParent(_windowTreeHwnd, parentItem);
+            nextItem = TreeView_GetNextSibling(_windowTreeHwnd, parentItem);
+        }
+        actualItem = nextItem;
+    }
 }

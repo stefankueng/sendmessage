@@ -1,6 +1,6 @@
 // SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010 - Stefan Kueng
+// Copyright (C) 2010, 2012 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@
 class CWindowTreeDlg : public CDialog
 {
 public:
-    CWindowTreeDlg(HWND hParent);
+    CWindowTreeDlg(HWND hParent, HWND actualHandle);
     ~CWindowTreeDlg(void);
 
     HWND                    GetSelectedWindow() { return m_SelectedWindow; }
@@ -40,6 +40,7 @@ protected:
     static BOOL CALLBACK    WindowEnumerator(HWND hwnd, LPARAM lParam);
     static BOOL CALLBACK    ChildWindowEnumerator(HWND hwnd, LPARAM lParam);
     HWND                    GetSelectedWindowHandle();
+    void                    SelectTreeItem(HWND windowHwnd);
 
 private:
     HWND                    m_hParent;
