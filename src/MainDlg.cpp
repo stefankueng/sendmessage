@@ -177,14 +177,14 @@ LRESULT CMainDlg::DoCommand(int id, int msg)
                     if (selIndex != CB_ERR)
                     {
                         LRESULT textlen = SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETLBTEXTLEN, selIndex, 0);
-                        auto_buffer<TCHAR> textbuf(textlen + 1);
-                        SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETLBTEXT, selIndex, (LPARAM)(TCHAR*)textbuf);
+                        std::unique_ptr<TCHAR[]> textbuf(new TCHAR[textlen + 1]);
+                        SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETLBTEXT, selIndex, (LPARAM)(TCHAR*)textbuf.get());
                         XNodes childs;
                         childs = m_xml.GetChilds(_T("Message") );
                         for( size_t i = 0 ; i < childs.size(); ++i)
                         {
                             std::wstring d = childs[i]->GetAttrValue(_T("description"));
-                            if (d.compare(textbuf) == 0)
+                            if (d.compare(textbuf.get()) == 0)
                             {
                                 XNodes wparams = childs[i]->GetChilds(_T("wparam"));
                                 for (size_t j = 0; j < wparams.size(); ++j)

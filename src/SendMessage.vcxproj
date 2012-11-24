@@ -62,6 +62,7 @@
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
       <EnablePREfast>false</EnablePREfast>
+      <AdditionalIncludeDirectories>..\sktoolslib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -81,6 +82,7 @@
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
       <EnablePREfast>false</EnablePREfast>
+      <AdditionalIncludeDirectories>..\sktoolslib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,55 +93,50 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\sktoolslib\AeroControls.h" />
+    <ClInclude Include="..\sktoolslib\AeroGlass.h" />
+    <ClInclude Include="..\sktoolslib\BaseDialog.h" />
+    <ClInclude Include="..\sktoolslib\BaseWindow.h" />
+    <ClInclude Include="..\sktoolslib\CmdLineParser.h" />
+    <ClInclude Include="..\sktoolslib\DlgResizer.h" />
+    <ClInclude Include="..\sktoolslib\FormatMessageWrapper.h" />
+    <ClInclude Include="..\sktoolslib\hyperlink.h" />
+    <ClInclude Include="..\sktoolslib\Registry.h" />
+    <ClInclude Include="..\sktoolslib\ResourceFile.h" />
+    <ClInclude Include="..\sktoolslib\ResourceTextFile.h" />
+    <ClInclude Include="..\sktoolslib\StringUtils.h" />
+    <ClInclude Include="..\sktoolslib\UnicodeUtils.h" />
     <ClInclude Include="AboutDlg.h" />
-    <ClInclude Include="AeroControls.h" />
-    <ClInclude Include="AeroGlass.h" />
     <ClInclude Include="auto_buffer.h" />
-    <ClInclude Include="BaseDialog.h" />
-    <ClInclude Include="BaseWindow.h" />
-    <ClInclude Include="CmdLineParser.h" />
-    <ClInclude Include="Debug.h" />
-    <ClInclude Include="DlgResizer.h" />
-    <ClInclude Include="FormatMessageWrapper.h" />
-    <ClInclude Include="hyperlink.h" />
     <ClInclude Include="MainDlg.h" />
-    <ClInclude Include="registry.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="ResourceFile.h" />
-    <ClInclude Include="ResourceTextFile.h" />
     <ClInclude Include="SendMessage.h" />
     <ClInclude Include="SmartHandle.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="StringUtils.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="UnicodeUtils.h" />
     <ClInclude Include="WindowTreeDlg.h" />
     <ClInclude Include="XMLite.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\sktoolslib\AeroControls.cpp" />
+    <ClCompile Include="..\sktoolslib\AeroGlass.cpp" />
+    <ClCompile Include="..\sktoolslib\BaseDialog.cpp" />
+    <ClCompile Include="..\sktoolslib\BaseWindow.cpp" />
+    <ClCompile Include="..\sktoolslib\CmdLineParser.cpp" />
+    <ClCompile Include="..\sktoolslib\DlgResizer.cpp" />
+    <ClCompile Include="..\sktoolslib\hyperlink.cpp" />
+    <ClCompile Include="..\sktoolslib\Registry.cpp" />
+    <ClCompile Include="..\sktoolslib\ResourceFile.cpp" />
+    <ClCompile Include="..\sktoolslib\ResourceTextFile.cpp" />
+    <ClCompile Include="..\sktoolslib\StringUtils.cpp" />
+    <ClCompile Include="..\sktoolslib\UnicodeUtils.cpp" />
     <ClCompile Include="AboutDlg.cpp" />
-    <ClCompile Include="AeroControls.cpp" />
-    <ClCompile Include="AeroGlass.cpp" />
-    <ClCompile Include="BaseDialog.cpp" />
-    <ClCompile Include="BaseWindow.cpp" />
-    <ClCompile Include="CmdLineParser.cpp" />
-    <ClCompile Include="Debug.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="DlgResizer.cpp" />
-    <ClCompile Include="hyperlink.cpp" />
     <ClCompile Include="MainDlg.cpp" />
-    <ClCompile Include="Registry.cpp" />
-    <ClCompile Include="ResourceFile.cpp" />
-    <ClCompile Include="ResourceTextFile.cpp" />
     <ClCompile Include="SendMessage.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="StringUtils.cpp" />
-    <ClCompile Include="UnicodeUtils.cpp" />
     <ClCompile Include="WindowTreeDlg.cpp" />
     <ClCompile Include="XMLite.cpp" />
   </ItemGroup>
