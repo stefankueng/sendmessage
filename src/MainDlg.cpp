@@ -428,7 +428,7 @@ HWND CMainDlg::GetSelectedHandle()
 {
     TCHAR buf[MAX_PATH];
 
-    GetDlgItemText(*this, IDC_WINDOW, buf, MAX_PATH);
+    ::GetDlgItemText(*this, IDC_WINDOW, buf, MAX_PATH);
 
     TCHAR * endptr = NULL;
     return (HWND)_tcstol(buf, &endptr, 0);
@@ -446,7 +446,7 @@ bool CMainDlg::SendPostMessage(UINT id)
     TCHAR buf[MAX_PATH];
     TCHAR * endptr = NULL;
 
-    GetDlgItemText(*this, IDC_MESSAGE, buf, MAX_PATH);
+    ::GetDlgItemText(*this, IDC_MESSAGE, buf, MAX_PATH);
     msg = _tcstol(buf, &endptr, 0);
     if (msg == 0)
     {
@@ -457,7 +457,7 @@ bool CMainDlg::SendPostMessage(UINT id)
     if (msg == 0)
         return false;
 
-    GetDlgItemText(*this, IDC_WPARAM, buf, MAX_PATH);
+    ::GetDlgItemText(*this, IDC_WPARAM, buf, MAX_PATH);
     wparam = (WPARAM)_tcstol(buf, &endptr, 0);
     if (wparam == 0)
     {
@@ -466,7 +466,7 @@ bool CMainDlg::SendPostMessage(UINT id)
             wparam = SendDlgItemMessage(*this, IDC_WPARAM, CB_GETITEMDATA, selIndex, 0);
     }
 
-    GetDlgItemText(*this, IDC_LPARAM, buf, MAX_PATH);
+    ::GetDlgItemText(*this, IDC_LPARAM, buf, MAX_PATH);
     lparam = (LPARAM)_tcstol(buf, &endptr, 0);
     if (lparam == 0)
     {
