@@ -16,8 +16,8 @@
 // along with this program; if not, write to the Free Software Foundation,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
-#include "StdAfx.h"
-#include "Resource.h"
+#include "stdafx.h"
+#include "resource.h"
 #include "MainDlg.h"
 #include "AboutDlg.h"
 #include "WindowTreeDlg.h"
@@ -27,6 +27,7 @@ CMainDlg::CMainDlg(HWND hParent)
     : m_hParent(hParent)
     , m_bStartSearchWindow(false)
     , m_hwndFoundWindow(NULL)
+    , m_hRectanglePen(NULL)
 {
 }
 
