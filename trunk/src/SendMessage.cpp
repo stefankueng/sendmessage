@@ -17,7 +17,7 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 #include "stdafx.h"
-#include "Resource.h"
+#include "resource.h"
 #include "SendMessage.h"
 #include "MainDlg.h"
 #include "AboutDlg.h"
