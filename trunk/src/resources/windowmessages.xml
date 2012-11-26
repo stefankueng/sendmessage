@@ -37,19 +37,19 @@
     <lparam description="1920*1200" value="0x078004b0" />
   </Message>
   <Message description="WM_SETTINGCHANGE" value="0x001A" />
-  <Message description="WM_PALETTECHANGED" value="0x0311" >
+  <Message description="WM_PALETTECHANGED" value="0x0311">
     <wparam description="windhow handle" value="0" />
     <lparam description="not used" value="0" />
   </Message>
-  <Message description="WM_PALETTEISCHANGING" value="0x0310" >
+  <Message description="WM_PALETTEISCHANGING" value="0x0310">
     <wparam description="windhow handle" value="0" />
     <lparam description="not used" value="0" />
   </Message>
-  <message description="WM_SYSCOLORCHANGE" value="0x0015" >
+  <message description="WM_SYSCOLORCHANGE" value="0x0015">
     <wparam description="not used" value="0" />
     <lparam description="not used" value="0" />
   </message>
-  <message description="WM_FONTCHANGE" value="0x001D" >
+  <message description="WM_FONTCHANGE" value="0x001D">
     <wparam description="not used" value="0" />
     <lparam description="not used" value="0" />
   </message>
