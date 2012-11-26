@@ -16,6 +16,7 @@
 // along with this program; if not, write to the Free Software Foundation,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
+
 #pragma once
 
 
@@ -183,11 +184,9 @@ protected:
 
 
 // Client code (definitions of standard Windows handles).
-typedef CSmartHandle<HANDLE,  CCloseHandle>                                         CAutoGeneralHandle;
-typedef CSmartHandle<HKEY,    CCloseRegKey>                                         CAutoRegKey;
-typedef CSmartHandle<PVOID,   CCloseViewOfFile>                                     CAutoViewOfFile;
-typedef CSmartHandle<HMODULE, CCloseLibrary>                                        CAutoLibrary;
-typedef CSmartHandle<HANDLE,  CCloseHandle, INVALID_HANDLE_VALUE>                   CAutoFile;
-typedef CSmartHandle<HANDLE,  CCloseFindFile, INVALID_HANDLE_VALUE>                 CAutoFindFile;
-
-
+typedef CSmartHandle<HANDLE,  CCloseHandle>                             CAutoGeneralHandle;
+typedef CSmartHandle<HKEY,    CCloseRegKey>                             CAutoRegKey;
+typedef CSmartHandle<PVOID,   CCloseViewOfFile>                         CAutoViewOfFile;
+typedef CSmartHandle<HMODULE, CCloseLibrary>                            CAutoLibrary;
+typedef CSmartHandle<HANDLE,  CCloseHandle, INVALID_HANDLE_VALUE>       CAutoFile;
+typedef CSmartHandle<HANDLE,  CCloseFindFile, INVALID_HANDLE_VALUE>     CAutoFindFile;

@@ -9,17 +9,17 @@
 #include <sstream>
 #include <string>
 
-static const TCHAR chXMLTagOpen     = '<';
-static const TCHAR chXMLTagClose    = '>';
-static const TCHAR chXMLTagPre  = '/';
-static const TCHAR chXMLEscape = '\\';  // for value field escape
+static const TCHAR chXMLTagOpen  = '<';
+static const TCHAR chXMLTagClose = '>';
+static const TCHAR chXMLTagPre   = '/';
+static const TCHAR chXMLEscape   = '\\';  // for value field escape
 
-static const TCHAR szXMLPIOpen[] = _T("<?");
-static const TCHAR szXMLPIClose[] = _T("?>");
-static const TCHAR szXMLCommentOpen[] = _T("<!--");
+static const TCHAR szXMLPIOpen[]       = _T("<?");
+static const TCHAR szXMLPIClose[]      = _T("?>");
+static const TCHAR szXMLCommentOpen[]  = _T("<!--");
 static const TCHAR szXMLCommentClose[] = _T("-->");
-static const TCHAR szXMLCDATAOpen[] = _T("<![CDATA[");
-static const TCHAR szXMLCDATAClose[] = _T("]]>");
+static const TCHAR szXMLCDATAOpen[]    = _T("<![CDATA[");
+static const TCHAR szXMLCDATAClose[]   = _T("]]>");
 
 static const XENTITY x_EntityTable[] = {
         { '&', _T("&amp;"), 5 } ,
