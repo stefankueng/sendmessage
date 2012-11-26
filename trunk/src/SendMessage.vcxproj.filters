@@ -48,9 +48,6 @@
     <ClInclude Include="XMLite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SmartHandle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\sktoolslib\DlgResizer.h">
       <Filter>sktoolslib</Filter>
     </ClInclude>
@@ -88,6 +85,9 @@
       <Filter>sktoolslib</Filter>
     </ClInclude>
     <ClInclude Include="..\sktoolslib\CmdLineParser.h">
+      <Filter>sktoolslib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sktoolslib\SmartHandle.h">
       <Filter>sktoolslib</Filter>
     </ClInclude>
   </ItemGroup>
