@@ -820,7 +820,7 @@ std::wstring _tagXMLAttr::GetXML( LPDISP_OPT opt /*= &optDefault*/ )
     os << (LPCTSTR)name.c_str() << _T("=") << (TCHAR)opt->value_quotation_mark
         << (LPCTSTR)(opt->reference_value&&opt->entitys?opt->entitys->Entity2Ref(value.c_str()).c_str():value.c_str())
         << (TCHAR)opt->value_quotation_mark << _T(" ");
-    return os.str().c_str();
+    return os.str();
 }
 
 std::wstring _tagXMLNode::GetXML( LPDISP_OPT opt /*= &optDefault*/ )
@@ -840,7 +840,7 @@ std::wstring _tagXMLNode::GetXML( LPDISP_OPT opt /*= &optDefault*/ )
     {
         for( size_t i = 0 ; i < childs.size(); i++ )
             os << (LPCTSTR)childs[i]->GetXML( opt ).c_str();
-        return os.str().c_str();
+        return os.str();
     }
     else
     if( type == XNODE_PI )
@@ -855,7 +855,7 @@ std::wstring _tagXMLNode::GetXML( LPDISP_OPT opt /*= &optDefault*/ )
         }
         //?>
         os << szXMLPIClose;
-        return os.str().c_str();
+        return os.str();
     }
     else
     if( type == XNODE_COMMENT )
@@ -864,7 +864,7 @@ std::wstring _tagXMLNode::GetXML( LPDISP_OPT opt /*= &optDefault*/ )
         os << szXMLCommentOpen << (LPCTSTR)value.c_str();
         //-->
         os << szXMLCommentClose;
-        return os.str().c_str();
+        return os.str();
     }
     else
     if( type == XNODE_CDATA )
@@ -873,7 +873,7 @@ std::wstring _tagXMLNode::GetXML( LPDISP_OPT opt /*= &optDefault*/ )
         os << szXMLCDATAOpen << (LPCTSTR)value.c_str();
         //-->
         os << szXMLCDATAClose;
-        return os.str().c_str();
+        return os.str();
     }
 
     // <TAG
@@ -932,7 +932,7 @@ std::wstring _tagXMLNode::GetXML( LPDISP_OPT opt /*= &optDefault*/ )
         }
     }
 
-    return os.str().c_str();
+    return os.str();
 }
 
 std::wstring _tagXMLNode::GetText( LPDISP_OPT opt /*= &optDefault*/ )
@@ -977,7 +977,7 @@ std::wstring _tagXMLNode::GetText( LPDISP_OPT opt /*= &optDefault*/ )
         }
     }
 
-    return os.str().c_str();
+    return os.str();
 }
 
 LPXAttr _tagXMLNode::GetAttr( LPCTSTR attrname )
