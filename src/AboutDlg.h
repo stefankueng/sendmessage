@@ -22,11 +22,7 @@
 #include "hyperlink.h"
 #include <string>
 
-using namespace std;
 
-/**
- * bookmarks dialog.
- */
 class CAboutDlg : public CDialog
 {
 public:
