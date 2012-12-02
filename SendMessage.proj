@@ -20,8 +20,8 @@
   </Target>
 
   <Target Name="Build" DependsOnTargets="Clean;VersionInfo">
-    <Exec Command="devenv.com SendMessage.sln /Rebuild Release^|Win32"></Exec>
-    <Exec Command="devenv.com SendMessage.sln /Rebuild Release^|x64"></Exec>
+    <Exec Command='devenv.com SendMessage.sln /Rebuild "Release|Win32"'></Exec>
+    <Exec Command='devenv.com SendMessage.sln /Rebuild "Release|x64"'></Exec>
     <MSBuild.ExtensionPack.FileSystem.File TaskAction="Move" Path="$(MSBuildProjectDirectory)\bin\Release\Win32\SendMessage.exe" TargetPath="$(MSBuildProjectDirectory)\bin\SendMessage-$(MajorVersion).$(MinorVersion).$(MicroVersion).exe"/>
     <MSBuild.ExtensionPack.FileSystem.File TaskAction="Move" Path="$(MSBuildProjectDirectory)\bin\Release\x64\SendMessage.exe" TargetPath="$(MSBuildProjectDirectory)\bin\SendMessage64-$(MajorVersion).$(MinorVersion).$(MicroVersion).exe"/>
   </Target>
