@@ -45,12 +45,12 @@
     <wparam description="windhow handle" value="0" />
     <lparam description="not used" value="0" />
   </Message>
-  <message description="WM_SYSCOLORCHANGE" value="0x0015">
+  <Message description="WM_SYSCOLORCHANGE" value="0x0015">
     <wparam description="not used" value="0" />
     <lparam description="not used" value="0" />
-  </message>
-  <message description="WM_FONTCHANGE" value="0x001D">
+  </Message>
+  <Message description="WM_FONTCHANGE" value="0x001D">
     <wparam description="not used" value="0" />
     <lparam description="not used" value="0" />
-  </message>
+  </Message>
 </Messages>
