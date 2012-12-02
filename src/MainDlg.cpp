@@ -377,7 +377,7 @@ bool CMainDlg::DisplayInfoOnFoundWindow(HWND hwndFoundWindow)
     // Display some information on the found window.
     _stprintf_s
         (
-        szText, 256, _T("Window Handle == 0x%08X.\r\nClass Name : %s.\r\nRECT.left == %d.\r\nRECT.top == %d.\r\nRECT.right == %d.\r\nRECT.bottom == %d.\r\n"),
+        szText, 256, _T("Window Handle == 0x%08X\r\nClass Name : %s\r\nRECT.left == %d\r\nRECT.top == %d\r\nRECT.right == %d\r\nRECT.bottom == %d\r\n"),
         hwndFoundWindow,
         szClassName,
         rect.left,
