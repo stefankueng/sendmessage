@@ -27,8 +27,6 @@
 #include <set>
 #include <Psapi.h>
 
-#pragma comment(lib, "Psapi.lib")
-#pragma comment(lib, "comctl32.lib")
 
 // Global Variables:
 HINSTANCE hInst;                                // current instance
