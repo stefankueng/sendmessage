@@ -27,9 +27,9 @@ typedef struct _tagXMLEntitys : public std::vector<XENTITY>
 {
     LPXENTITY GetEntity( int entity );
     LPXENTITY GetEntity( LPTSTR entity );
-    int GetEntityCount( LPCTSTR str );
-    int Ref2Entity( LPCTSTR estr, LPTSTR str, int strlen );
-    int Entity2Ref( LPCTSTR str, LPTSTR estr, int estrlen );
+    size_t GetEntityCount( LPCTSTR str );
+    size_t Ref2Entity( LPCTSTR estr, LPTSTR str, size_t strlen );
+    size_t Entity2Ref( LPCTSTR str, LPTSTR estr, size_t estrlen );
     std::wstring Ref2Entity( LPCTSTR estr );
     std::wstring Entity2Ref( LPCTSTR str );
 
@@ -147,7 +147,7 @@ typedef struct _tagXMLNode
     LPXNode Find( LPCTSTR name );
 
     // modify DOM
-    int     GetChildCount();
+    size_t  GetChildCount();
     LPXNode GetChild( int i );
     XNodes::iterator GetChildIterator( LPXNode node );
     LPXNode CreateNode( LPCTSTR name = NULL, LPCTSTR value = NULL );
