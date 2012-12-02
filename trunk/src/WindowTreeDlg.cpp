@@ -22,8 +22,6 @@
 #include "WindowTreeDlg.h"
 #include <Psapi.h>
 
-#pragma comment(lib, "Psapi.lib")
-
 CWindowTreeDlg::CWindowTreeDlg(HWND hParent, HWND actualHandle)
     : m_hParent(hParent)
     , m_SelectedWindow(actualHandle)
