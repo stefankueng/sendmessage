@@ -16,10 +16,11 @@
 // along with this program; if not, write to the Free Software Foundation,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
+
 #define FILEVER        $MajorVersion$,$MinorVersion$,$MicroVersion$,$WCREV$
 #define PRODUCTVER     $MajorVersion$,$MinorVersion$,$MicroVersion$,$WCREV$
-#define STRFILEVER     "$MajorVersion$, $MinorVersion$, $MicroVersion$, $WCREV$\0"
-#define STRPRODUCTVER  "$MajorVersion$, $MinorVersion$, $MicroVersion$, $WCREV$\0"
+#define STRFILEVER     "$MajorVersion$.$MinorVersion$.$MicroVersion$.$WCREV$"
+#define STRPRODUCTVER  "$MajorVersion$.$MinorVersion$.$MicroVersion$.$WCREV$"
 
 #define CM_VERMAJOR     $MajorVersion$
 #define CM_VERMINOR     $MinorVersion$
