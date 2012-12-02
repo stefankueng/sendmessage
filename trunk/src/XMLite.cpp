@@ -179,8 +179,8 @@ LPTSTR _tcsenistr( LPCTSTR psz, LPCTSTR str, int len, int escape )
 
 LPTSTR _tcseistr( LPCTSTR psz, LPCTSTR str, int escape )
 {
-    int len = _tcslen( str );
-    return _tcsenistr( psz, str, len, escape );
+    size_t len = _tcslen( str );
+    return _tcsenistr( psz, str, (int)len, escape );
 }
 
 void _SetString( LPTSTR psz, LPTSTR end, std::wstring* ps, bool trim = FALSE, int escape = 0 )
@@ -191,7 +191,7 @@ void _SetString( LPTSTR psz, LPTSTR end, std::wstring* ps, bool trim = FALSE, in
         while( psz && psz < end && _istspace(*psz) ) psz++;
         while( (end-1) && psz < (end-1) && _istspace(*(end-1)) ) end--;
     }
-    int len = end - psz;
+    size_t len = end - psz;
     if( len <= 0 ) return;
     if( escape )
     {
@@ -1042,7 +1042,7 @@ LPXNode _tagXMLNode::GetChild( int i )
     return NULL;
 }
 
-int _tagXMLNode::GetChildCount()
+size_t _tagXMLNode::GetChildCount()
 {
     return childs.size();
 }
@@ -1306,7 +1306,7 @@ LPXENTITY _tagXMLEntitys::GetEntity( LPTSTR entity )
     return NULL;
 }
 
-int _tagXMLEntitys::GetEntityCount( LPCTSTR str )
+size_t _tagXMLEntitys::GetEntityCount( LPCTSTR str )
 {
     int nCount = 0;
     LPTSTR ps = (LPTSTR)str;
@@ -1315,7 +1315,7 @@ int _tagXMLEntitys::GetEntityCount( LPCTSTR str )
     return nCount;
 }
 
-int _tagXMLEntitys::Ref2Entity( LPCTSTR estr, LPTSTR str, int strlen )
+size_t _tagXMLEntitys::Ref2Entity( LPCTSTR estr, LPTSTR str, size_t strlen )
 {
     LPTSTR pes = (LPTSTR)estr;
     LPTSTR ps = str;
@@ -1339,7 +1339,7 @@ int _tagXMLEntitys::Ref2Entity( LPCTSTR estr, LPTSTR str, int strlen )
     return ps-str;
 }
 
-int _tagXMLEntitys::Entity2Ref( LPCTSTR str, LPTSTR estr, int estrlen )
+size_t _tagXMLEntitys::Entity2Ref( LPCTSTR str, LPTSTR estr, size_t estrlen )
 {
     LPTSTR ps = (LPTSTR)str;
     LPTSTR pes = (LPTSTR)estr;
@@ -1369,7 +1369,7 @@ std::wstring _tagXMLEntitys::Ref2Entity( LPCTSTR estr )
     std::wstring es;
     if( estr )
     {
-        int len = _tcslen(estr);
+        size_t len = _tcslen(estr);
         auto_buffer<TCHAR> esbuf (len + 1);
         if( esbuf )
         {
@@ -1385,10 +1385,10 @@ std::wstring _tagXMLEntitys::Entity2Ref( LPCTSTR str )
     std::wstring s;
     if( str )
     {
-        int nEntityCount = GetEntityCount(str);
+        size_t nEntityCount = GetEntityCount(str);
         if( nEntityCount == 0 )
             return std::wstring(str);
-        int len = _tcslen(str) + nEntityCount*10 ;
+        size_t len = _tcslen(str) + nEntityCount*10 ;
         auto_buffer<TCHAR> sbuf (len + 1);
         if( sbuf )
         {

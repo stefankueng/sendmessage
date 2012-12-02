@@ -454,7 +454,7 @@ bool CMainDlg::SendPostMessage(UINT id)
     {
         LRESULT selIndex = SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETCURSEL, 0, 0);
         if (selIndex != CB_ERR)
-            msg = SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETITEMDATA, selIndex, 0);
+            msg = (UINT)SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETITEMDATA, selIndex, 0);
     }
     if (msg == 0)
         return false;

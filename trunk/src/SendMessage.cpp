@@ -164,7 +164,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
     CCmdLineParser parser(lpCmdLine);
 
-    int ret = 0;
+    INT_PTR ret = 0;
     if (parser.HasKey(_T("about"))||parser.HasKey(_T("?"))||parser.HasKey(_T("help")))
     {
         CAboutDlg aboutDlg(NULL);
@@ -217,5 +217,5 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
     ::CoUninitialize();
     ::OleUninitialize();
-    return ret;
+    return (int)ret;
 }
