@@ -34,6 +34,7 @@
           PropertyName="SignInfo"/>
     </ReadLinesFromFile>
     <Exec Command="signtool.exe sign $(SignInfo) $(MSBuildProjectDirectory)\bin\SendMessage-$(MajorVersion).$(MinorVersion).$(MicroVersion).exe" />
+    <Exec Command="signtool.exe sign $(SignInfo) $(MSBuildProjectDirectory)\bin\SendMessage64-$(MajorVersion).$(MinorVersion).$(MicroVersion).exe" />
   </Target>
 
 
