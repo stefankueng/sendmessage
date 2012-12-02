@@ -13,7 +13,7 @@
   </Target>
 
   <Target Name="VersionInfo">
-    <Exec Command="SubWCRev.exe . src/version.in src/version.h" ContinueOnError="false"></Exec>
+    <Exec Command="SubWCRev.exe . src\version.in src\version.h" ContinueOnError="false"></Exec>
     <MSBuild.ExtensionPack.FileSystem.File TaskAction="Replace" RegexPattern="\$MajorVersion\$" Replacement="$(MajorVersion)" Files="$(MSBuildProjectDirectory)\src\version.h"/>
     <MSBuild.ExtensionPack.FileSystem.File TaskAction="Replace" RegexPattern="\$MinorVersion\$" Replacement="$(MinorVersion)" Files="$(MSBuildProjectDirectory)\src\version.h"/>
     <MSBuild.ExtensionPack.FileSystem.File TaskAction="Replace" RegexPattern="\$MicroVersion\$" Replacement="$(MicroVersion)" Files="$(MSBuildProjectDirectory)\src\version.h"/>
