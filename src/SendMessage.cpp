@@ -63,7 +63,7 @@ BOOL CALLBACK ChildWindowEnumerator(HWND hwnd, LPARAM lParam)
             {
                 TCHAR szProcName[MAX_PATH] = {0};
                 TCHAR * pProcName = szProcName;
-                if (GetProcessImageFileName(hProc, szProcName, MAX_PATH))
+                if (GetProcessImageFileName(hProc, szProcName, _countof(szProcName)))
                 {
                     pProcName = _tcsrchr(szProcName, '\\');
                     if (pProcName)
@@ -112,7 +112,7 @@ BOOL CALLBACK WindowEnumerator(HWND hwnd, LPARAM lParam)
             {
                 TCHAR szProcName[MAX_PATH] = {0};
                 TCHAR * pProcName = szProcName;
-                if (GetProcessImageFileName(hProc, szProcName, MAX_PATH))
+                if (GetProcessImageFileName(hProc, szProcName, _countof(szProcName)))
                 {
                     pProcName = _tcsrchr(szProcName, '\\');
                     if (pProcName)

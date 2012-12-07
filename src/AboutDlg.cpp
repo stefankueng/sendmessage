@@ -42,7 +42,7 @@ LRESULT CAboutDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
         {
             InitDialog(hwndDlg, IDI_SENDMESSAGE);
             TCHAR buf[MAX_PATH] = {0};
-            _stprintf_s(buf, MAX_PATH, _T("SendMessage version %ld.%ld.%ld.%ld"), SM_VERMAJOR, SM_VERMINOR, SM_VERMICRO, SM_VERBUILD);
+            _stprintf_s(buf, _countof(buf), _T("SendMessage version %ld.%ld.%ld.%ld"), SM_VERMAJOR, SM_VERMINOR, SM_VERMICRO, SM_VERBUILD);
             SetDlgItemText(*this, IDC_VERSIONINFO, buf);
             SetDlgItemText(*this, IDC_DATE, _T(SM_VERDATE));
             m_link.ConvertStaticToHyperlink(hwndDlg, IDC_WEBLINK, _T("http://tools.tortoisesvn.net"));

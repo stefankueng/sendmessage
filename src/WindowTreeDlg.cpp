@@ -165,7 +165,7 @@ void CWindowTreeDlg::GetWindowString(HWND hwnd, TCHAR * buf, int bufsize)
         HANDLE hProc = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, pid);
         if (hProc)
         {
-            if (GetProcessImageFileName(hProc, szProcName, MAX_PATH))
+            if (GetProcessImageFileName(hProc, szProcName, _countof(szProcName)))
             {
                 pProcName = _tcsrchr(szProcName, '\\');
                 if (pProcName)
