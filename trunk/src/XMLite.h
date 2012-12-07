@@ -54,18 +54,18 @@ typedef struct _tagParseInfo
 {
     bool        trim_value;         // [set] do trim when parse?
     bool        entity_value;       // [set] do convert from reference to entity? ( &lt; -> < )
-    LPXENTITYS  entitys;            // [set] entity table for entity decode
+    LPXENTITYS  entities;           // [set] entity table for entity decode
     TCHAR       escape_value;       // [set] escape value (default '\\')
     bool        force_parse;        // [set] force parse even if xml is not welformed
 
     LPTSTR      xml;                // [get] xml source
-    bool        erorr_occur;        // [get] is occurance of error?
+    bool        error_occur;        // [get] is occurance of error?
     LPTSTR      error_pointer;      // [get] error position of xml source
     PCODE       error_code;         // [get] error code
-    std::wstring    error_string;       // [get] error string
+    std::wstring    error_string;   // [get] error string
 
     LPXDoc      doc;
-    _tagParseInfo() { trim_value = false; entity_value = true; force_parse = false; entitys = &entityDefault; xml = NULL; erorr_occur = false; error_pointer = NULL; error_code = PIE_PARSE_WELFORMED; escape_value = '\\'; }
+    _tagParseInfo() { trim_value = false; entity_value = true; force_parse = false; entities = &entityDefault; xml = NULL; doc = NULL; error_occur = false; error_pointer = NULL; error_code = PIE_PARSE_WELFORMED; escape_value = '\\'; }
 }PARSEINFO,*LPPARSEINFO;
 extern PARSEINFO piDefault;
 
@@ -75,10 +75,10 @@ typedef struct _tagDispOption
     bool newline;           // newline when new tag
     bool reference_value;   // do convert from entity to reference ( < -> &lt; )
     TCHAR value_quotation_mark; // val="" (default value quotation mark "
-    LPXENTITYS  entitys;    // entity table for entity encode
+    LPXENTITYS  entities;   // entity table for entity encode
 
     int tab_base;           // internal usage
-    _tagDispOption() { newline = true; reference_value = true; entitys = &entityDefault; tab_base = 0; value_quotation_mark = '"'; }
+    _tagDispOption() { newline = true; reference_value = true; entities = &entityDefault; tab_base = 0; value_quotation_mark = '"'; }
 }DISP_OPT, *LPDISP_OPT;
 extern DISP_OPT optDefault;
 
@@ -106,7 +106,7 @@ typedef enum
 typedef struct _tagXMLNode
 {
     // name and value
-    std::wstring name;
+    std::wstring    name;
     std::wstring    value;
 
     // internal variables
