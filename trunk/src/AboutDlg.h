@@ -18,7 +18,7 @@
 //
 
 #pragma once
-#include "basedialog.h"
+#include "BaseDialog.h"
 #include "hyperlink.h"
 #include <string>
 

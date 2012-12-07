@@ -18,7 +18,7 @@
 //
 
 #pragma once
-#include "basedialog.h"
+#include "BaseDialog.h"
 #include "AeroControls.h"
 #include "DlgResizer.h"
 

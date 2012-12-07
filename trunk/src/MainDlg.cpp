@@ -402,18 +402,16 @@ bool CMainDlg::RefreshWindow(HWND hwndWindowToBeRefreshed)
 
 bool CMainDlg::HighlightFoundWindow(HWND hwndFoundWindow)
 {
-    HDC         hWindowDC = NULL;   // The DC of the found window.
-    HGDIOBJ     hPrevPen = NULL;    // Handle of the existing pen in the DC of the found window.
-    HGDIOBJ     hPrevBrush = NULL;  // Handle of the existing brush in the DC of the found window.
-    RECT        rect;               // Rectangle area of the found window.
+    HDC     hWindowDC = NULL;   // The DC of the found window.
+    RECT    rect;               // Rectangle area of the found window.
 
     GetWindowRect(hwndFoundWindow, &rect);
     hWindowDC = GetWindowDC(hwndFoundWindow);
 
     if (hWindowDC)
     {
-        hPrevPen = SelectObject(hWindowDC, m_hRectanglePen);
-        hPrevBrush = SelectObject(hWindowDC, GetStockObject(HOLLOW_BRUSH));
+        HGDIOBJ hPrevPen = SelectObject(hWindowDC, m_hRectanglePen);                // Handle of the existing pen in the DC of the found window.
+        HGDIOBJ hPrevBrush = SelectObject(hWindowDC, GetStockObject(HOLLOW_BRUSH)); // Handle of the existing brush in the DC of the found window.
 
         // Draw a rectangle in the DC covering the entire window area of the found window.
         Rectangle(hWindowDC, 1, 1, rect.right - rect.left - 2, rect.bottom - rect.top - 2);
@@ -430,7 +428,7 @@ HWND CMainDlg::GetSelectedHandle()
 {
     TCHAR buf[MAX_PATH];
 
-    ::GetDlgItemText(*this, IDC_WINDOW, buf, MAX_PATH);
+    ::GetDlgItemText(*this, IDC_WINDOW, buf, _countof(buf));
 
     TCHAR * endptr = NULL;
     return (HWND)_tcstol(buf, &endptr, 0);
@@ -448,7 +446,7 @@ bool CMainDlg::SendPostMessage(UINT id)
     TCHAR buf[MAX_PATH];
     TCHAR * endptr = NULL;
 
-    ::GetDlgItemText(*this, IDC_MESSAGE, buf, MAX_PATH);
+    ::GetDlgItemText(*this, IDC_MESSAGE, buf, _countof(buf));
     msg = _tcstol(buf, &endptr, 0);
     if (msg == 0)
     {
@@ -459,7 +457,7 @@ bool CMainDlg::SendPostMessage(UINT id)
     if (msg == 0)
         return false;
 
-    ::GetDlgItemText(*this, IDC_WPARAM, buf, MAX_PATH);
+    ::GetDlgItemText(*this, IDC_WPARAM, buf, _countof(buf));
     wparam = (WPARAM)_tcstol(buf, &endptr, 0);
     if (wparam == 0)
     {
@@ -468,7 +466,7 @@ bool CMainDlg::SendPostMessage(UINT id)
             wparam = SendDlgItemMessage(*this, IDC_WPARAM, CB_GETITEMDATA, selIndex, 0);
     }
 
-    ::GetDlgItemText(*this, IDC_LPARAM, buf, MAX_PATH);
+    ::GetDlgItemText(*this, IDC_LPARAM, buf, _countof(buf));
     lparam = (LPARAM)_tcstol(buf, &endptr, 0);
     if (lparam == 0)
     {
@@ -487,7 +485,7 @@ bool CMainDlg::SendPostMessage(UINT id)
     {
         res = PostMessage(hTargetWnd, msg, wparam, lparam);
     }
-    _stprintf_s(buf, MAX_PATH, _T("0x%08X (%ld)"), res, res);
+    _stprintf_s(buf, _countof(buf), _T("0x%08X (%ld)"), res, res);
     SetDlgItemText(*this, IDC_RETVALUE, buf);
 
     DWORD err = GetLastError();
