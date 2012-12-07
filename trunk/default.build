@@ -31,7 +31,7 @@
     <exec program="devenv.com" >
       <arg value="SendMessage.sln" />
       <arg value="/clean" />
-      <arg value="${configuration}|win32" />
+      <arg value="${configuration}|Win32" />
     </exec>
     <exec program="devenv.com" >
       <arg value="SendMessage.sln" />
@@ -71,7 +71,7 @@
     <exec program="devenv.com" >
       <arg value="SendMessage.sln" />
       <arg value="/rebuild" />
-      <arg value="${configuration}|win32" />
+      <arg value="${configuration}|Win32" />
     </exec>
     <exec program="devenv.com" >
       <arg value="SendMessage.sln" />
@@ -87,7 +87,7 @@
       <exec program="signtool">
         <arg value="sign" />
         <arg value="${signinfo}" />
-        <arg value="bin\${configuration}\x64\SendMessage.exe" />
+        <arg value="bin\${configuration}\x64\SendMessage64.exe" />
       </exec>
     </if>
   </target>
