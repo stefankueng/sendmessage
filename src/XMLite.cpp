@@ -255,9 +255,9 @@ LPTSTR _tagXMLNode::LoadAttributes( LPCTSTR pszAttrs , LPPARSEINFO pi /*= &piDef
             if( pEnd == NULL )
             {
                 // error
-                if( pi->erorr_occur == false )
+                if( pi->error_occur == false )
                 {
-                    pi->erorr_occur = true;
+                    pi->error_occur = true;
                     pi->error_pointer = xml;
                     pi->error_code = PIE_ATTR_NO_VALUE;
 
@@ -305,8 +305,8 @@ LPTSTR _tagXMLNode::LoadAttributes( LPCTSTR pszAttrs , LPPARSEINFO pi /*= &piDef
                         _SetString( xml, pEnd, &attr->value, trim, escape );
                         xml = pEnd;
                         // ATTRVALUE
-                        if( pi->entity_value && pi->entitys )
-                            attr->value = pi->entitys->Ref2Entity(attr->value.c_str());
+                        if( pi->entity_value && pi->entities )
+                            attr->value = pi->entities->Ref2Entity(attr->value.c_str());
 
                         if( quote == '"' || quote == '\'' )
                             xml++;
@@ -338,9 +338,9 @@ LPTSTR _tagXMLNode::LoadAttributes( LPCTSTR pszAttrs, LPCTSTR pszEnd, LPPARSEINF
             if( pEnd == NULL )
             {
                 // error
-                if( pi->erorr_occur == false )
+                if( pi->error_occur == false )
                 {
-                    pi->erorr_occur = true;
+                    pi->error_occur = true;
                     pi->error_pointer = xml;
                     pi->error_code = PIE_ATTR_NO_VALUE;
                     auto_buffer<TCHAR> sbuf (100 + name.size());
@@ -387,8 +387,8 @@ LPTSTR _tagXMLNode::LoadAttributes( LPCTSTR pszAttrs, LPCTSTR pszEnd, LPPARSEINF
                         _SetString( xml, pEnd, &attr->value, trim, escape );
                         xml = pEnd;
                         // ATTRVALUE
-                        if( pi->entity_value && pi->entitys )
-                            attr->value = pi->entitys->Ref2Entity(attr->value.c_str());
+                        if( pi->entity_value && pi->entities )
+                            attr->value = pi->entities->Ref2Entity(attr->value.c_str());
 
                         if( quote == '"' || quote == '\'' )
                             xml++;
@@ -607,9 +607,9 @@ LPTSTR _tagXMLNode::Load( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/ )
             else
             {
                 // error: <TAG ... / >
-                if( pi->erorr_occur == false )
+                if( pi->error_occur == false )
                 {
-                    pi->erorr_occur = true;
+                    pi->error_occur = true;
                     pi->error_pointer = xml;
                     pi->error_code = PIE_ALONE_NOT_CLOSED;
                     pi->error_string = _T("Element must be closed.");
@@ -630,9 +630,9 @@ LPTSTR _tagXMLNode::Load( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/ )
                 TCHAR* pEnd = _tcsechr( ++xml, chXMLTagOpen, chXMLEscape );
                 if( pEnd == NULL )
                 {
-                    if( pi->erorr_occur == false )
+                    if( pi->error_occur == false )
                     {
-                        pi->erorr_occur = true;
+                        pi->error_occur = true;
                         pi->error_pointer = xml;
                         pi->error_code = PIE_NOT_CLOSED;
                         auto_buffer<TCHAR> sbuf (100 + name.size() + value.size());
@@ -650,8 +650,8 @@ LPTSTR _tagXMLNode::Load( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/ )
 
                 xml = pEnd;
                 // TEXTVALUE reference
-                if( pi->entity_value && pi->entitys )
-                    value = pi->entitys->Ref2Entity(value.c_str());
+                if( pi->entity_value && pi->entities )
+                    value = pi->entities->Ref2Entity(value.c_str());
             }
 
             // generate child nodes
@@ -687,9 +687,9 @@ LPTSTR _tagXMLNode::Load( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/ )
                         TCHAR* pEnd = _tcspbrk( xml, _T(" >") );
                         if( pEnd == NULL )
                         {
-                            if( pi->erorr_occur == false )
+                            if( pi->error_occur == false )
                             {
-                                pi->erorr_occur = true;
+                                pi->error_occur = true;
                                 pi->error_pointer = xml;
                                 pi->error_code = PIE_NOT_CLOSED;
                                 auto_buffer<TCHAR> sbuf (100 + name.size() + value.size());
@@ -715,9 +715,9 @@ LPTSTR _tagXMLNode::Load( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/ )
                             if( pi->force_parse == false )
                             {
                                 // not welformed open/close
-                                if( pi->erorr_occur == false )
+                                if( pi->error_occur == false )
                                 {
-                                    pi->erorr_occur = true;
+                                    pi->error_occur = true;
                                     pi->error_pointer = xml;
                                     pi->error_code = PIE_NOT_NESTED;
                                     auto_buffer<TCHAR> sbuf (100 + name.size() + closename.size());
@@ -741,9 +741,9 @@ LPTSTR _tagXMLNode::Load( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/ )
                         if( pEnd == NULL )
                         {
                             // error cos not exist CloseTag </TAG>
-                            if( pi->erorr_occur == false )
+                            if( pi->error_occur == false )
                             {
-                                pi->erorr_occur = true;
+                                pi->error_occur = true;
                                 pi->error_pointer = xml;
                                 pi->error_code = PIE_NOT_CLOSED;
                                 auto_buffer<TCHAR> sbuf (100 + name.size() + value.size());
@@ -760,8 +760,8 @@ LPTSTR _tagXMLNode::Load( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/ )
 
                         xml = pEnd;
                         //TEXTVALUE
-                        if( pi->entity_value && pi->entitys )
-                            value = pi->entitys->Ref2Entity(value.c_str());
+                        if( pi->entity_value && pi->entities )
+                            value = pi->entities->Ref2Entity(value.c_str());
                     }
                 }
             }
@@ -818,7 +818,7 @@ std::wstring _tagXMLAttr::GetXML( LPDISP_OPT opt /*= &optDefault*/ )
     //os << (LPCTSTR)name << "='" << (LPCTSTR)value << "' ";
 
     os << (LPCTSTR)name.c_str() << _T("=") << (TCHAR)opt->value_quotation_mark
-        << (LPCTSTR)(opt->reference_value&&opt->entitys?opt->entitys->Entity2Ref(value.c_str()).c_str():value.c_str())
+        << (LPCTSTR)(opt->reference_value&&opt->entities?opt->entities->Entity2Ref(value.c_str()).c_str():value.c_str())
         << (TCHAR)opt->value_quotation_mark << _T(" ");
     return os.str();
 }
@@ -913,7 +913,8 @@ std::wstring _tagXMLNode::GetXML( LPDISP_OPT opt /*= &optDefault*/ )
                 for( int i = 0 ; i < opt->tab_base ; i++)
                     os << '\t';
             }
-            os << (LPCTSTR)(opt->reference_value&&opt->entitys?opt->entitys->Entity2Ref(value.c_str()).c_str():value.c_str());
+            if( opt )
+                os << (LPCTSTR)(opt->reference_value&&opt->entities?opt->entities->Entity2Ref(value.c_str()).c_str():value.c_str());
         }
 
         // </TAG> CloseTag
@@ -973,7 +974,7 @@ std::wstring _tagXMLNode::GetText( LPDISP_OPT opt /*= &optDefault*/ )
                 os << (LPCTSTR)childs[i]->GetText().c_str();
 
             // Text Value
-            os << (LPCTSTR)(opt->reference_value&&opt->entitys?opt->entitys->Entity2Ref(value.c_str()).c_str():value.c_str());
+            os << (LPCTSTR)(opt->reference_value&&opt->entities?opt->entities->Entity2Ref(value.c_str()).c_str():value.c_str());
         }
     }
 
