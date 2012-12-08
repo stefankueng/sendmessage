@@ -155,7 +155,7 @@ void CWindowTreeDlg::GetWindowString(HWND hwnd, TCHAR * buf, int bufsize)
     TCHAR szProcName[MAX_PATH] = {0};
     TCHAR * pProcName = szProcName;
 
-    GetWindowText(hwnd, tmpbuf, 4096);
+    GetWindowText(hwnd, tmpbuf, _countof(tmpbuf));
     if (GetClassName(hwnd, szClassName, _countof(szClassName))==0)
         szClassName[0] = 0;
     DWORD pid = 0;

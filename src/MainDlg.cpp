@@ -150,7 +150,7 @@ LRESULT CMainDlg::DoCommand(int id, int msg)
                 m_hwndFoundWindow = treeDlg.GetSelectedWindow();
                 DisplayInfoOnFoundWindow(m_hwndFoundWindow);
                 TCHAR szText[256];
-                _stprintf_s(szText, 256, _T("0x%08X"), m_hwndFoundWindow);
+                _stprintf_s(szText, _countof(szText), _T("0x%08X"), m_hwndFoundWindow);
                 SetDlgItemText(*this, IDC_WINDOW, szText);
             }
         }
@@ -252,10 +252,10 @@ bool CMainDlg::DoMouseMove(UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*
     GetCursorPos(&screenpoint);
 
     // Display global positioning in the dialog box.
-    _stprintf_s(szText, 256, _T("%d"), screenpoint.x);
+    _stprintf_s(szText, _countof(szText), _T("%d"), screenpoint.x);
     SetDlgItemText(*this, IDC_STATIC_X_POS, szText);
 
-    _stprintf_s(szText, 256, _T("%d"), screenpoint.y);
+    _stprintf_s(szText, _countof(szText), _T("%d"), screenpoint.y);
     SetDlgItemText(*this, IDC_STATIC_Y_POS, szText);
 
     // Determine the window that lies underneath the mouse cursor.
@@ -313,7 +313,7 @@ bool CMainDlg::DoMouseUp(UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
         return false;
 
     TCHAR szText[256];
-    _stprintf_s(szText, 256, _T("0x%08X"), m_hwndFoundWindow);
+    _stprintf_s(szText, _countof(szText), _T("0x%08X"), m_hwndFoundWindow);
     SetDlgItemText(*this, IDC_WINDOW, szText);
 
     return true;
@@ -377,7 +377,7 @@ bool CMainDlg::DisplayInfoOnFoundWindow(HWND hwndFoundWindow)
     // Display some information on the found window.
     _stprintf_s
         (
-        szText, 256, _T("Window Handle == 0x%08X\r\nClass Name : %s\r\nRECT.left == %d\r\nRECT.top == %d\r\nRECT.right == %d\r\nRECT.bottom == %d\r\n"),
+        szText, _countof(szText), _T("Window Handle == 0x%08X\r\nClass Name : %s\r\nRECT.left == %d\r\nRECT.top == %d\r\nRECT.right == %d\r\nRECT.bottom == %d\r\n"),
         hwndFoundWindow,
         szClassName,
         rect.left,
