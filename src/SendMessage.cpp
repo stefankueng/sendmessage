@@ -1,6 +1,6 @@
 // SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010, 2012 - Stefan Kueng
+// Copyright (C) 2010, 2012-2013 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -22,6 +22,7 @@
 #include "SendMessage.h"
 #include "MainDlg.h"
 #include "AboutDlg.h"
+#include "WinMessage.h"
 #include "CmdLineParser.h"
 #include "SmartHandle.h"
 #include <set>
@@ -175,7 +176,9 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
         LPARAM  lParam  = 0;
 
         if (parser.HasVal(L"message"))
-            msg = parser.GetLongVal(L"message");
+        {
+            msg = WinMessages::Instance().ParseMsg(parser.GetVal(L"message"));
+        }
         if (parser.HasVal(L"wparam"))
             wParam = parser.GetLongVal(L"wparam");
         if (parser.HasVal(L"lparam"))

@@ -195,6 +195,7 @@
     <ClInclude Include="SendMessage.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="WindowTreeDlg.h" />
+    <ClInclude Include="WinMessage.h" />
     <ClInclude Include="XMLite.h" />
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +218,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="WindowTreeDlg.cpp" />
+    <ClCompile Include="WinMessage.cpp" />
     <ClCompile Include="XMLite.cpp" />
   </ItemGroup>
   <ItemGroup>
