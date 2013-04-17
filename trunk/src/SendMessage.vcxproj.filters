@@ -87,6 +87,9 @@
     <ClInclude Include="..\sktoolslib\SmartHandle.h">
       <Filter>sktoolslib</Filter>
     </ClInclude>
+    <ClInclude Include="WinMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AboutDlg.cpp">
@@ -142,6 +145,9 @@
     </ClCompile>
     <ClCompile Include="..\sktoolslib\DlgResizer.cpp">
       <Filter>sktoolslib</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMessage.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

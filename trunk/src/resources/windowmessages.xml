@@ -1,4 +1,218 @@
 <Messages>
+  <Message description="WM_NULL" value="0x0000" />
+  <Message description="WM_DESTROY" value="0x0002"/>
+  <Message description="WM_MOVE" value="0x0003"/>
+  <Message description="WM_SIZE" value="0x0005"/>
+  <Message description="WM_ACTIVATE" value="0x0006"/>
+  <Message description="WM_SETFOCUS" value="0x0007"/>
+  <Message description="WM_KILLFOCUS" value="0x0008"/>
+  <Message description="WM_ENABLE" value="0x000A"/>
+  <Message description="WM_SETREDRAW" value="0x000B"/>
+  <Message description="WM_SETTEXT" value="0x000C"/>
+  <Message description="WM_GETTEXT" value="0x000D"/>
+  <Message description="WM_GETTEXTLENGTH" value="0x000E" />
+  <Message description="WM_PAINT" value="0x000F" />
+  <Message description="WM_CLOSE" value="0x0010" />
+  <Message description="WM_QUIT" value="0x0012" />
+  <Message description="WM_QUERYOPEN" value="0x0013" />
+  <Message description="WM_ERASEBKGND" value="0x0014" />
+  <Message description="WM_SYSTEMERROR" value="0x0017" />
+  <Message description="WM_SHOWWINDOW" value="0x0018" />
+  <Message description="WM_CTLCOLOR" value="0x0019" />
+  <Message description="WM_WININICHANGE" value="0x001A" />
+  <Message description="WM_DEVMODECHANGE" value="0x001B" />
+  <Message description="WM_ACTIVATEAPP" value="0x001C" />
+  <Message description="WM_FONTCHANGE" value="0x001D" />
+  <Message description="WM_TIMECHANGE" value="0x001E" />
+  <Message description="WM_CANCELMODE" value="0x001F" />
+  <Message description="WM_SETCURSOR" value="0x0020" />
+  <Message description="WM_MOUSEACTIVATE" value="0x0021" />
+  <Message description="WM_CHILDACTIVATE" value="0x0022" />
+  <Message description="WM_QUEUESYNC" value="0x0023" />
+  <Message description="WM_GETMINMAXINFO" value="0x0024" />
+  <Message description="WM_PAINTICON" value="0x0026" />
+  <Message description="WM_ICONERASEBKGND" value="0x0027" />
+  <Message description="WM_NEXTDLGCTL" value="0x0028" />
+  <Message description="WM_SPOOLERSTATUS" value="0x002A" />
+  <Message description="WM_DRAWITEM" value="0x002B" />
+  <Message description="WM_MEASUREITEM" value="0x002C" />
+  <Message description="WM_DELETEITEM" value="0x002D" />
+  <Message description="WM_VKEYTOITEM" value="0x002E" />
+  <Message description="WM_CHARTOITEM" value="0x002F" />
+
+  <Message description="WM_SETFONT" value="0x0030" />
+  <Message description="WM_GETFONT" value="0x0031" />
+  <Message description="WM_SETHOTKEY" value="0x0032" />
+  <Message description="WM_GETHOTKEY" value="0x0033" />
+  <Message description="WM_QUERYDRAGICON" value="0x0037" />
+  <Message description="WM_COMPAREITEM" value="0x0039" />
+  <Message description="WM_COMPACTING" value="0x0041" />
+  <Message description="WM_WINDOWPOSCHANGING" value="0x0046" />
+  <Message description="WM_WINDOWPOSCHANGED" value="0x0047" />
+  <Message description="WM_POWER" value="0x0048" />
+  <Message description="WM_COPYDATA" value="0x004A" />
+  <Message description="WM_CANCELJOURNAL" value="0x004B" />
+  <Message description="WM_NOTIFY" value="0x004E" />
+
+  <Message description="WM_INPUTLANGCHANGEREQUEST" value="0x0050" />
+  <Message description="WM_INPUTLANGCHANGE" value="0x0051" />
+  <Message description="WM_TCARD" value="0x0052" />
+  <Message description="WM_HELP" value="0x0053" />
+  <Message description="WM_USERCHANGED" value="0x0054" />
+  <Message description="WM_NOTIFYFORMAT" value="0x0055" />
+
+  <Message description="WM_CONTEXTMENU" value="0x007B" />
+  <Message description="WM_STYLECHANGING" value="0x007C" />
+  <Message description="WM_STYLECHANGED" value="0x007D" />
+  <Message description="WM_DISPLAYCHANGE" value="0x007E" />
+  <Message description="WM_GETICON" value="0x007F" />
+  <Message description="WM_SETICON" value="0x0080" />
+
+  <Message description="WM_NCCREATE" value="0x0081" />
+  <Message description="WM_NCDESTROY" value="0x0082" />
+  <Message description="WM_NCCALCSIZE" value="0x0083" />
+  <Message description="WM_NCHITTEST" value="0x0084" />
+  <Message description="WM_NCPAINT" value="0x0085" />
+  <Message description="WM_NCACTIVATE" value="0x0086" />
+  <Message description="WM_GETDLGCODE" value="0x0087" />
+  
+  <Message description="WM_NCMOUSEMOVE" value="0x00A0" />
+  <Message description="WM_NCLBUTTONDOWN" value="0x00A1" />
+  <Message description="WM_NCLBUTTONUP" value="0x00A2" />
+  <Message description="WM_NCLBUTTONDBLCLK" value="0x00A3" />
+  <Message description="WM_NCRBUTTONDOWN" value="0x00A4" />
+  <Message description="WM_NCRBUTTONUP" value="0x00A5" />
+  <Message description="WM_NCRBUTTONDBLCLK" value="0x00A6" />
+  <Message description="WM_NCMBUTTONDOWN" value="0x00A7" />
+  <Message description="WM_NCMBUTTONUP" value="0x00A8" />
+  <Message description="WM_NCMBUTTONDBLCLK" value="0x00A9" />
+
+  <Message description="WM_KEYDOWN" value="0x0100" />
+  <Message description="WM_KEYUP" value="0x0101" />
+  <Message description="WM_CHAR" value="0x0102" />
+  <Message description="WM_DEADCHAR" value="0x0103" />
+  <Message description="WM_SYSKEYDOWN" value="0x0104" />
+  <Message description="WM_SYSKEYUP" value="0x0105" />
+  <Message description="WM_SYSCHAR" value="0x0106" />
+  <Message description="WM_SYSDEADCHAR" value="0x0107" />
+  <Message description="WM_KEYLAST" value="0x0108" />
+
+  <Message description="WM_IME_STARTCOMPOSITION" value="0x010D" />
+  <Message description="WM_IME_ENDCOMPOSITION" value="0x010E" />
+  <Message description="WM_IME_COMPOSITION" value="0x010F" />
+
+  <Message description="WM_INITDIALOG" value="0x0110" />
+  <Message description="WM_COMMAND" value="0x0111" />
+  <Message description="WM_SYSCOMMAND" value="0x0112" />
+  <Message description="WM_TIMER" value="0x0113" />
+  <Message description="WM_HSCROLL" value="0x0114" />
+  <Message description="WM_VSCROLL" value="0x0115" />
+  <Message description="WM_INITMENU" value="0x0116" />
+  <Message description="WM_INITMENUPOPUP" value="0x0117" />
+  <Message description="WM_MENUSELECT" value="0x011F" />
+  <Message description="WM_MENUCHAR" value="0x0120" />
+  <Message description="WM_ENTERIDLE" value="0x0121" />
+
+  <Message description="WM_CTLCOLORMSGBOX" value="0x0132" />
+  <Message description="WM_CTLCOLOREDIT" value="0x0133" />
+  <Message description="WM_CTLCOLORLISTBOX" value="0x0134" />
+  <Message description="WM_CTLCOLORBTN" value="0x0135" />
+  <Message description="WM_CTLCOLORDLG" value="0x0136" />
+  <Message description="WM_CTLCOLORSCROLLBAR" value="0x0137" />
+  <Message description="WM_CTLCOLORSTATIC" value="0x0138" />
+
+  <Message description="WM_MOUSEMOVE" value="0x0200" />
+  <Message description="WM_LBUTTONDOWN" value="0x0201" />
+  <Message description="WM_LBUTTONUP" value="0x0202" />
+  <Message description="WM_LBUTTONDBLCLK" value="0x0203" />
+  <Message description="WM_RBUTTONDOWN" value="0x0204" />
+  <Message description="WM_RBUTTONUP" value="0x0205" />
+  <Message description="WM_RBUTTONDBLCLK" value="0x0206" />
+  <Message description="WM_MBUTTONDOWN" value="0x0207" />
+  <Message description="WM_MBUTTONUP" value="0x0208" />
+  <Message description="WM_MBUTTONDBLCLK" value="0x0209" />
+  <Message description="WM_MOUSEWHEEL" value="0x020A" />
+  <Message description="WM_MOUSEHWHEEL" value="0x020E" />
+
+  <Message description="WM_PARENTNOTIFY" value="0x0210" />
+  <Message description="WM_ENTERMENULOOP" value="0x0211" />
+  <Message description="WM_EXITMENULOOP" value="0x0212" />
+  <Message description="WM_NEXTMENU" value="0x0213" />
+  <Message description="WM_SIZING" value="0x0214" />
+  <Message description="WM_CAPTURECHANGED" value="0x0215" />
+  <Message description="WM_MOVING" value="0x0216" />
+  <Message description="WM_DEVICECHANGE" value="0x0219" />
+
+  <Message description="WM_MDICREATE" value="0x0220" />
+  <Message description="WM_MDIDESTROY" value="0x0221" />
+  <Message description="WM_MDIACTIVATE" value="0x0222" />
+  <Message description="WM_MDIRESTORE" value="0x0223" />
+  <Message description="WM_MDINEXT" value="0x0224" />
+  <Message description="WM_MDIMAXIMIZE" value="0x0225" />
+  <Message description="WM_MDITILE" value="0x0226" />
+  <Message description="WM_MDICASCADE" value="0x0227" />
+  <Message description="WM_MDIICONARRANGE" value="0x0228" />
+  <Message description="WM_MDIGETACTIVE" value="0x0229" />
+  <Message description="WM_MDISETMENU" value="0x0230" />
+  <Message description="WM_ENTERSIZEMOVE" value="0x0231" />
+  <Message description="WM_EXITSIZEMOVE" value="0x0232" />
+  <Message description="WM_DROPFILES" value="0x0233" />
+  <Message description="WM_MDIREFRESHMENU" value="0x0234" />
+
+  <Message description="WM_IME_SETCONTEXT" value="0x0281" />
+  <Message description="WM_IME_NOTIFY" value="0x0282" />
+  <Message description="WM_IME_CONTROL" value="0x0283" />
+  <Message description="WM_IME_COMPOSITIONFULL" value="0x0284" />
+  <Message description="WM_IME_SELECT" value="0x0285" />
+  <Message description="WM_IME_CHAR" value="0x0286" />
+  <Message description="WM_IME_KEYDOWN" value="0x0290" />
+  <Message description="WM_IME_KEYUP" value="0x0291" />
+
+  <Message description="WM_MOUSEHOVER" value="0x02A1" />
+  <Message description="WM_NCMOUSELEAVE" value="0x02A2" />
+  <Message description="WM_MOUSELEAVE" value="0x02A3" />
+
+  <Message description="WM_CUT" value="0x0300" />
+  <Message description="WM_COPY" value="0x0301" />
+  <Message description="WM_PASTE" value="0x0302" />
+  <Message description="WM_CLEAR" value="0x0303" />
+  <Message description="WM_UNDO" value="0x0304" />
+
+  <Message description="WM_RENDERFORMAT" value="0x0305" />
+  <Message description="WM_RENDERALLFORMATS" value="0x0306" />
+  <Message description="WM_DESTROYCLIPBOARD" value="0x0307" />
+  <Message description="WM_DRAWCLIPBOARD" value="0x0308" />
+  <Message description="WM_PAINTCLIPBOARD" value="0x0309" />
+  <Message description="WM_VSCROLLCLIPBOARD" value="0x030A" />
+  <Message description="WM_SIZECLIPBOARD" value="0x030B" />
+  <Message description="WM_ASKCBFORMATNAME" value="0x030C" />
+  <Message description="WM_CHANGECBCHAIN" value="0x030D" />
+  <Message description="WM_HSCROLLCLIPBOARD" value="0x030E" />
+  <Message description="WM_QUERYNEWPALETTE" value="0x030F" />
+  <Message description="WM_PALETTEISCHANGING" value="0x0310" />
+  <Message description="WM_PALETTECHANGED" value="0x0311" />
+
+  <Message description="WM_HOTKEY" value="0x0312" />
+  <Message description="WM_PRINT" value="0x0317" />
+  <Message description="WM_PRINTCLIENT" value="0x0318" />
+
+  <Message description="WM_HANDHELDFIRST" value="0x0358" />
+  <Message description="WM_HANDHELDLAST" value="0x035F" />
+  <Message description="WM_PENWINFIRST" value="0x0380" />
+  <Message description="WM_PENWINLAST" value="0x038F" />
+  <Message description="WM_COALESCE_FIRST" value="0x0390" />
+  <Message description="WM_COALESCE_LAST" value="0x039F" />
+
+  <Message description="WM_DDE_INITIATE" value="0x03E0" />
+  <Message description="WM_DDE_TERMINATE" value="0x03E1" />
+  <Message description="WM_DDE_ADVISE" value="0x03E2" />
+  <Message description="WM_DDE_UNADVISE" value="0x03E3" />
+  <Message description="WM_DDE_ACK" value="0x03E4" />
+  <Message description="WM_DDE_DATA" value="0x03E5" />
+  <Message description="WM_DDE_REQUEST" value="0x03E6" />
+  <Message description="WM_DDE_POKE" value="0x03E7" />
+  <Message description="WM_DDE_EXECUTE" value="0x03E8" />
+
   <Message description="WM_ENDSESSION" value="0x0016">
     <wparam description="endsession" value="1" />
     <wparam description="other" value="0" />

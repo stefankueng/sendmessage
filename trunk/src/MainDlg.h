@@ -1,6 +1,6 @@
 // SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010, 2012 - Stefan Kueng
+// Copyright (C) 2010, 2012-2013 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -21,8 +21,6 @@
 #include "BaseDialog.h"
 #include "AeroControls.h"
 #include "HyperLink.h"
-#include "ResourceTextFile.h"
-#include "XMLite.h"
 #include <string>
 #include <vector>
 
@@ -60,6 +58,4 @@ private:
     bool                    m_bStartSearchWindow;
     HWND                    m_hwndFoundWindow;
     HPEN                    m_hRectanglePen;
-    CResourceTextFile       m_xmlResource;
-    XNode                   m_xml;
 };
