@@ -116,7 +116,7 @@ BOOL CWindowTreeDlg::WindowEnumerator(HWND hwnd, LPARAM lParam)
     CWindowTreeDlg * pThis = (CWindowTreeDlg*)lParam;
 
     TCHAR buf[4096];
-    GetWindowString(hwnd, buf, 4096);
+    GetWindowString(hwnd, buf, _countof(buf));
 
     TVINSERTSTRUCT is = {0};
     is.hParent = TVI_ROOT;
@@ -135,7 +135,7 @@ BOOL CWindowTreeDlg::ChildWindowEnumerator(HWND hwnd, LPARAM lParam)
     CWindowTreeDlg * pThis = (CWindowTreeDlg*)lParam;
 
     TCHAR buf[4096];
-    GetWindowString(hwnd, buf, 4096);
+    GetWindowString(hwnd, buf, _countof(buf));
 
     TVINSERTSTRUCT is = {0};
     is.hParent = pThis->m_lastTreeItem;
