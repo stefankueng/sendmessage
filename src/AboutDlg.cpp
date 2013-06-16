@@ -1,6 +1,6 @@
 // SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010-2012 - Stefan Kueng
+// Copyright (C) 2010-2013 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -45,7 +45,7 @@ LRESULT CAboutDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
             _stprintf_s(buf, _countof(buf), _T("SendMessage version %ld.%ld.%ld.%ld"), SM_VERMAJOR, SM_VERMINOR, SM_VERMICRO, SM_VERBUILD);
             SetDlgItemText(*this, IDC_VERSIONINFO, buf);
             SetDlgItemText(*this, IDC_DATE, _T(SM_VERDATE));
-            m_link.ConvertStaticToHyperlink(hwndDlg, IDC_WEBLINK, _T("http://tools.tortoisesvn.net"));
+            m_link.ConvertStaticToHyperlink(hwndDlg, IDC_WEBLINK, _T("http://stefanstools.sourceforge.net"));
         }
         return TRUE;
     case WM_COMMAND:
