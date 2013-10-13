@@ -484,7 +484,7 @@ bool CMainDlg::SendPostMessage(UINT id)
         {
             res = PostMessage(hTargetWnd, msg, wparam, lparam);
         }
-        _stprintf_s(buf, _countof(buf), _T("0x%08X (%ld)"), res, res);
+        _stprintf_s(buf, _countof(buf), _T("0x%08lX (%ld)"), res, res);
         SetDlgItemText(*this, IDC_RETVALUE, buf);
 
         err = GetLastError();
@@ -506,7 +506,7 @@ bool CMainDlg::SendPostMessage(UINT id)
             0, NULL);
 
         lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf)+40)*sizeof(TCHAR));
-        _stprintf_s((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf)/sizeof(TCHAR), _T("error %d: %s"), err, lpMsgBuf);
+        _stprintf_s((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf)/sizeof(TCHAR), _T("error %lu: %s"), err, lpMsgBuf);
         SetDlgItemText(*this, IDC_ERROR, (LPCTSTR)lpDisplayBuf);
 
         LocalFree(lpMsgBuf);
