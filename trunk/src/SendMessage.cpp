@@ -42,7 +42,7 @@ BOOL CALLBACK ChildWindowEnumerator(HWND hwnd, LPARAM lParam)
     if (!windowTitle.empty())
     {
         TCHAR buf[4096];
-        GetWindowText(hwnd, buf, 4096);
+        GetWindowText(hwnd, buf, _countof(buf));
         if (windowTitle.substr(0, 4096).compare(buf) != 0)
             return TRUE;
     }
@@ -91,7 +91,7 @@ BOOL CALLBACK WindowEnumerator(HWND hwnd, LPARAM lParam)
     if (!windowTitle.empty())
     {
         TCHAR buf[4096];
-        GetWindowText(hwnd, buf, 4096);
+        GetWindowText(hwnd, buf, _countof(buf));
         if (windowTitle.substr(0, 4096).compare(buf) != 0)
             bMatches = false;
     }
