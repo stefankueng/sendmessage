@@ -830,8 +830,7 @@ std::wstring _tagXMLNode::GetXML( LPDISP_OPT opt /*= &optDefault*/ )
     // tab
     if( opt && opt->newline )
     {
-        if( opt && opt->newline )
-            os << "\r\n";
+        os << "\r\n";
         for( int i = 0 ; i < opt->tab_base ; i++)
             os << '\t';
     }
@@ -910,8 +909,9 @@ std::wstring _tagXMLNode::GetXML( LPDISP_OPT opt /*= &optDefault*/ )
             {
                 if( opt && opt->newline )
                     os << _T("\r\n");
-                for( int i = 0 ; i < opt->tab_base ; i++)
-                    os << '\t';
+                if( opt )
+                    for( int i = 0 ; i < opt->tab_base ; i++)
+                        os << '\t';
             }
             if( opt )
                 os << (LPCTSTR)(opt->reference_value&&opt->entities?opt->entities->Entity2Ref(value.c_str()).c_str():value.c_str());
