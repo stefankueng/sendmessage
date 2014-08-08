@@ -505,7 +505,7 @@ bool CMainDlg::SendPostMessage(UINT id)
             0, NULL);
 
         lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf)+40)*sizeof(TCHAR));
-        _stprintf_s((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf)/sizeof(TCHAR), _T("error %lu: %s"), err, lpMsgBuf);
+        _stprintf_s((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf) / sizeof(TCHAR), _T("error %lu: %s"), err, (LPTSTR)lpMsgBuf);
         SetDlgItemText(*this, IDC_ERROR, (LPCTSTR)lpDisplayBuf);
 
         LocalFree(lpMsgBuf);
