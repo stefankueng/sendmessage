@@ -90,6 +90,19 @@
         <arg value="bin\${configuration}\x64\SendMessage64.exe" />
       </exec>
     </if>
+
+    <property name="verstring" value="${environment::get-variable('MajorVersion')}.${environment::get-variable('MinorVersion')}.${environment::get-variable('MicroVersion')}" />
+    <zip zipfile="bin\SendMessage-${verstring}.zip" ziplevel="9">
+      <fileset basedir="bin\${configuration}\Win32">
+        <include name="SendMessage.exe" />
+      </fileset>
+    </zip>
+    <zip zipfile="bin\SendMessage64-${verstring}.zip" ziplevel="9">
+      <fileset basedir="bin\${configuration}\x64">
+        <include name="SendMessage64.exe" />
+      </fileset>
+    </zip>
+
   </target>
 
 </project>
