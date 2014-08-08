@@ -1,15 +1,15 @@
 <Messages>
   <Message description="WM_NULL" value="0x0000" />
-  <Message description="WM_DESTROY" value="0x0002"/>
-  <Message description="WM_MOVE" value="0x0003"/>
-  <Message description="WM_SIZE" value="0x0005"/>
-  <Message description="WM_ACTIVATE" value="0x0006"/>
-  <Message description="WM_SETFOCUS" value="0x0007"/>
-  <Message description="WM_KILLFOCUS" value="0x0008"/>
-  <Message description="WM_ENABLE" value="0x000A"/>
-  <Message description="WM_SETREDRAW" value="0x000B"/>
-  <Message description="WM_SETTEXT" value="0x000C"/>
-  <Message description="WM_GETTEXT" value="0x000D"/>
+  <Message description="WM_DESTROY" value="0x0002" />
+  <Message description="WM_MOVE" value="0x0003" />
+  <Message description="WM_SIZE" value="0x0005" />
+  <Message description="WM_ACTIVATE" value="0x0006" />
+  <Message description="WM_SETFOCUS" value="0x0007" />
+  <Message description="WM_KILLFOCUS" value="0x0008" />
+  <Message description="WM_ENABLE" value="0x000A" />
+  <Message description="WM_SETREDRAW" value="0x000B" />
+  <Message description="WM_SETTEXT" value="0x000C" />
+  <Message description="WM_GETTEXT" value="0x000D" />
   <Message description="WM_GETTEXTLENGTH" value="0x000E" />
   <Message description="WM_PAINT" value="0x000F" />
   <Message description="WM_CLOSE" value="0x0010" />
@@ -75,7 +75,7 @@
   <Message description="WM_NCPAINT" value="0x0085" />
   <Message description="WM_NCACTIVATE" value="0x0086" />
   <Message description="WM_GETDLGCODE" value="0x0087" />
-  
+
   <Message description="WM_NCMOUSEMOVE" value="0x00A0" />
   <Message description="WM_NCLBUTTONDOWN" value="0x00A1" />
   <Message description="WM_NCLBUTTONUP" value="0x00A2" />
