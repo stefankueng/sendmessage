@@ -483,7 +483,7 @@ bool CMainDlg::SendPostMessage(UINT id)
         {
             res = PostMessage(hTargetWnd, msg, wparam, lparam);
         }
-        _stprintf_s(buf, _countof(buf), _T("0x%08lX (%ld)"), res, res);
+        _stprintf_s(buf, _countof(buf), _T("0x%08Id (%Id)"), res, res);
         SetDlgItemText(*this, IDC_RETVALUE, buf);
 
         err = GetLastError();
