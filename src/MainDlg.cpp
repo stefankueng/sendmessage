@@ -475,7 +475,6 @@ bool CMainDlg::SendPostMessage(UINT id)
         }
 
         LRESULT res = 0;
-        GetLastError();
         if (id == IDC_SENDMESSAGE)
         {
             res = SendMessage(hTargetWnd, msg, wparam, lparam);
