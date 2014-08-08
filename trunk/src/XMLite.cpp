@@ -419,7 +419,7 @@ LPTSTR _tagXMLNode::LoadProcessingInstrunction( LPCTSTR pszXml, LPPARSEINFO pi /
         node->doc = doc;
         node->type = XNODE_PI;
 
-        xml += sizeof(szXMLPIOpen)-1;
+        xml += _countof(szXMLPIOpen) - 1;
         TCHAR* pTagEnd = _tcspbrk( xml, _T(" ?>") );
         _SetString( xml, pTagEnd, &node->name );
         xml = pTagEnd;
@@ -429,7 +429,7 @@ LPTSTR _tagXMLNode::LoadProcessingInstrunction( LPCTSTR pszXml, LPPARSEINFO pi /
         doc->childs.push_back( node );
     }
 
-    end += sizeof(szXMLPIClose)-1;
+    end += _countof(szXMLPIClose) - 1;
     return end;
 }
 
@@ -447,7 +447,7 @@ LPTSTR _tagXMLNode::LoadComment( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/
     if( par )
     {
         LPTSTR xml = (LPTSTR)pszXml;
-        xml += sizeof(szXMLCommentOpen)-1;
+        xml += _countof(szXMLCommentOpen) - 1;
 
         LPXNode node = new XNode;
         node->parent = this;
@@ -459,7 +459,7 @@ LPTSTR _tagXMLNode::LoadComment( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/
         par->childs.push_back( node );
     }
 
-    end += sizeof(szXMLCommentClose)-1;
+    end += _countof(szXMLCommentClose) - 1;
     return end;
 }
 
@@ -477,7 +477,7 @@ LPTSTR _tagXMLNode::LoadCDATA( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/ )
     if( par )
     {
         LPTSTR xml = (LPTSTR)pszXml;
-        xml += sizeof(szXMLCDATAOpen)-1;
+        xml += _countof(szXMLCDATAOpen) - 1;
 
         LPXNode node = new XNode;
         node->parent = this;
@@ -489,7 +489,7 @@ LPTSTR _tagXMLNode::LoadCDATA( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/ )
         par->childs.push_back( node );
     }
 
-    end += sizeof(szXMLCDATAClose)-1;
+    end += _countof(szXMLCDATAClose) - 1;
     return end;
 }
 
