@@ -1,6 +1,6 @@
 // SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010, 2012-2013 - Stefan Kueng
+// Copyright (C) 2010, 2012-2014 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -144,7 +144,7 @@ LRESULT CMainDlg::DoCommand(int id, int msg)
                 m_hwndFoundWindow = treeDlg.GetSelectedWindow();
                 DisplayInfoOnFoundWindow(m_hwndFoundWindow);
                 TCHAR szText[256];
-                _stprintf_s(szText, _countof(szText), _T("0x%08X"), m_hwndFoundWindow);
+                _stprintf_s(szText, _countof(szText), _T("0x%p"), m_hwndFoundWindow);
                 SetDlgItemText(*this, IDC_WINDOW, szText);
             }
         }
@@ -302,7 +302,7 @@ bool CMainDlg::DoMouseUp(UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
         return false;
 
     TCHAR szText[256];
-    _stprintf_s(szText, _countof(szText), _T("0x%08X"), m_hwndFoundWindow);
+    _stprintf_s(szText, _countof(szText), _T("0x%p"), m_hwndFoundWindow);
     SetDlgItemText(*this, IDC_WINDOW, szText);
 
     return true;
@@ -366,7 +366,7 @@ bool CMainDlg::DisplayInfoOnFoundWindow(HWND hwndFoundWindow)
     // Display some information on the found window.
     _stprintf_s
         (
-        szText, _countof(szText), _T("Window Handle == 0x%08X\r\nClass Name : %s\r\nRECT.left == %d\r\nRECT.top == %d\r\nRECT.right == %d\r\nRECT.bottom == %d\r\n"),
+        szText, _countof(szText), _T("Window Handle == 0x%p\r\nClass Name : %s\r\nRECT.left == %d\r\nRECT.top == %d\r\nRECT.right == %d\r\nRECT.bottom == %d\r\n"),
         hwndFoundWindow,
         szClassName,
         rect.left,
