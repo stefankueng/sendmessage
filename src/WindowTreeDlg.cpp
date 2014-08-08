@@ -1,6 +1,6 @@
 // SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010, 2012 - Stefan Kueng
+// Copyright (C) 2010, 2012, 2014 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -176,7 +176,7 @@ void CWindowTreeDlg::GetWindowString(HWND hwnd, TCHAR * buf, int bufsize)
             CloseHandle(hProc);
         }
     }
-    _sntprintf_s(buf, bufsize, _TRUNCATE, _T("Window 0x%08X : Process \"%s\" : class \"%s\" : title \"%s\""), hwnd, pProcName, szClassName, tmpbuf);
+    _sntprintf_s(buf, bufsize, _TRUNCATE, _T("Window 0x%p : Process \"%s\" : class \"%s\" : title \"%s\""), hwnd, pProcName, szClassName, tmpbuf);
 }
 
 HWND CWindowTreeDlg::GetSelectedWindowHandle()
