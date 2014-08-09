@@ -152,7 +152,7 @@ int _tcsenicmp( LPCTSTR psz, LPCTSTR str, int len, int escape )
     // find
     if( i == len )
         return 0;
-    if( psz[i] > des[i] )
+    if( psz && psz[i] > des[i] )
         return 1;
     return -1;
 }
