@@ -494,22 +494,28 @@ bool CMainDlg::SendPostMessage(UINT id)
         LPVOID lpMsgBuf;
         LPVOID lpDisplayBuf;
 
-        FormatMessage(
+        if (FormatMessage(
             FORMAT_MESSAGE_ALLOCATE_BUFFER |
             FORMAT_MESSAGE_FROM_SYSTEM |
             FORMAT_MESSAGE_IGNORE_INSERTS,
             NULL,
             err,
             MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-            (LPTSTR) &lpMsgBuf,
-            0, NULL);
+            (LPTSTR)&lpMsgBuf,
+            0,
+            NULL))
+        {
 
-        lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf)+40)*sizeof(TCHAR));
-        _stprintf_s((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf) / sizeof(TCHAR), _T("error %lu: %s"), err, (LPTSTR)lpMsgBuf);
-        SetDlgItemText(*this, IDC_ERROR, (LPCTSTR)lpDisplayBuf);
+            lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + 40)*sizeof(TCHAR));
+            if (lpDisplayBuf)
+            {
+                _stprintf_s((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf) / sizeof(TCHAR), _T("error %lu: %s"), err, (LPTSTR)lpMsgBuf);
+                SetDlgItemText(*this, IDC_ERROR, (LPCTSTR)lpDisplayBuf);
+                LocalFree(lpDisplayBuf);
+            }
 
-        LocalFree(lpMsgBuf);
-        LocalFree(lpDisplayBuf);
+            LocalFree(lpMsgBuf);
+        }
     }
     else
         SetDlgItemText(*this, IDC_ERROR, _T(""));
