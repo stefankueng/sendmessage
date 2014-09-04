@@ -25,6 +25,7 @@
 CWindowTreeDlg::CWindowTreeDlg(HWND hParent, HWND actualHandle)
     : m_hParent(hParent)
     , m_SelectedWindow(actualHandle)
+    , m_lastTreeItem(nullptr)
 {
 }
 
