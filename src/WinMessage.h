@@ -1,6 +1,6 @@
 // SendMessage - a tool to send custom messages
 
-// Copyright (C) 2013 - Stefan Kueng
+// Copyright (C) 2013, 2015 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -44,8 +44,8 @@ public:
 
     size_t              GetCount() const { return m_messages.size(); }
     WinMessage          At(size_t index) const { return m_messages[index]; }
-    UINT                ParseMsg(LPCTSTR text);
-    UINT                GetApiMessageCode(LPCTSTR text);
+    UINT                ParseMsg(LPCTSTR text) const;
+    UINT                GetApiMessageCode(LPCTSTR text) const;
 
 private:
     void        Init();

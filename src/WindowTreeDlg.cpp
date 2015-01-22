@@ -1,6 +1,6 @@
 // SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010, 2012, 2014 - Stefan Kueng
+// Copyright (C) 2010, 2012, 2014-2015 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -24,8 +24,8 @@
 
 CWindowTreeDlg::CWindowTreeDlg(HWND hParent, HWND actualHandle)
     : m_hParent(hParent)
-    , m_SelectedWindow(actualHandle)
     , m_lastTreeItem(nullptr)
+    , m_SelectedWindow(actualHandle)
 {
 }
 
