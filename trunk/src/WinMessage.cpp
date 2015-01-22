@@ -1,6 +1,6 @@
 // SendMessage - a tool to send custom messages
 
-// Copyright (C) 2013 - Stefan Kueng
+// Copyright (C) 2013, 2015 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -22,7 +22,7 @@
 
 extern HINSTANCE hInst;
 
-UINT WinMessages::GetApiMessageCode(LPCTSTR text)
+UINT WinMessages::GetApiMessageCode(LPCTSTR text) const
 {
     for (const auto& it:m_messages)
     {
@@ -32,7 +32,7 @@ UINT WinMessages::GetApiMessageCode(LPCTSTR text)
     return 0;
 }
 
-UINT WinMessages::ParseMsg(LPCTSTR text)
+UINT WinMessages::ParseMsg(LPCTSTR text) const
 {
     UINT msg = 0;
     TCHAR * endptr = NULL;
