@@ -995,19 +995,19 @@ LPXAttr _tagXMLNode::GetAttr( LPCTSTR attrname )
     return NULL;
 }
 
-XAttrs _tagXMLNode::GetAttrs( LPCTSTR name )
+XAttrs _tagXMLNode::GetAttrs( LPCTSTR nam )
 {
-    XAttrs attrs;
-    for( size_t i = 0 ; i < attrs.size(); i++ )
+    XAttrs attr;
+    for( size_t i = 0 ; i < attr.size(); i++ )
     {
-        LPXAttr attr = attrs[i];
-        if( attr )
+        LPXAttr att = attr[i];
+        if( att )
         {
-            if( attr->name == name )
-                attrs.push_back( attr );
+            if( att->name == nam )
+                attr.push_back( att );
         }
     }
-    return attrs;
+    return attr;
 }
 
 LPCTSTR _tagXMLNode::GetAttrValue( LPCTSTR attrname )
@@ -1021,7 +1021,7 @@ XNodes _tagXMLNode::GetChilds()
     return childs;
 }
 
-XNodes _tagXMLNode::GetChilds( LPCTSTR name )
+XNodes _tagXMLNode::GetChilds( LPCTSTR nam )
 {
     XNodes nodes;
     for( size_t i = 0 ; i < childs.size(); i++ )
@@ -1029,7 +1029,7 @@ XNodes _tagXMLNode::GetChilds( LPCTSTR name )
         LPXNode node = childs[i];
         if( node )
         {
-            if( node->name == name )
+            if( node->name == nam )
                 nodes.push_back( node );
         }
     }
@@ -1048,57 +1048,57 @@ size_t _tagXMLNode::GetChildCount()
     return childs.size();
 }
 
-LPXNode _tagXMLNode::GetChild( LPCTSTR name )
+LPXNode _tagXMLNode::GetChild( LPCTSTR nam )
 {
     for( size_t i = 0 ; i < childs.size(); i++ )
     {
         LPXNode node = childs[i];
         if( node )
         {
-            if( node->name == name )
+            if( node->name == nam )
                 return node;
         }
     }
     return NULL;
 }
 
-LPCTSTR _tagXMLNode::GetChildValue( LPCTSTR name )
+LPCTSTR _tagXMLNode::GetChildValue( LPCTSTR nam )
 {
-    LPXNode node = GetChild( name );
+    LPXNode node = GetChild( nam );
     return (node != NULL)? (LPCTSTR)node->value.c_str() : NULL;
 }
 
-std::wstring    _tagXMLNode::GetChildText( LPCTSTR name, LPDISP_OPT opt /*= &optDefault*/ )
+std::wstring    _tagXMLNode::GetChildText( LPCTSTR nam, LPDISP_OPT opt /*= &optDefault*/ )
 {
-    LPXNode node = GetChild( name );
+    LPXNode node = GetChild( nam );
     return (node != NULL)? node->GetText(opt) : _T("");
 }
 
-LPXAttr _tagXMLNode::GetChildAttr( LPCTSTR name, LPCTSTR attrname )
+LPXAttr _tagXMLNode::GetChildAttr( LPCTSTR nam, LPCTSTR attrname )
 {
-    LPXNode node = GetChild(name);
+    LPXNode node = GetChild(nam);
     return node ? node->GetAttr(attrname) : NULL;
 }
 
-LPCTSTR _tagXMLNode::GetChildAttrValue( LPCTSTR name, LPCTSTR attrname )
+LPCTSTR _tagXMLNode::GetChildAttrValue( LPCTSTR nam, LPCTSTR attrname )
 {
-    LPXAttr attr = GetChildAttr( name, attrname );
+    LPXAttr attr = GetChildAttr( nam, attrname );
     return attr ? (LPCTSTR)attr->value.c_str() : NULL;
 }
 
-LPXNode _tagXMLNode::Find( LPCTSTR name )
+LPXNode _tagXMLNode::Find( LPCTSTR nam )
 {
     XNodes::iterator it = childs.begin();
     for( ; it != childs.end(); ++(it))
     {
         LPXNode child = *it;
-        if( child->name == name )
+        if( child->name == nam )
             return child;
 
-        XNodes::iterator it = child->childs.begin();
-        for( ; it != child->childs.end(); ++(it))
+        XNodes::iterator childit = child->childs.begin();
+        for( ; childit != child->childs.end(); ++(childit))
         {
-            LPXNode find = child->Find( name );
+            LPXNode find = child->Find( nam );
             if( find != NULL )
                 return find;
         }
@@ -1118,9 +1118,9 @@ XNodes::iterator _tagXMLNode::GetChildIterator( LPXNode node )
     return childs.end();
 }
 
-LPXNode _tagXMLNode::AppendChild( LPCTSTR name /*= NULL*/, LPCTSTR value /*= NULL*/ )
+LPXNode _tagXMLNode::AppendChild( LPCTSTR nam /*= NULL*/, LPCTSTR val /*= NULL*/ )
 {
-    return AppendChild( CreateNode( name, value ) );
+    return AppendChild( CreateNode( nam, val ) );
 }
 
 LPXNode _tagXMLNode::AppendChild( LPXNode node )
@@ -1180,25 +1180,25 @@ bool _tagXMLNode::RemoveAttr( LPXAttr attr )
     return false;
 }
 
-LPXNode _tagXMLNode::CreateNode( LPCTSTR name /*= NULL*/, LPCTSTR value /*= NULL*/ )
+LPXNode _tagXMLNode::CreateNode( LPCTSTR nam /*= NULL*/, LPCTSTR val /*= NULL*/ )
 {
     LPXNode node = new XNode;
-    node->name = name;
-    node->value = value;
+    node->name = nam;
+    node->value = val;
     return node;
 }
 
-LPXAttr _tagXMLNode::CreateAttr( LPCTSTR name /*= NULL*/, LPCTSTR value /*= NULL*/ )
+LPXAttr _tagXMLNode::CreateAttr( LPCTSTR nam /*= NULL*/, LPCTSTR val /*= NULL*/ )
 {
     LPXAttr attr = new XAttr;
-    attr->name = name;
-    attr->value = value;
+    attr->name = nam;
+    attr->value = val;
     return attr;
 }
 
-LPXAttr _tagXMLNode::AppendAttr( LPCTSTR name /*= NULL*/, LPCTSTR value /*= NULL*/ )
+LPXAttr _tagXMLNode::AppendAttr( LPCTSTR nam /*= NULL*/, LPCTSTR val /*= NULL*/ )
 {
-    return AppendAttr( CreateAttr( name, value ) );
+    return AppendAttr( CreateAttr( nam, val ) );
 }
 
 LPXNode _tagXMLNode::DetachChild( LPXNode node )

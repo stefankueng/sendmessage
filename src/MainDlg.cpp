@@ -1,6 +1,6 @@
 // SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010, 2012-2014 - Stefan Kueng
+// Copyright (C) 2010, 2012-2015 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -180,20 +180,20 @@ LRESULT CMainDlg::DoCommand(int id, int msg)
                         SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETLBTEXT, selIndex, (LPARAM)(TCHAR*)textbuf.get());
                         for( size_t i = 0 ; i < WinMessages::Instance().GetCount(); ++i)
                         {
-                            WinMessage msg = WinMessages::Instance().At(i);
-                            if (msg.messagename.compare(textbuf.get()) == 0)
+                            WinMessage wmsg = WinMessages::Instance().At(i);
+                            if (wmsg.messagename.compare(textbuf.get()) == 0)
                             {
-                                for (size_t j = 0; j < msg.wparams.size(); ++j)
+                                for (size_t j = 0; j < wmsg.wparams.size(); ++j)
                                 {
-                                    std::wstring desc = std::get<0>(msg.wparams[j]);
+                                    std::wstring desc = std::get<0>(wmsg.wparams[j]);
                                     LRESULT index = SendDlgItemMessage(*this, IDC_WPARAM, CB_ADDSTRING, 0, (LPARAM)desc.c_str());
-                                    SendDlgItemMessage(*this, IDC_WPARAM, CB_SETITEMDATA, index, std::get<1>(msg.wparams[j]));
+                                    SendDlgItemMessage(*this, IDC_WPARAM, CB_SETITEMDATA, index, std::get<1>(wmsg.wparams[j]));
                                 }
-                                for (size_t j = 0; j < msg.lparams.size(); ++j)
+                                for (size_t j = 0; j < wmsg.lparams.size(); ++j)
                                 {
-                                    std::wstring desc = std::get<0>(msg.lparams[j]);
+                                    std::wstring desc = std::get<0>(wmsg.lparams[j]);
                                     LRESULT index = SendDlgItemMessage(*this, IDC_LPARAM, CB_ADDSTRING, 0, (LPARAM)desc.c_str());
-                                    SendDlgItemMessage(*this, IDC_LPARAM, CB_SETITEMDATA, index, std::get<1>(msg.lparams[j]));
+                                    SendDlgItemMessage(*this, IDC_LPARAM, CB_SETITEMDATA, index, std::get<1>(wmsg.lparams[j]));
                                 }
                             }
                         }
