@@ -78,7 +78,6 @@ void WinMessages::Init()
         for (size_t j = 0; j < wparams.size(); ++j)
         {
             std::wstring desc = wparams[j]->GetAttrValue(_T("description"));
-            TCHAR * endptr = NULL;
             WPARAM m = _tcstol(wparams[j]->GetAttrValue(_T("value")), &endptr, 0);
             msg.wparams.push_back(std::make_tuple(desc, m));
         }
@@ -86,7 +85,6 @@ void WinMessages::Init()
         for (size_t j = 0; j < lparams.size(); ++j)
         {
             std::wstring desc = lparams[j]->GetAttrValue(_T("description"));
-            TCHAR * endptr = NULL;
             UINT m = _tcstol(lparams[j]->GetAttrValue(_T("value")), &endptr, 0);
             msg.lparams.push_back(std::make_tuple(desc, m));
         }
