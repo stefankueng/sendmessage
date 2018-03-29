@@ -420,7 +420,7 @@ HWND CMainDlg::GetSelectedHandle()
     ::GetDlgItemText(*this, IDC_WINDOW, buf, _countof(buf));
 
     TCHAR * endptr = NULL;
-    return (HWND)_tcstol(buf, &endptr, 0);
+    return (HWND)_tcstoui64(buf, &endptr, 0);
 }
 
 bool CMainDlg::SendPostMessage(UINT id)

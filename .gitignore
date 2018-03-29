@@ -1,0 +1,7 @@
+/default.build.user
+/src/SendMessage.vcxproj.user
+/src/version.h
+/version.build
+/bin
+/obj
+/.vs
