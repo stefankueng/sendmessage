@@ -20,3 +20,29 @@
 #pragma once
 
 #include "resource.h"
+
+class CAccessibleName
+{
+    BSTR m_str;
+public:
+    explicit CAccessibleName(HWND hwnd): m_str(NULL)
+    {
+        IAccessible *lpAccessible = NULL;
+        if (SUCCEEDED(AccessibleObjectFromWindow(hwnd, OBJID_WINDOW, IID_IAccessible, (void **)&lpAccessible)))
+        {
+            VARIANT varChild;
+            varChild.vt = VT_I4;
+            varChild.lVal = 0;
+            lpAccessible->get_accName(varChild, &m_str);
+            lpAccessible->Release();
+        }
+    }
+    ~CAccessibleName()
+    {
+        SysFreeString(m_str);
+    }
+    LPCWSTR c_str() const
+    {
+        return m_str ? m_str : L"";
+    }
+};

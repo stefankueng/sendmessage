@@ -23,6 +23,7 @@
 #include "AboutDlg.h"
 #include "WindowTreeDlg.h"
 #include "WinMessage.h"
+#include "SendMessage.h"
 
 
 CMainDlg::CMainDlg(HWND hParent)
@@ -354,7 +355,7 @@ bool CMainDlg::CheckWindowValidity(HWND hwndToCheck)
 bool CMainDlg::DisplayInfoOnFoundWindow(HWND hwndFoundWindow)
 {
     RECT        rect;              // Rectangle area of the found window.
-    TCHAR       szText[256];
+    TCHAR       szText[512];
     TCHAR       szClassName[100];
 
     // Get the screen coordinates of the rectangle of the found window.
@@ -366,9 +367,10 @@ bool CMainDlg::DisplayInfoOnFoundWindow(HWND hwndFoundWindow)
     // Display some information on the found window.
     _stprintf_s
         (
-        szText, _countof(szText), _T("Window Handle == 0x%p\r\nClass Name : %s\r\nRECT.left == %d\r\nRECT.top == %d\r\nRECT.right == %d\r\nRECT.bottom == %d\r\n"),
+        szText, _countof(szText), _T("Window Handle == 0x%p\r\nClass Name : %s\r\nAccessible Name : %s\r\nRECT == { Left: %d, Top: %d, Right: %d, Bottom: %d }\r\n"),
         hwndFoundWindow,
         szClassName,
+        CAccessibleName(hwndFoundWindow).c_str(),
         rect.left,
         rect.top,
         rect.right,

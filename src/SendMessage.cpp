@@ -33,6 +33,7 @@
 HINSTANCE hInst;                                // current instance
 std::wstring windowTitle;
 std::wstring windowClass;
+std::wstring windowAccessiblename;
 std::wstring windowProcessname;
 
 BOOL CALLBACK ChildWindowEnumerator(HWND hwnd, LPARAM lParam)
@@ -51,6 +52,11 @@ BOOL CALLBACK ChildWindowEnumerator(HWND hwnd, LPARAM lParam)
         TCHAR szClassName[100] = {0};
         GetClassName(hwnd, szClassName, _countof(szClassName));
         if (windowClass.compare(szClassName) != 0)
+            return TRUE;
+    }
+    if (!windowAccessiblename.empty())
+    {
+        if (windowAccessiblename.compare(CAccessibleName(hwnd).c_str()) != 0)
             return TRUE;
     }
     if (!windowProcessname.empty())
@@ -102,6 +108,11 @@ BOOL CALLBACK WindowEnumerator(HWND hwnd, LPARAM lParam)
         if (windowClass.compare(szClassName) != 0)
             bMatches = false;
     }
+    if (!windowAccessiblename.empty())
+    {
+        if (windowAccessiblename.compare(CAccessibleName(hwnd).c_str()) != 0)
+            bMatches = false;
+    }
     if (!windowProcessname.empty())
     {
         DWORD pid = 0;
@@ -135,7 +146,7 @@ BOOL CALLBACK WindowEnumerator(HWND hwnd, LPARAM lParam)
     if (bMatches)
         pSet->insert(hwnd);
 
-    if (windowProcessname.empty() || !windowTitle.empty() || !windowClass.empty())
+    if (windowProcessname.empty() || !windowTitle.empty() || !windowClass.empty() || !windowAccessiblename.empty())
         EnumChildWindows(hwnd, ChildWindowEnumerator, lParam);
 
     return TRUE;
@@ -196,6 +207,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
                 windowTitle = parser.GetVal(L"windowtitle");
             if (parser.HasVal(L"windowclass"))
                 windowClass = parser.GetVal(L"windowclass");
+            if (parser.HasVal(L"accessiblename"))
+                windowAccessiblename = parser.GetVal(L"accessiblename");
             if (parser.HasVal(L"processname"))
                 windowProcessname = parser.GetVal(L"processname");
 
