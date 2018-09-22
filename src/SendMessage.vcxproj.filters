@@ -166,7 +166,10 @@
     <None Include="SendMessage.rc2">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\SendMessage.proj">
+    <None Include="..\versioninfo.build">
+      <Filter>Build</Filter>
+    </None>
+    <None Include="..\default.build">
       <Filter>Build</Filter>
     </None>
   </ItemGroup>

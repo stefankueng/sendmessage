@@ -239,9 +239,8 @@
     <ClCompile Include="XMLite.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\SendMessage.proj">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="..\default.build" />
+    <None Include="..\versioninfo.build" />
     <None Include="resources\searchw.cur" />
     <None Include="resources\searchw.ico" />
     <None Include="resources\SendMessage.ico" />
