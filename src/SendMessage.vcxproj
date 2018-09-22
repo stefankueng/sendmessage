@@ -240,6 +240,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\default.build" />
+    <None Include="..\default.build.user" />
+    <None Include="..\default.build.user.tmpl" />
     <None Include="..\versioninfo.build" />
     <None Include="resources\searchw.cur" />
     <None Include="resources\searchw.ico" />

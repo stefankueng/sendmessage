@@ -172,6 +172,12 @@
     <None Include="..\default.build">
       <Filter>Build</Filter>
     </None>
+    <None Include="..\default.build.user.tmpl">
+      <Filter>Build</Filter>
+    </None>
+    <None Include="..\default.build.user">
+      <Filter>Build</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SendMessage.rc">
