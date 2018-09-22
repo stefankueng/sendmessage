@@ -141,7 +141,20 @@
   <Message description="WM_SIZING" value="0x0214" />
   <Message description="WM_CAPTURECHANGED" value="0x0215" />
   <Message description="WM_MOVING" value="0x0216" />
-  <Message description="WM_DEVICECHANGE" value="0x0219" />
+  <Message description="WM_DEVICECHANGE" value="0x0219">
+    <wparam description="DBT_CONFIGCHANGECANCELED" value="0x19" />
+    <wparam description="DBT_CONFIGCHANGED" value="0x18" />
+    <wparam description="DBT_CUSTOMEVENT" value="0x8006" />
+    <wparam description="DBT_DEVICEARRIVAL" value="0x8000" />
+    <wparam description="DBT_DEVICEQUERYREMOVE" value="0x8001" />
+    <wparam description="DBT_DEVICEQUERYREMOVEFAILED" value="0x8002" />
+    <wparam description="DBT_DEVICEREMOVECOMPLETE" value="0x8004" />
+    <wparam description="DBT_DEVICEREMOVEPENDING" value="0x8003" />
+    <wparam description="DBT_DEVICETYPESPECIFIC" value="0x8005" />
+    <wparam description="DBT_DEVNODES_CHANGED" value="0x07" />
+    <wparam description="DBT_QUERYCHANGECONFIG" value="0x17" />
+    <wparam description="DBT_USERDEFINED" value="0xFFFF" />
+  </Message>
 
   <Message description="WM_MDICREATE" value="0x0220" />
   <Message description="WM_MDIDESTROY" value="0x0221" />
