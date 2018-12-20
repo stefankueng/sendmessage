@@ -249,7 +249,9 @@
     <wparam description="PBT_APMQUERYSUSPEND" value="0x00" />
     <wparam description="PBT_APMQUERYSUSPENDFAILED" value="0x02" />
     <wparam description="PBT_APMRESUMECRITICAL" value="0x06" />
-    <lparam description="not used" value="0" />
+    <lparam description="PowerMonitorOff" value="0x00010000" />
+    <lparam description="PowerMonitorOn"  value="0x00010001" />
+    <lparam description="PowerMonitorDim" value="0x00010010" />
   </Message>
   <Message description="WM_DISPLAYCHANGE" value="0x007E">
     <wparam description="8-bit" value="8" />
