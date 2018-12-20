@@ -1,4 +1,4 @@
-﻿// SendMessage - a tool to send custom messages
+﻿// SendMessage - a tool to send custom messages 
 
 // Copyright (C) 2010, 2012-2015, 2018 - Stefan Kueng
 
@@ -472,8 +472,8 @@ bool CMainDlg::SendPostMessage(UINT id)
         if (lparam == 0)
         {
             LRESULT selIndex = SendDlgItemMessage(*this, IDC_LPARAM, CB_GETCURSEL, 0, 0);
-                if (selIndex != CB_ERR)
-                    lparam = SendDlgItemMessage(*this, IDC_LPARAM, CB_GETITEMDATA, selIndex, 0);
+            if (selIndex != CB_ERR)
+                lparam = SendDlgItemMessage(*this, IDC_LPARAM, CB_GETITEMDATA, selIndex, 0);
         }
 
         struct // copy of POWERBROADCAST_SETTING with a DWORD 4-byte data.
