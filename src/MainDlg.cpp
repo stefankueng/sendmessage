@@ -1,4 +1,4 @@
-// SendMessage - a tool to send custom messages
+﻿// SendMessage - a tool to send custom messages
 
 // Copyright (C) 2010, 2012-2015, 2018 - Stefan Kueng
 
@@ -24,6 +24,7 @@
 #include "WindowTreeDlg.h"
 #include "WinMessage.h"
 #include "AccessibleName.h"
+#include "StringUtils.h"
 
 
 CMainDlg::CMainDlg(HWND hParent)
@@ -355,7 +356,6 @@ bool CMainDlg::CheckWindowValidity(HWND hwndToCheck)
 bool CMainDlg::DisplayInfoOnFoundWindow(HWND hwndFoundWindow)
 {
     RECT        rect;              // Rectangle area of the found window.
-    TCHAR       szText[512];
     TCHAR       szClassName[100];
 
     // Get the screen coordinates of the rectangle of the found window.
@@ -365,19 +365,16 @@ bool CMainDlg::DisplayInfoOnFoundWindow(HWND hwndFoundWindow)
     GetClassName(hwndFoundWindow, szClassName, _countof(szClassName));
 
     // Display some information on the found window.
-    _stprintf_s
-        (
-        szText, _countof(szText), _T("Window Handle == 0x%p\r\nClass Name : %s\r\nAccessible Name : %s\r\nRECT == { Left: %d, Top: %d, Right: %d, Bottom: %d }\r\n"),
-        hwndFoundWindow,
-        szClassName,
-        CAccessibleName(hwndFoundWindow).c_str(),
-        rect.left,
-        rect.top,
-        rect.right,
-        rect.bottom
-        );
+    auto sText = CStringUtils::Format(L"Window Handle == 0x%p\r\nClass Name : %s\r\nAccessible Name : %s\r\nRECT == { Left: %d, Top: %d, Right: %d, Bottom: %d }\r\n",
+                                      hwndFoundWindow,
+                                      szClassName,
+                                      CAccessibleName(hwndFoundWindow).c_str(),
+                                      rect.left,
+                                      rect.top,
+                                      rect.right,
+                                      rect.bottom);
 
-    SetDlgItemText(*this, IDC_EDIT_STATUS, szText);
+    SetDlgItemText(*this, IDC_EDIT_STATUS, sText.c_str());
 
     return true;
 }
