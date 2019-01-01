@@ -1,6 +1,6 @@
 ﻿// SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010, 2012-2015, 2018 - Stefan Kueng
+// Copyright (C) 2010, 2012-2015, 2018-2019 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
