@@ -112,6 +112,9 @@
     <ResourceCompile>
       <AdditionalIncludeDirectories>last</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <Manifest>
+      <EnableDpiAwareness>true</EnableDpiAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -166,6 +169,9 @@
     <ResourceCompile>
       <AdditionalIncludeDirectories>last</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <Manifest>
+      <EnableDpiAwareness>true</EnableDpiAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
