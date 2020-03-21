@@ -1,4 +1,4 @@
-// SendMessage - a tool to send custom messages
+﻿// SendMessage - a tool to send custom messages
 
 // Copyright (C) 2010, 2012, 2014-2015 - Stefan Kueng
 
@@ -53,7 +53,7 @@ LRESULT CWindowTreeDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
             m_aerocontrols.SubclassControl(GetDlgItem(*this, IDOK));
             m_aerocontrols.SubclassControl(GetDlgItem(*this, IDCANCEL));
             if (m_Dwm.IsDwmCompositionEnabled())
-                m_resizer.ShowSizeGrip(false);
+                m_resizer.UseSizeGrip(false);
 
             RefreshTree();
         }
