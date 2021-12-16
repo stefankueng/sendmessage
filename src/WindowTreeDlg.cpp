@@ -43,6 +43,7 @@ LRESULT CWindowTreeDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
             InitDialog(hwndDlg, IDI_SENDMESSAGE);
 
             m_resizer.Init(hwndDlg);
+            m_resizer.AddControl(hwndDlg, IDC_FILTER, RESIZER_TOPLEFTRIGHT);
             m_resizer.AddControl(hwndDlg, IDC_WINDOWTREE, RESIZER_TOPLEFTBOTTOMRIGHT);
             m_resizer.AddControl(hwndDlg, IDC_REFRESH, RESIZER_BOTTOMRIGHT);
             m_resizer.AddControl(hwndDlg, IDOK, RESIZER_BOTTOMRIGHT);
@@ -79,7 +80,7 @@ LRESULT CWindowTreeDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
     return FALSE;
 }
 
-LRESULT CWindowTreeDlg::DoCommand(int id, int /*msg*/)
+LRESULT CWindowTreeDlg::DoCommand(int id, int msg)
 {
     switch (id)
     {
@@ -87,6 +88,13 @@ LRESULT CWindowTreeDlg::DoCommand(int id, int /*msg*/)
         m_SelectedWindow = GetSelectedWindowHandle();
     case IDCANCEL:
         EndDialog(*this, id);
+        break;
+    case IDC_FILTER:
+        switch (msg)
+        {
+        case EN_CHANGE:
+            RefreshTree();
+        }
         break;
     case IDC_REFRESH:
         RefreshTree();
@@ -119,14 +127,19 @@ BOOL CWindowTreeDlg::WindowEnumerator(HWND hwnd, LPARAM lParam)
     TCHAR buf[4096];
     GetWindowString(hwnd, buf, _countof(buf));
 
-    TVINSERTSTRUCT is = {0};
-    is.hParent = TVI_ROOT;
-    is.hInsertAfter = TVI_SORT;
-    is.itemex.mask = TVIF_TEXT | TVIF_PARAM;
-    is.itemex.pszText = buf;
-    is.itemex.lParam = (LPARAM)hwnd;
+    TCHAR filter[MAX_PATH];
+    ::GetDlgItemText(*pThis, IDC_FILTER, filter, _countof(filter));
+    if (filter[0] == '\0' || StrStrI(buf, filter) != nullptr)
+    {
+        TVINSERTSTRUCT is = {0};
+        is.hParent = TVI_ROOT;
+        is.hInsertAfter = TVI_SORT;
+        is.itemex.mask = TVIF_TEXT | TVIF_PARAM;
+        is.itemex.pszText = buf;
+        is.itemex.lParam = (LPARAM)hwnd;
 
-    pThis->m_lastTreeItem = TreeView_InsertItem(GetDlgItem(*pThis, IDC_WINDOWTREE), &is);
+        pThis->m_lastTreeItem = TreeView_InsertItem(GetDlgItem(*pThis, IDC_WINDOWTREE), &is);
+    }
     EnumChildWindows(hwnd, ChildWindowEnumerator, lParam);
     return TRUE;
 }
@@ -138,14 +151,19 @@ BOOL CWindowTreeDlg::ChildWindowEnumerator(HWND hwnd, LPARAM lParam)
     TCHAR buf[4096];
     GetWindowString(hwnd, buf, _countof(buf));
 
-    TVINSERTSTRUCT is = {0};
-    is.hParent = pThis->m_lastTreeItem;
-    is.hInsertAfter = TVI_SORT;
-    is.itemex.mask = TVIF_TEXT | TVIF_PARAM;
-    is.itemex.pszText = buf;
-    is.itemex.lParam = (LPARAM)hwnd;
+    TCHAR filter[MAX_PATH];
+    ::GetDlgItemText(*pThis, IDC_FILTER, filter, _countof(filter));
+    if (filter[0] == '\0' || StrStrI(buf, filter) != nullptr)
+    {
+        TVINSERTSTRUCT is = {0};
+        is.hParent = pThis->m_lastTreeItem;
+        is.hInsertAfter = TVI_SORT;
+        is.itemex.mask = TVIF_TEXT | TVIF_PARAM;
+        is.itemex.pszText = buf;
+        is.itemex.lParam = (LPARAM)hwnd;
 
-    TreeView_InsertItem(GetDlgItem(*pThis, IDC_WINDOWTREE), &is);
+        TreeView_InsertItem(GetDlgItem(*pThis, IDC_WINDOWTREE), &is);
+    }
     return TRUE;
 }
 
