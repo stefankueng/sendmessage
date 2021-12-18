@@ -111,9 +111,12 @@ bool CWindowTreeDlg::PreTranslateMessage(MSG* pMsg)
 
 bool CWindowTreeDlg::RefreshTree()
 {
-    TreeView_DeleteAllItems(GetDlgItem(*this, IDC_WINDOWTREE));
+    auto hTree = GetDlgItem(*this, IDC_WINDOWTREE);
+    SendMessage(hTree, WM_SETREDRAW, FALSE, 0);
+    TreeView_DeleteAllItems(hTree);
     m_lastTreeItem = TVI_ROOT;
     EnumWindows(WindowEnumerator, reinterpret_cast<LPARAM>(this));
+    SendMessage(hTree, WM_SETREDRAW, TRUE, 0);
     SelectTreeItem(m_selectedWindow);
     return true;
 }
