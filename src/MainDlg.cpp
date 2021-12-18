@@ -299,7 +299,7 @@ bool CMainDlg::DoMouseUp(UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
     if (hwndTemp == *this)
         return false;
 
-    TCHAR szText[256];
+    TCHAR szText[256]{};
     _stprintf_s(szText, _countof(szText), _T("0x%p"), m_hwndFoundWindow);
     SetDlgItemText(*this, IDC_WINDOW, szText);
 
@@ -428,7 +428,7 @@ bool CMainDlg::SendPostMessage(UINT id)
     UINT   msg    = 0;
     WPARAM wparam = 0;
     LPARAM lparam = 0;
-    TCHAR  buf[MAX_PATH];
+    TCHAR  buf[MAX_PATH]{};
     TCHAR* endptr = nullptr;
 
     ::GetDlgItemText(*this, IDC_MESSAGE, buf, _countof(buf));
@@ -500,7 +500,7 @@ bool CMainDlg::SendPostMessage(UINT id)
                 0,
                 nullptr))
         {
-            lpDisplayBuf = LocalAlloc(LMEM_ZEROINIT, (lstrlen(static_cast<LPCTSTR>(lpMsgBuf)) + 40) * sizeof(TCHAR));
+            lpDisplayBuf = LocalAlloc(LMEM_ZEROINIT, (lstrlen(static_cast<LPCTSTR>(lpMsgBuf)) + 40LL) * sizeof(TCHAR));
             if (lpDisplayBuf)
             {
                 _stprintf_s(static_cast<LPTSTR>(lpDisplayBuf), LocalSize(lpDisplayBuf) / sizeof(TCHAR), _T("error %lu: %s"), err, (LPTSTR)lpMsgBuf);

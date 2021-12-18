@@ -125,10 +125,10 @@ BOOL CWindowTreeDlg::WindowEnumerator(HWND hwnd, LPARAM lParam)
 {
     auto* pThis = reinterpret_cast<CWindowTreeDlg*>(lParam);
 
-    TCHAR buf[4096];
+    TCHAR buf[4096]{};
     GetWindowString(hwnd, buf, _countof(buf));
 
-    TCHAR filter[MAX_PATH];
+    TCHAR filter[MAX_PATH]{};
     ::GetDlgItemText(*pThis, IDC_FILTER, filter, _countof(filter));
     if (filter[0] == '\0' || StrStrI(buf, filter) != nullptr)
     {
@@ -149,10 +149,10 @@ BOOL CWindowTreeDlg::ChildWindowEnumerator(HWND hwnd, LPARAM lParam)
 {
     auto* pThis = reinterpret_cast<CWindowTreeDlg*>(lParam);
 
-    TCHAR buf[4096];
+    TCHAR buf[4096]{};
     GetWindowString(hwnd, buf, _countof(buf));
 
-    TCHAR filter[MAX_PATH];
+    TCHAR filter[MAX_PATH]{};
     ::GetDlgItemText(*pThis, IDC_FILTER, filter, _countof(filter));
     if (filter[0] == '\0' || StrStrI(buf, filter) != nullptr)
     {

@@ -29,7 +29,7 @@
 #include <Psapi.h>
 
 // Global Variables:
-HINSTANCE     hInst; // current instance
+HINSTANCE     hInst = nullptr; // current instance
 std::wstring  windowTitle;
 std::wstring  windowClass;
 std::wstring  windowAccessiblename;
@@ -95,7 +95,7 @@ BOOL CALLBACK WindowEnumerator(HWND hwnd, LPARAM lParam)
     bool  bMatches = true;
     if (!windowTitle.empty())
     {
-        TCHAR buf[4096];
+        TCHAR buf[4096]{};
         GetWindowText(hwnd, buf, _countof(buf));
         if (windowTitle.substr(0, 4096).compare(buf) != 0)
             bMatches = false;
@@ -163,7 +163,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     ::OleInitialize(nullptr);
     ::CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
     // we need some of the common controls
-    INITCOMMONCONTROLSEX icex;
+    INITCOMMONCONTROLSEX icex{};
     icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
     icex.dwICC  = ICC_LINK_CLASS | ICC_LISTVIEW_CLASSES | ICC_PAGESCROLLER_CLASS | ICC_PROGRESS_CLASS | ICC_STANDARD_CLASSES | ICC_TAB_CLASSES | ICC_TREEVIEW_CLASSES | ICC_UPDOWN_CLASS | ICC_USEREX_CLASSES | ICC_WIN95_CLASSES;
     InitCommonControlsEx(&icex);
