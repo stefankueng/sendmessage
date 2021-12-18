@@ -1,6 +1,6 @@
 ﻿// SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010-2013, 2018 - Stefan Kueng
+// Copyright (C) 2010-2013, 2018, 2021 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -23,13 +23,12 @@
 #include "version.h"
 #include <string>
 
-
 CAboutDlg::CAboutDlg(HWND hParent)
     : m_hParent(hParent)
 {
 }
 
-CAboutDlg::~CAboutDlg(void)
+CAboutDlg::~CAboutDlg()
 {
 }
 
@@ -38,8 +37,7 @@ LRESULT CAboutDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
     UNREFERENCED_PARAMETER(lParam);
     switch (uMsg)
     {
-    case WM_INITDIALOG:
-        {
+        case WM_INITDIALOG: {
             InitDialog(hwndDlg, IDI_SENDMESSAGE);
             TCHAR buf[MAX_PATH] = {0};
             _stprintf_s(buf, _countof(buf), _T("SendMessage version %ld.%ld.%ld.%ld"), SM_VERMAJOR, SM_VERMINOR, SM_VERMICRO, SM_VERBUILD);
@@ -47,11 +45,11 @@ LRESULT CAboutDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
             SetDlgItemText(*this, IDC_DATE, _T(SM_VERDATE));
             m_link.ConvertStaticToHyperlink(hwndDlg, IDC_WEBLINK, L"https://tools.stefankueng.com");
         }
-        return TRUE;
-    case WM_COMMAND:
-        return DoCommand(LOWORD(wParam), HIWORD(wParam));
-    default:
-        return FALSE;
+            return TRUE;
+        case WM_COMMAND:
+            return DoCommand(LOWORD(wParam), HIWORD(wParam));
+        default:
+            return FALSE;
     }
 }
 
@@ -59,11 +57,11 @@ LRESULT CAboutDlg::DoCommand(int id, int /*msg*/)
 {
     switch (id)
     {
-    case IDOK:
-        // fall through
-    case IDCANCEL:
-        EndDialog(*this, id);
-        break;
+        case IDOK:
+            // fall through
+        case IDCANCEL:
+            EndDialog(*this, id);
+            break;
     }
     return 1;
 }

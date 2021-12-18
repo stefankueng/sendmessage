@@ -1,6 +1,6 @@
-// SendMessage - a tool to send custom messages
+﻿// SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010, 2012 - Stefan Kueng
+// Copyright (C) 2010, 2012, 2021 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -29,25 +29,25 @@ class CWindowTreeDlg : public CDialog
 {
 public:
     CWindowTreeDlg(HWND hParent, HWND actualHandle);
-    ~CWindowTreeDlg(void);
+    ~CWindowTreeDlg() override;
 
-    HWND                    GetSelectedWindow() { return m_SelectedWindow; }
+    HWND GetSelectedWindow() const { return m_selectedWindow; }
+
 protected:
-    LRESULT CALLBACK        DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-    LRESULT                 DoCommand(int id, int msg);
-    bool                    PreTranslateMessage(MSG* pMsg);
-    static void             GetWindowString(HWND hwnd, TCHAR * buf, int bufsize);
-    bool                    RefreshTree();
-    static BOOL CALLBACK    WindowEnumerator(HWND hwnd, LPARAM lParam);
-    static BOOL CALLBACK    ChildWindowEnumerator(HWND hwnd, LPARAM lParam);
-    HWND                    GetSelectedWindowHandle();
-    void                    SelectTreeItem(HWND windowHwnd);
+    LRESULT CALLBACK     DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+    LRESULT              DoCommand(int id, int msg);
+    bool                 PreTranslateMessage(MSG* pMsg) override;
+    static void          GetWindowString(HWND hwnd, TCHAR* buf, int bufsize);
+    bool                 RefreshTree();
+    static BOOL CALLBACK WindowEnumerator(HWND hwnd, LPARAM lParam);
+    static BOOL CALLBACK ChildWindowEnumerator(HWND hwnd, LPARAM lParam);
+    HWND                 GetSelectedWindowHandle();
+    void                 SelectTreeItem(HWND windowHwnd);
 
 private:
-    HWND                    m_hParent;
-    AeroControlBase         m_aerocontrols;
-    CDlgResizer             m_resizer;
-    HTREEITEM               m_lastTreeItem;
-    HWND                    m_SelectedWindow;
-
+    HWND            m_hParent;
+    AeroControlBase m_aeroControls;
+    CDlgResizer     m_resizer;
+    HTREEITEM       m_lastTreeItem;
+    HWND            m_selectedWindow;
 };

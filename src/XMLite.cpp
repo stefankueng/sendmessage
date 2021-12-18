@@ -2,6 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+// ReSharper disable All
 #include "stdafx.h"
 #include "XMLite.h"
 #include "auto_buffer.h"

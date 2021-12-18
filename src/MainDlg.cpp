@@ -1,6 +1,6 @@
 ﻿// SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010, 2012-2015, 2018-2019 - Stefan Kueng
+// Copyright (C) 2010, 2012-2015, 2018-2019, 2021 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -20,22 +20,24 @@
 #include "stdafx.h"
 #include "resource.h"
 #include "MainDlg.h"
+
+#include <shlwapi.h>
+
 #include "AboutDlg.h"
 #include "WindowTreeDlg.h"
 #include "WinMessage.h"
 #include "AccessibleName.h"
 #include "StringUtils.h"
 
-
 CMainDlg::CMainDlg(HWND hParent)
     : m_hParent(hParent)
     , m_bStartSearchWindow(false)
-    , m_hwndFoundWindow(NULL)
-    , m_hRectanglePen(NULL)
+    , m_hwndFoundWindow(nullptr)
+    , m_hRectanglePen(nullptr)
 {
 }
 
-CMainDlg::~CMainDlg(void)
+CMainDlg::~CMainDlg()
 {
 }
 
@@ -44,8 +46,7 @@ LRESULT CMainDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     UNREFERENCED_PARAMETER(lParam);
     switch (uMsg)
     {
-    case WM_INITDIALOG:
-        {
+        case WM_INITDIALOG: {
             InitDialog(hwndDlg, IDI_SENDMESSAGE);
 
             // add an "About" entry to the system menu
@@ -56,11 +57,11 @@ LRESULT CMainDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 if (menuItemsCount > 2)
                 {
                     InsertMenu(hSysMenu, menuItemsCount - 2, MF_STRING | MF_BYPOSITION, ID_ABOUTBOX, _T("&About SendMessage..."));
-                    InsertMenu(hSysMenu, menuItemsCount - 2, MF_SEPARATOR | MF_BYPOSITION, NULL, NULL);
+                    InsertMenu(hSysMenu, menuItemsCount - 2, MF_SEPARATOR | MF_BYPOSITION, NULL, nullptr);
                 }
                 else
                 {
-                    AppendMenu(hSysMenu, MF_SEPARATOR, NULL, NULL);
+                    AppendMenu(hSysMenu, MF_SEPARATOR, NULL, nullptr);
                     AppendMenu(hSysMenu, MF_STRING, ID_ABOUTBOX, _T("&About SendMessage..."));
                 }
             }
@@ -69,15 +70,15 @@ LRESULT CMainDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             m_hRectanglePen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
 
             // now fill the window message combo box
-            for( size_t i = 0 ; i < WinMessages::Instance().GetCount(); ++i)
+            for (size_t i = 0; i < WinMessages::Instance().GetCount(); ++i)
             {
-                WinMessage msg = WinMessages::Instance().At(i);
-                LRESULT index = SendDlgItemMessage(*this, IDC_MESSAGE, CB_ADDSTRING, 0, (LPARAM)msg.messagename.c_str());
+                WinMessage msg   = WinMessages::Instance().At(i);
+                LRESULT    index = SendDlgItemMessage(*this, IDC_MESSAGE, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(msg.messagename.c_str()));
                 SendDlgItemMessage(*this, IDC_MESSAGE, CB_SETITEMDATA, index, msg.message);
             }
 
-            WINDOWPLACEMENT wpl = {0};
-            DWORD size = sizeof(wpl);
+            WINDOWPLACEMENT wpl  = {0};
+            DWORD           size = sizeof(wpl);
             if (SHGetValue(HKEY_CURRENT_USER, _T("Software\\SendMessage"), _T("windowpos"), REG_NONE, &wpl, &size) == ERROR_SUCCESS)
                 SetWindowPlacement(*this, &wpl);
             else
@@ -93,11 +94,10 @@ LRESULT CMainDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             m_aerocontrols.SubclassControl(GetDlgItem(*this, IDC_WINDOWTREE));
             m_aerocontrols.SubclassControl(GetDlgItem(*this, IDOK));
         }
-        return FALSE;
-    case WM_COMMAND:
-        return DoCommand(LOWORD(wParam), HIWORD(wParam));
-    case WM_SYSCOMMAND:
-        {
+            return FALSE;
+        case WM_COMMAND:
+            return DoCommand(LOWORD(wParam), HIWORD(wParam));
+        case WM_SYSCOMMAND: {
             if ((wParam & 0xFFF0) == ID_ABOUTBOX)
             {
                 CAboutDlg dlgAbout(*this);
@@ -105,23 +105,23 @@ LRESULT CMainDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             }
         }
         break;
-    case WM_MOUSEMOVE:
-        if (m_bStartSearchWindow)
-            DoMouseMove(uMsg, wParam, lParam);
-        break;
-    case WM_LBUTTONUP :
-        if (m_bStartSearchWindow)
-            DoMouseUp(uMsg, wParam, lParam);
-        break;
-    case WM_SETCURSOR:
-        if (m_bStartSearchWindow)
-        {
-            SetCursor(LoadCursor(hResource, MAKEINTRESOURCE(IDC_SEARCHW)));
-            return TRUE;
-        }
-        break;
-    default:
-        return FALSE;
+        case WM_MOUSEMOVE:
+            if (m_bStartSearchWindow)
+                DoMouseMove(uMsg, wParam, lParam);
+            break;
+        case WM_LBUTTONUP:
+            if (m_bStartSearchWindow)
+                DoMouseUp(uMsg, wParam, lParam);
+            break;
+        case WM_SETCURSOR:
+            if (m_bStartSearchWindow)
+            {
+                SetCursor(LoadCursor(hResource, MAKEINTRESOURCE(IDC_SEARCHW)));
+                return TRUE;
+            }
+            break;
+        default:
+            return FALSE;
     }
     return FALSE;
 }
@@ -130,16 +130,15 @@ LRESULT CMainDlg::DoCommand(int id, int msg)
 {
     switch (id)
     {
-    case IDOK:
-    case IDCANCEL:
-        DeleteObject(m_hRectanglePen);
-        EndDialog(*this, id);
-        break;
-    case IDC_SEARCHW:
-        SearchWindow();
-        break;
-    case IDC_WINDOWTREE:
-        {
+        case IDOK:
+        case IDCANCEL:
+            DeleteObject(m_hRectanglePen);
+            EndDialog(*this, id);
+            break;
+        case IDC_SEARCHW:
+            SearchWindow();
+            break;
+        case IDC_WINDOWTREE: {
             CWindowTreeDlg treeDlg(*this, GetSelectedHandle());
             if (treeDlg.DoModal(hResource, IDD_WINDOWSTREE, *this) == IDOK)
             {
@@ -151,50 +150,47 @@ LRESULT CMainDlg::DoCommand(int id, int msg)
             }
         }
         break;
-    case IDC_SENDMESSAGE:
-    case IDC_POSTMESSAGE:
-        if (!SendPostMessage(id))
-        {
-            SetDlgItemText(*this, IDC_ERROR, _T("Message not recognized"));
-        }
-        break;
-    case IDC_ABOUTLINK:
-        {
+        case IDC_SENDMESSAGE:
+        case IDC_POSTMESSAGE:
+            if (!SendPostMessage(id))
+            {
+                SetDlgItemText(*this, IDC_ERROR, _T("Message not recognized"));
+            }
+            break;
+        case IDC_ABOUTLINK: {
             CAboutDlg dlgAbout(*this);
             dlgAbout.DoModal(hResource, IDD_ABOUTBOX, *this);
         }
         break;
-    case IDC_MESSAGE:
-        {
+        case IDC_MESSAGE: {
             switch (msg)
             {
-            case CBN_EDITCHANGE:
-            case CBN_SELCHANGE:
-                {
+                case CBN_EDITCHANGE:
+                case CBN_SELCHANGE: {
                     // the selected window message has changed, adjust the wparam and lparam comboboxes
                     LRESULT selIndex = SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETCURSEL, 0, 0);
                     SendDlgItemMessage(*this, IDC_WPARAM, CB_RESETCONTENT, 0, 0);
                     SendDlgItemMessage(*this, IDC_LPARAM, CB_RESETCONTENT, 0, 0);
                     if (selIndex != CB_ERR)
                     {
-                        LRESULT textlen = SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETLBTEXTLEN, selIndex, 0);
+                        LRESULT                  textlen = SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETLBTEXTLEN, selIndex, 0);
                         std::unique_ptr<TCHAR[]> textbuf(new TCHAR[textlen + 1]);
-                        SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETLBTEXT, selIndex, (LPARAM)(TCHAR*)textbuf.get());
-                        for( size_t i = 0 ; i < WinMessages::Instance().GetCount(); ++i)
+                        SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETLBTEXT, selIndex, reinterpret_cast<LPARAM>(textbuf.get()));
+                        for (size_t i = 0; i < WinMessages::Instance().GetCount(); ++i)
                         {
                             WinMessage wmsg = WinMessages::Instance().At(i);
                             if (wmsg.messagename.compare(textbuf.get()) == 0)
                             {
                                 for (size_t j = 0; j < wmsg.wparams.size(); ++j)
                                 {
-                                    std::wstring desc = std::get<0>(wmsg.wparams[j]);
-                                    LRESULT index = SendDlgItemMessage(*this, IDC_WPARAM, CB_ADDSTRING, 0, (LPARAM)desc.c_str());
+                                    std::wstring desc  = std::get<0>(wmsg.wparams[j]);
+                                    LRESULT      index = SendDlgItemMessage(*this, IDC_WPARAM, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(desc.c_str()));
                                     SendDlgItemMessage(*this, IDC_WPARAM, CB_SETITEMDATA, index, std::get<1>(wmsg.wparams[j]));
                                 }
                                 for (size_t j = 0; j < wmsg.lparams.size(); ++j)
                                 {
-                                    std::wstring desc = std::get<0>(wmsg.lparams[j]);
-                                    LRESULT index = SendDlgItemMessage(*this, IDC_LPARAM, CB_ADDSTRING, 0, (LPARAM)desc.c_str());
+                                    std::wstring desc  = std::get<0>(wmsg.lparams[j]);
+                                    LRESULT      index = SendDlgItemMessage(*this, IDC_LPARAM, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(desc.c_str()));
                                     SendDlgItemMessage(*this, IDC_LPARAM, CB_SETITEMDATA, index, std::get<1>(wmsg.lparams[j]));
                                 }
                             }
@@ -212,7 +208,7 @@ LRESULT CMainDlg::DoCommand(int id, int msg)
 void CMainDlg::SaveWndPosition()
 {
     WINDOWPLACEMENT wpl = {0};
-    wpl.length = sizeof(WINDOWPLACEMENT);
+    wpl.length          = sizeof(WINDOWPLACEMENT);
     GetWindowPlacement(*this, &wpl);
     SHSetValue(HKEY_CURRENT_USER, _T("Software\\SendMessage"), _T("windowpos"), REG_NONE, &wpl, sizeof(wpl));
 }
@@ -235,9 +231,9 @@ bool CMainDlg::SearchWindow()
 
 bool CMainDlg::DoMouseMove(UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-    POINT       screenpoint;
-    HWND        hwndFoundWindow = NULL;
-    TCHAR       szText[256];
+    POINT screenpoint{};
+    HWND  hwndFoundWindow = nullptr;
+    TCHAR szText[256]{};
 
     // Must use GetCursorPos() instead of calculating from "lParam".
     GetCursorPos(&screenpoint);
@@ -250,7 +246,7 @@ bool CMainDlg::DoMouseMove(UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*
     SetDlgItemText(*this, IDC_STATIC_Y_POS, szText);
 
     // Determine the window that lies underneath the mouse cursor.
-    hwndFoundWindow = WindowFromPoint (screenpoint);
+    hwndFoundWindow = WindowFromPoint(screenpoint);
 
     if (CheckWindowValidity(hwndFoundWindow))
     {
@@ -288,7 +284,7 @@ bool CMainDlg::DoMouseUp(UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 
     m_bStartSearchWindow = false;
 
-    if (m_hwndFoundWindow == NULL)
+    if (m_hwndFoundWindow == nullptr)
         return false;
     if (IsWindow(m_hwndFoundWindow) == FALSE)
         return false;
@@ -312,10 +308,10 @@ bool CMainDlg::DoMouseUp(UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 
 bool CMainDlg::CheckWindowValidity(HWND hwndToCheck)
 {
-    HWND hwndTemp = NULL;
+    HWND hwndTemp = nullptr;
 
     // The window must not be NULL.
-    if (hwndToCheck == NULL)
+    if (hwndToCheck == nullptr)
     {
         return false;
     }
@@ -355,8 +351,8 @@ bool CMainDlg::CheckWindowValidity(HWND hwndToCheck)
 
 bool CMainDlg::DisplayInfoOnFoundWindow(HWND hwndFoundWindow)
 {
-    RECT        rect;              // Rectangle area of the found window.
-    TCHAR       szClassName[100];
+    RECT  rect{}; // Rectangle area of the found window.
+    TCHAR szClassName[100]{};
 
     // Get the screen coordinates of the rectangle of the found window.
     GetWindowRect(hwndFoundWindow, &rect);
@@ -381,24 +377,24 @@ bool CMainDlg::DisplayInfoOnFoundWindow(HWND hwndFoundWindow)
 
 bool CMainDlg::RefreshWindow(HWND hwndWindowToBeRefreshed)
 {
-    InvalidateRect(hwndWindowToBeRefreshed, NULL, TRUE);
+    InvalidateRect(hwndWindowToBeRefreshed, nullptr, TRUE);
     UpdateWindow(hwndWindowToBeRefreshed);
-    RedrawWindow(hwndWindowToBeRefreshed, NULL, NULL, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+    RedrawWindow(hwndWindowToBeRefreshed, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 
     return true;
 }
 
-bool CMainDlg::HighlightFoundWindow(HWND hwndFoundWindow)
+bool CMainDlg::HighlightFoundWindow(HWND hwndFoundWindow) const
 {
-    HDC     hWindowDC = NULL;   // The DC of the found window.
-    RECT    rect;               // Rectangle area of the found window.
+    HDC  hWindowDC = nullptr; // The DC of the found window.
+    RECT rect{};              // Rectangle area of the found window.
 
     GetWindowRect(hwndFoundWindow, &rect);
     hWindowDC = GetWindowDC(hwndFoundWindow);
 
     if (hWindowDC)
     {
-        HGDIOBJ hPrevPen = SelectObject(hWindowDC, m_hRectanglePen);                // Handle of the existing pen in the DC of the found window.
+        HGDIOBJ hPrevPen   = SelectObject(hWindowDC, m_hRectanglePen);              // Handle of the existing pen in the DC of the found window.
         HGDIOBJ hPrevBrush = SelectObject(hWindowDC, GetStockObject(HOLLOW_BRUSH)); // Handle of the existing brush in the DC of the found window.
 
         // Draw a rectangle in the DC covering the entire window area of the found window.
@@ -414,26 +410,26 @@ bool CMainDlg::HighlightFoundWindow(HWND hwndFoundWindow)
 
 HWND CMainDlg::GetSelectedHandle()
 {
-    TCHAR buf[MAX_PATH];
+    TCHAR buf[MAX_PATH]{};
 
     ::GetDlgItemText(*this, IDC_WINDOW, buf, _countof(buf));
 
-    TCHAR * endptr = NULL;
-    return (HWND)_tcstoui64(buf, &endptr, 0);
+    TCHAR* endptr = nullptr;
+    return reinterpret_cast<HWND>(_tcstoui64(buf, &endptr, 0));
 }
 
 bool CMainDlg::SendPostMessage(UINT id)
 {
     HWND hTargetWnd = GetSelectedHandle();
-    if (hTargetWnd == NULL)
+    if (hTargetWnd == nullptr)
         return false;
     SetDlgItemText(*this, IDC_RETVALUE, _T(""));
 
-    UINT msg = 0;
+    UINT   msg    = 0;
     WPARAM wparam = 0;
     LPARAM lparam = 0;
-    TCHAR buf[MAX_PATH];
-    TCHAR * endptr = NULL;
+    TCHAR  buf[MAX_PATH];
+    TCHAR* endptr = nullptr;
 
     ::GetDlgItemText(*this, IDC_MESSAGE, buf, _countof(buf));
     msg = _tcstol(buf, &endptr, 0);
@@ -441,7 +437,7 @@ bool CMainDlg::SendPostMessage(UINT id)
     {
         LRESULT selIndex = SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETCURSEL, 0, 0);
         if (selIndex != CB_ERR)
-            msg = (UINT)SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETITEMDATA, selIndex, 0);
+            msg = static_cast<UINT>(SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETITEMDATA, selIndex, 0));
     }
     if (msg == 0)
     {
@@ -455,8 +451,8 @@ bool CMainDlg::SendPostMessage(UINT id)
 
     if (!err)
     {
-       ::GetDlgItemText(*this, IDC_WPARAM, buf, _countof(buf));
-        wparam = (WPARAM)_tcstol(buf, &endptr, 0);
+        ::GetDlgItemText(*this, IDC_WPARAM, buf, _countof(buf));
+        wparam = static_cast<WPARAM>(_tcstol(buf, &endptr, 0));
         if (wparam == 0)
         {
             LRESULT selIndex = SendDlgItemMessage(*this, IDC_WPARAM, CB_GETCURSEL, 0, 0);
@@ -465,7 +461,7 @@ bool CMainDlg::SendPostMessage(UINT id)
         }
 
         ::GetDlgItemText(*this, IDC_LPARAM, buf, _countof(buf));
-        lparam = (LPARAM)_tcstol(buf, &endptr, 0);
+        lparam = static_cast<LPARAM>(_tcstol(buf, &endptr, 0));
         if (lparam == 0)
         {
             LRESULT selIndex = SendDlgItemMessage(*this, IDC_LPARAM, CB_GETCURSEL, 0, 0);
@@ -490,26 +486,25 @@ bool CMainDlg::SendPostMessage(UINT id)
 
     if (err)
     {
-        LPVOID lpMsgBuf;
-        LPVOID lpDisplayBuf;
+        LPVOID lpMsgBuf     = nullptr;
+        LPVOID lpDisplayBuf = nullptr;
 
         if (FormatMessage(
-            FORMAT_MESSAGE_ALLOCATE_BUFFER |
-            FORMAT_MESSAGE_FROM_SYSTEM |
-            FORMAT_MESSAGE_IGNORE_INSERTS,
-            NULL,
-            err,
-            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-            (LPTSTR)&lpMsgBuf,
-            0,
-            NULL))
+                FORMAT_MESSAGE_ALLOCATE_BUFFER |
+                    FORMAT_MESSAGE_FROM_SYSTEM |
+                    FORMAT_MESSAGE_IGNORE_INSERTS,
+                nullptr,
+                err,
+                MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                reinterpret_cast<LPTSTR>(&lpMsgBuf),
+                0,
+                nullptr))
         {
-
-            lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + 40)*sizeof(TCHAR));
+            lpDisplayBuf = LocalAlloc(LMEM_ZEROINIT, (lstrlen(static_cast<LPCTSTR>(lpMsgBuf)) + 40) * sizeof(TCHAR));
             if (lpDisplayBuf)
             {
-                _stprintf_s((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf) / sizeof(TCHAR), _T("error %lu: %s"), err, (LPTSTR)lpMsgBuf);
-                SetDlgItemText(*this, IDC_ERROR, (LPCTSTR)lpDisplayBuf);
+                _stprintf_s(static_cast<LPTSTR>(lpDisplayBuf), LocalSize(lpDisplayBuf) / sizeof(TCHAR), _T("error %lu: %s"), err, (LPTSTR)lpMsgBuf);
+                SetDlgItemText(*this, IDC_ERROR, static_cast<LPCTSTR>(lpDisplayBuf));
                 LocalFree(lpDisplayBuf);
             }
 
@@ -518,7 +513,6 @@ bool CMainDlg::SendPostMessage(UINT id)
     }
     else
         SetDlgItemText(*this, IDC_ERROR, _T(""));
-
 
     return true;
 }

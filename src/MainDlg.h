@@ -1,6 +1,6 @@
-// SendMessage - a tool to send custom messages
+﻿// SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010, 2012-2013 - Stefan Kueng
+// Copyright (C) 2010, 2012-2013, 2021 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -22,9 +22,8 @@
 #include "AeroControls.h"
 #include "HyperLink.h"
 #include <string>
-#include <vector>
 
-#define ID_ABOUTBOX         0x0010
+#define ID_ABOUTBOX 0x0010
 
 /**
  * main dialog.
@@ -33,29 +32,29 @@ class CMainDlg : public CDialog
 {
 public:
     CMainDlg(HWND hParent);
-    ~CMainDlg(void);
+    ~CMainDlg(void) override;
 
 protected:
-    LRESULT CALLBACK        DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-    LRESULT                 DoCommand(int id, int msg);
-    bool                    PreTranslateMessage(MSG* pMsg);
+    LRESULT CALLBACK DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+    LRESULT          DoCommand(int id, int msg);
+    bool             PreTranslateMessage(MSG* pMsg) override;
 
-    void                    SaveWndPosition();
-    bool                    SearchWindow();
-    bool                    DoMouseMove(UINT message, WPARAM wParam, LPARAM lParam);
-    bool                    DoMouseUp(UINT message, WPARAM wParam, LPARAM lParam);
-    bool                    CheckWindowValidity(HWND hwndToCheck);
-    bool                    DisplayInfoOnFoundWindow(HWND hwndFoundWindow);
-    bool                    RefreshWindow(HWND hwndWindowToBeRefreshed);
-    bool                    HighlightFoundWindow(HWND hwndFoundWindow);
-    bool                    SendPostMessage(UINT id);
-    HWND                    GetSelectedHandle();
+    void             SaveWndPosition();
+    bool             SearchWindow();
+    bool             DoMouseMove(UINT message, WPARAM wParam, LPARAM lParam);
+    bool             DoMouseUp(UINT message, WPARAM wParam, LPARAM lParam);
+    bool             CheckWindowValidity(HWND hwndToCheck);
+    bool             DisplayInfoOnFoundWindow(HWND hwndFoundWindow);
+    static bool      RefreshWindow(HWND hwndWindowToBeRefreshed);
+    bool             HighlightFoundWindow(HWND hwndFoundWindow) const;
+    bool             SendPostMessage(UINT id);
+    HWND             GetSelectedHandle();
 
 private:
-    HWND                    m_hParent;
-    CHyperLink              m_link;
-    AeroControlBase         m_aerocontrols;
-    bool                    m_bStartSearchWindow;
-    HWND                    m_hwndFoundWindow;
-    HPEN                    m_hRectanglePen;
+    HWND            m_hParent;
+    CHyperLink      m_link;
+    AeroControlBase m_aerocontrols;
+    bool            m_bStartSearchWindow;
+    HWND            m_hwndFoundWindow;
+    HPEN            m_hRectanglePen;
 };

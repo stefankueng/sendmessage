@@ -1,6 +1,6 @@
-// SendMessage - a tool to send custom messages
+﻿// SendMessage - a tool to send custom messages
 
-// Copyright (C) 2013, 2015 - Stefan Kueng
+// Copyright (C) 2013, 2015, 2021 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -20,14 +20,12 @@
 #include "ResourceTextFile.h"
 #include "XMLite.h"
 
-
-
 struct WinMessage
 {
-    std::wstring                                    messagename;
-    UINT                                            message;
-    std::vector<std::tuple<std::wstring,WPARAM>>    wparams;
-    std::vector<std::tuple<std::wstring,LPARAM>>    lparams;
+    std::wstring                                  messagename;
+    UINT                                          message;
+    std::vector<std::tuple<std::wstring, WPARAM>> wparams;
+    std::vector<std::tuple<std::wstring, LPARAM>> lparams;
 };
 
 class WinMessages
@@ -35,9 +33,11 @@ class WinMessages
 private:
     WinMessages()
         : m_bInit(false)
-    {}
+    {
+    }
     ~WinMessages()
-    {}
+    {
+    }
 
 public:
     static WinMessages& Instance();
@@ -48,11 +48,10 @@ public:
     UINT                GetApiMessageCode(LPCTSTR text) const;
 
 private:
-    void        Init();
+    void                    Init();
     bool                    m_bInit;
     CResourceTextFile       m_xmlResource;
     XNode                   m_xml;
 
     std::vector<WinMessage> m_messages;
 };
-

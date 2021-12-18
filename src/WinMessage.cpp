@@ -1,6 +1,6 @@
-// SendMessage - a tool to send custom messages
+﻿// SendMessage - a tool to send custom messages
 
-// Copyright (C) 2013, 2015 - Stefan Kueng
+// Copyright (C) 2013, 2015, 2021 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -22,11 +22,11 @@
 
 extern HINSTANCE hInst;
 
-UINT WinMessages::GetApiMessageCode(LPCTSTR text) const
+UINT             WinMessages::GetApiMessageCode(LPCTSTR text) const
 {
-    for (const auto& it:m_messages)
+    for (const auto& it : m_messages)
     {
-        if (_wcsicmp(it.messagename.c_str(), text)==0)
+        if (_wcsicmp(it.messagename.c_str(), text) == 0)
             return it.message;
     }
     return 0;
@@ -34,10 +34,10 @@ UINT WinMessages::GetApiMessageCode(LPCTSTR text) const
 
 UINT WinMessages::ParseMsg(LPCTSTR text) const
 {
-    UINT msg = 0;
-    TCHAR * endptr = NULL;
+    UINT   msg    = 0;
+    TCHAR* endptr = nullptr;
 
-    msg = _tcstol(text, &endptr, 0);
+    msg           = _tcstol(text, &endptr, 0);
     if (msg == 0)
     {
         // Find API Message
@@ -57,7 +57,6 @@ WinMessages& WinMessages::Instance()
     if (!instance.m_bInit)
         instance.Init();
     return instance;
-
 }
 
 void WinMessages::Init()
@@ -65,27 +64,26 @@ void WinMessages::Init()
     m_xmlResource.Open(hInst, MAKEINTRESOURCE(IDR_WINDOWMESSAGESXML), _T("TEXT"), CResourceTextFile::ConvertToUnicode);
     m_xml.Load(m_xmlResource.GetTextBuffer());
     // now fill the window message combo box
-    XNodes childs;
-    childs = m_xml.GetChilds(_T("Message") );
-    for( size_t i = 0 ; i < childs.size(); ++i)
+    XNodes childs = m_xml.GetChilds(_T("Message"));
+    for (size_t i = 0; i < childs.size(); ++i)
     {
         WinMessage msg;
         msg.messagename = childs[i]->GetAttrValue(_T("description"));
-        TCHAR * endptr = NULL;
-        msg.message = _tcstol(childs[i]->GetAttrValue(_T("value")), &endptr, 0);
+        TCHAR* endptr   = nullptr;
+        msg.message     = _tcstol(childs[i]->GetAttrValue(_T("value")), &endptr, 0);
 
-        XNodes wparams = childs[i]->GetChilds(_T("wparam"));
+        XNodes wparams  = childs[i]->GetChilds(_T("wparam"));
         for (size_t j = 0; j < wparams.size(); ++j)
         {
             std::wstring desc = wparams[j]->GetAttrValue(_T("description"));
-            WPARAM m = _tcstol(wparams[j]->GetAttrValue(_T("value")), &endptr, 0);
+            WPARAM       m    = _tcstol(wparams[j]->GetAttrValue(_T("value")), &endptr, 0);
             msg.wparams.push_back(std::make_tuple(desc, m));
         }
         XNodes lparams = childs[i]->GetChilds(_T("lparam"));
         for (size_t j = 0; j < lparams.size(); ++j)
         {
             std::wstring desc = lparams[j]->GetAttrValue(_T("description"));
-            UINT m = _tcstol(lparams[j]->GetAttrValue(_T("value")), &endptr, 0);
+            UINT         m    = _tcstol(lparams[j]->GetAttrValue(_T("value")), &endptr, 0);
             msg.lparams.push_back(std::make_tuple(desc, m));
         }
 

@@ -1,6 +1,6 @@
 ﻿// SendMessage - a tool to send custom messages
 
-// Copyright (C) 2010, 2012, 2014-2015 - Stefan Kueng
+// Copyright (C) 2010, 2012, 2014-2015, 2021 - Stefan Kueng
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -21,15 +21,16 @@
 #include "resource.h"
 #include "WindowTreeDlg.h"
 #include <Psapi.h>
+#include <shlwapi.h>
 
 CWindowTreeDlg::CWindowTreeDlg(HWND hParent, HWND actualHandle)
     : m_hParent(hParent)
     , m_lastTreeItem(nullptr)
-    , m_SelectedWindow(actualHandle)
+    , m_selectedWindow(actualHandle)
 {
 }
 
-CWindowTreeDlg::~CWindowTreeDlg(void)
+CWindowTreeDlg::~CWindowTreeDlg()
 {
 }
 
@@ -38,8 +39,7 @@ LRESULT CWindowTreeDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
     UNREFERENCED_PARAMETER(lParam);
     switch (uMsg)
     {
-    case WM_INITDIALOG:
-        {
+        case WM_INITDIALOG: {
             InitDialog(hwndDlg, IDI_SENDMESSAGE);
 
             m_resizer.Init(hwndDlg);
@@ -50,32 +50,29 @@ LRESULT CWindowTreeDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
             m_resizer.AddControl(hwndDlg, IDCANCEL, RESIZER_BOTTOMRIGHT);
 
             ExtendFrameIntoClientArea(IDC_WINDOWTREE, IDC_WINDOWTREE, IDC_WINDOWTREE, IDC_WINDOWTREE);
-            m_aerocontrols.SubclassControl(GetDlgItem(*this, IDC_REFRESH));
-            m_aerocontrols.SubclassControl(GetDlgItem(*this, IDOK));
-            m_aerocontrols.SubclassControl(GetDlgItem(*this, IDCANCEL));
-            if (m_Dwm.IsDwmCompositionEnabled())
+            m_aeroControls.SubclassControl(GetDlgItem(*this, IDC_REFRESH));
+            m_aeroControls.SubclassControl(GetDlgItem(*this, IDOK));
+            m_aeroControls.SubclassControl(GetDlgItem(*this, IDCANCEL));
+            if (m_dwm.IsDwmCompositionEnabled())
                 m_resizer.UseSizeGrip(false);
 
             RefreshTree();
         }
-        return FALSE;
-    case WM_COMMAND:
-        return DoCommand(LOWORD(wParam), HIWORD(wParam));
-    case WM_SIZE:
-        {
+            return FALSE;
+        case WM_COMMAND:
+            return DoCommand(LOWORD(wParam), HIWORD(wParam));
+        case WM_SIZE: {
             m_resizer.DoResize(LOWORD(lParam), HIWORD(lParam));
         }
         break;
-    case WM_GETMINMAXINFO:
-        {
-            MINMAXINFO * mmi = (MINMAXINFO*)lParam;
+        case WM_GETMINMAXINFO: {
+            MINMAXINFO* mmi       = reinterpret_cast<MINMAXINFO*>(lParam);
             mmi->ptMinTrackSize.x = m_resizer.GetDlgRect()->right;
             mmi->ptMinTrackSize.y = m_resizer.GetDlgRect()->bottom;
             return 0;
         }
-        break;
-    default:
-        return FALSE;
+        default:
+            return FALSE;
     }
     return FALSE;
 }
@@ -84,21 +81,22 @@ LRESULT CWindowTreeDlg::DoCommand(int id, int msg)
 {
     switch (id)
     {
-    case IDOK:
-        m_SelectedWindow = GetSelectedWindowHandle();
-    case IDCANCEL:
-        EndDialog(*this, id);
-        break;
-    case IDC_FILTER:
-        switch (msg)
-        {
-        case EN_CHANGE:
+        case IDOK:
+            m_selectedWindow = GetSelectedWindowHandle();
+            [[fallthrough]];
+        case IDCANCEL:
+            EndDialog(*this, id);
+            break;
+        case IDC_FILTER:
+            switch (msg)
+            {
+                case EN_CHANGE:
+                    RefreshTree();
+            }
+            break;
+        case IDC_REFRESH:
             RefreshTree();
-        }
-        break;
-    case IDC_REFRESH:
-        RefreshTree();
-        break;
+            break;
     }
     return 1;
 }
@@ -115,14 +113,14 @@ bool CWindowTreeDlg::RefreshTree()
 {
     TreeView_DeleteAllItems(GetDlgItem(*this, IDC_WINDOWTREE));
     m_lastTreeItem = TVI_ROOT;
-    EnumWindows(WindowEnumerator, (LPARAM)this);
-    SelectTreeItem(m_SelectedWindow);
+    EnumWindows(WindowEnumerator, reinterpret_cast<LPARAM>(this));
+    SelectTreeItem(m_selectedWindow);
     return true;
 }
 
 BOOL CWindowTreeDlg::WindowEnumerator(HWND hwnd, LPARAM lParam)
 {
-    CWindowTreeDlg * pThis = (CWindowTreeDlg*)lParam;
+    auto* pThis = reinterpret_cast<CWindowTreeDlg*>(lParam);
 
     TCHAR buf[4096];
     GetWindowString(hwnd, buf, _countof(buf));
@@ -131,12 +129,12 @@ BOOL CWindowTreeDlg::WindowEnumerator(HWND hwnd, LPARAM lParam)
     ::GetDlgItemText(*pThis, IDC_FILTER, filter, _countof(filter));
     if (filter[0] == '\0' || StrStrI(buf, filter) != nullptr)
     {
-        TVINSERTSTRUCT is = {0};
-        is.hParent = TVI_ROOT;
-        is.hInsertAfter = TVI_SORT;
-        is.itemex.mask = TVIF_TEXT | TVIF_PARAM;
-        is.itemex.pszText = buf;
-        is.itemex.lParam = (LPARAM)hwnd;
+        TVINSERTSTRUCT is     = {nullptr};
+        is.hParent            = TVI_ROOT;
+        is.hInsertAfter       = TVI_SORT;
+        is.itemex.mask        = TVIF_TEXT | TVIF_PARAM;
+        is.itemex.pszText     = buf;
+        is.itemex.lParam      = reinterpret_cast<LPARAM>(hwnd);
 
         pThis->m_lastTreeItem = TreeView_InsertItem(GetDlgItem(*pThis, IDC_WINDOWTREE), &is);
     }
@@ -146,7 +144,7 @@ BOOL CWindowTreeDlg::WindowEnumerator(HWND hwnd, LPARAM lParam)
 
 BOOL CWindowTreeDlg::ChildWindowEnumerator(HWND hwnd, LPARAM lParam)
 {
-    CWindowTreeDlg * pThis = (CWindowTreeDlg*)lParam;
+    auto* pThis = reinterpret_cast<CWindowTreeDlg*>(lParam);
 
     TCHAR buf[4096];
     GetWindowString(hwnd, buf, _countof(buf));
@@ -155,27 +153,27 @@ BOOL CWindowTreeDlg::ChildWindowEnumerator(HWND hwnd, LPARAM lParam)
     ::GetDlgItemText(*pThis, IDC_FILTER, filter, _countof(filter));
     if (filter[0] == '\0' || StrStrI(buf, filter) != nullptr)
     {
-        TVINSERTSTRUCT is = {0};
-        is.hParent = pThis->m_lastTreeItem;
-        is.hInsertAfter = TVI_SORT;
-        is.itemex.mask = TVIF_TEXT | TVIF_PARAM;
+        TVINSERTSTRUCT is = {nullptr};
+        is.hParent        = pThis->m_lastTreeItem;
+        is.hInsertAfter   = TVI_SORT;
+        is.itemex.mask    = TVIF_TEXT | TVIF_PARAM;
         is.itemex.pszText = buf;
-        is.itemex.lParam = (LPARAM)hwnd;
+        is.itemex.lParam  = reinterpret_cast<LPARAM>(hwnd);
 
         TreeView_InsertItem(GetDlgItem(*pThis, IDC_WINDOWTREE), &is);
     }
     return TRUE;
 }
 
-void CWindowTreeDlg::GetWindowString(HWND hwnd, TCHAR * buf, int bufsize)
+void CWindowTreeDlg::GetWindowString(HWND hwnd, TCHAR* buf, int bufsize)
 {
-    TCHAR tmpbuf[4096] = {0};
-    TCHAR szClassName[100] = {0};
-    TCHAR szProcName[MAX_PATH] = {0};
-    TCHAR * pProcName = szProcName;
+    TCHAR  tmpbuf[4096]         = {0};
+    TCHAR  szClassName[100]     = {0};
+    TCHAR  szProcName[MAX_PATH] = {0};
+    TCHAR* pProcName            = szProcName;
 
     GetWindowText(hwnd, tmpbuf, _countof(tmpbuf));
-    if (GetClassName(hwnd, szClassName, _countof(szClassName))==0)
+    if (GetClassName(hwnd, szClassName, _countof(szClassName)) == 0)
         szClassName[0] = 0;
     DWORD pid = 0;
     GetWindowThreadProcessId(hwnd, &pid);
@@ -201,46 +199,46 @@ void CWindowTreeDlg::GetWindowString(HWND hwnd, TCHAR * buf, int bufsize)
 HWND CWindowTreeDlg::GetSelectedWindowHandle()
 {
     HTREEITEM selItem = TreeView_GetSelection(GetDlgItem(*this, IDC_WINDOWTREE));
-    if (selItem == NULL)
-        return NULL;
+    if (selItem == nullptr)
+        return nullptr;
 
     TVITEM tvi = {0};
-    tvi.hItem = selItem;
-    tvi.mask = TVIF_PARAM;
+    tvi.hItem  = selItem;
+    tvi.mask   = TVIF_PARAM;
     TreeView_GetItem(GetDlgItem(*this, IDC_WINDOWTREE), &tvi);
-    return (HWND)tvi.lParam;
+    return reinterpret_cast<HWND>(tvi.lParam);
 }
 
 void CWindowTreeDlg::SelectTreeItem(HWND windowHwnd)
 {
-    HWND _windowTreeHwnd = GetDlgItem(*this, IDC_WINDOWTREE);
-    HTREEITEM actualItem = TreeView_GetFirstVisible(_windowTreeHwnd);
+    HWND      windowTreeHwnd = GetDlgItem(*this, IDC_WINDOWTREE);
+    HTREEITEM actualItem     = TreeView_GetFirstVisible(windowTreeHwnd);
 
     // Search by the item into the list
-    while (actualItem != NULL)
+    while (actualItem != nullptr)
     {
         TVITEM tvi = {0};
-        tvi.hItem = actualItem;
-        tvi.mask = TVIF_PARAM;
-        TreeView_GetItem(_windowTreeHwnd, &tvi);
+        tvi.hItem  = actualItem;
+        tvi.mask   = TVIF_PARAM;
+        TreeView_GetItem(windowTreeHwnd, &tvi);
 
         // If it is the item, select it and break the search
-        if ((HWND)tvi.lParam == windowHwnd)
+        if (reinterpret_cast<HWND>(tvi.lParam) == windowHwnd)
         {
-            TreeView_SelectItem(_windowTreeHwnd, actualItem);
+            TreeView_SelectItem(windowTreeHwnd, actualItem);
             break;
         }
 
         // Find the next item in the TreeView
-        HTREEITEM nextItem = TreeView_GetChild(_windowTreeHwnd, actualItem);
-        if (nextItem == NULL)
-            nextItem = TreeView_GetNextSibling(_windowTreeHwnd, actualItem);
+        HTREEITEM nextItem = TreeView_GetChild(windowTreeHwnd, actualItem);
+        if (nextItem == nullptr)
+            nextItem = TreeView_GetNextSibling(windowTreeHwnd, actualItem);
 
         HTREEITEM parentItem = actualItem;
-        while ((nextItem == NULL) && (parentItem != NULL))
+        while ((nextItem == nullptr) && (parentItem != nullptr))
         {
-            parentItem = TreeView_GetParent(_windowTreeHwnd, parentItem);
-            nextItem = TreeView_GetNextSibling(_windowTreeHwnd, parentItem);
+            parentItem = TreeView_GetParent(windowTreeHwnd, parentItem);
+            nextItem   = TreeView_GetNextSibling(windowTreeHwnd, parentItem);
         }
         actualItem = nextItem;
     }
