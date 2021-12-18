@@ -1,4 +1,4 @@
-// XMLite.cpp: implementation of the XMLite class.
+﻿// XMLite.cpp: implementation of the XMLite class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -264,7 +264,7 @@ LPTSTR _tagXMLNode::LoadAttributes( LPCTSTR pszAttrs , LPPARSEINFO pi /*= &piDef
 
                     auto_buffer<TCHAR> sbuf (100 + name.size());
                     _stprintf_s(sbuf, 100 + name.size(), _T("<%s> attribute has error "), name.c_str());
-                    pi->error_string = sbuf;
+                    pi->error_string = sbuf.get();
                 }
                 return NULL;
             }
@@ -346,7 +346,7 @@ LPTSTR _tagXMLNode::LoadAttributes( LPCTSTR pszAttrs, LPCTSTR pszEnd, LPPARSEINF
                     pi->error_code = PIE_ATTR_NO_VALUE;
                     auto_buffer<TCHAR> sbuf (100 + name.size());
                     _stprintf_s(sbuf, 100 + name.size(), _T("<%s> attribute has error "), name.c_str());
-                    pi->error_string = sbuf;
+                    pi->error_string = sbuf.get();
                 }
                 return NULL;
             }
@@ -638,7 +638,7 @@ LPTSTR _tagXMLNode::Load( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/ )
                         pi->error_code = PIE_NOT_CLOSED;
                         auto_buffer<TCHAR> sbuf (100 + name.size() + value.size());
                         _stprintf_s(sbuf, 100 + name.size() + value.size(), _T("%s must be closed with </%s>"), name.c_str(), value.c_str());
-                        pi->error_string = sbuf;
+                        pi->error_string = sbuf.get();
                     }
                     // error cos not exist CloseTag </TAG>
                     return NULL;
@@ -695,7 +695,7 @@ LPTSTR _tagXMLNode::Load( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/ )
                                 pi->error_code = PIE_NOT_CLOSED;
                                 auto_buffer<TCHAR> sbuf (100 + name.size() + value.size());
                                 _stprintf_s(sbuf, 100 + name.size() + value.size(), _T("%s must be closed with </%s>"), name.c_str(), value.c_str());
-                                pi->error_string = sbuf;
+                                pi->error_string = sbuf.get();
                             }
                             // error
                             return NULL;
@@ -723,7 +723,7 @@ LPTSTR _tagXMLNode::Load( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/ )
                                     pi->error_code = PIE_NOT_NESTED;
                                     auto_buffer<TCHAR> sbuf (100 + name.size() + closename.size());
                                     _stprintf_s(sbuf, 100 + name.size(), _T("'<%s> ... </%s>' is not wel-formed."), name.c_str(), closename.c_str());
-                                    pi->error_string = sbuf;
+                                    pi->error_string = sbuf.get();
                                 }
                                 return NULL;
                             }
@@ -731,7 +731,7 @@ LPTSTR _tagXMLNode::Load( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/ )
                     }
                 }
                 else    // Alone child Tag Loaded
-                        // else �ؾ��ϴ��� ���ƾ��ϴ��� �ǽɰ���.
+                        // else ÇØ¾ßÇÏ´ÂÁö ¸»¾Æ¾ßÇÏ´ÂÁö ÀÇ½É°£´Ù.
                 {
 
                     //if( xml && this->value.IsEmpty() && *xml !=chXMLTagOpen )
@@ -749,7 +749,7 @@ LPTSTR _tagXMLNode::Load( LPCTSTR pszXml, LPPARSEINFO pi /*= &piDefault*/ )
                                 pi->error_code = PIE_NOT_CLOSED;
                                 auto_buffer<TCHAR> sbuf (100 + name.size() + value.size());
                                 _stprintf_s(sbuf, 100 + name.size() + value.size(), _T("%s must be closed with </%s>"), name.c_str(), value.c_str());
-                                pi->error_string = sbuf;
+                                pi->error_string = sbuf.get();
                             }
                             return NULL;
                         }
@@ -1376,7 +1376,7 @@ std::wstring _tagXMLEntitys::Ref2Entity( LPCTSTR estr )
         if( esbuf )
         {
             Ref2Entity( estr, esbuf, len );
-            es = esbuf;
+            es = esbuf.get();
         }
     }
     return es;
@@ -1395,7 +1395,7 @@ std::wstring _tagXMLEntitys::Entity2Ref( LPCTSTR str )
         if( sbuf )
         {
             Entity2Ref( str, sbuf, len );
-            s = sbuf;
+            s = sbuf.get();
         }
     }
     return s;
