@@ -173,8 +173,8 @@ LRESULT CMainDlg::DoCommand(int id, int msg)
                     SendDlgItemMessage(*this, IDC_LPARAM, CB_RESETCONTENT, 0, 0);
                     if (selIndex != CB_ERR)
                     {
-                        LRESULT                  textlen = SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETLBTEXTLEN, selIndex, 0);
-                        std::unique_ptr<TCHAR[]> textbuf(new TCHAR[textlen + 1]);
+                        LRESULT textlen = SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETLBTEXTLEN, selIndex, 0);
+                        auto    textbuf = std::make_unique<TCHAR[]>(textlen + 1);
                         SendDlgItemMessage(*this, IDC_MESSAGE, CB_GETLBTEXT, selIndex, reinterpret_cast<LPARAM>(textbuf.get()));
                         for (size_t i = 0; i < WinMessages::Instance().GetCount(); ++i)
                         {
