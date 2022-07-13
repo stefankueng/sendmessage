@@ -182,6 +182,23 @@ LRESULT CMainDlg::DoCommand(int id, int msg)
                 SetDlgItemText(*this, IDC_ERROR, _T("Message not recognized"));
             }
             break;
+        case IDC_PINWINDOW:
+        case IDC_UNPINWINDOW:
+            if (HWND hWnd = GetSelectedHandle())
+            {
+                HWND hWndInsertAfter = id == IDC_PINWINDOW ? HWND_TOPMOST : HWND_NOTOPMOST;
+                int res = SetWindowPos(hWnd, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+                TCHAR buf[MAX_PATH]{};
+                _stprintf_s(buf, _countof(buf), _T("0x%08x (%d)"), res, res);
+                SetDlgItemText(*this, IDC_RETVALUE, buf);
+                SetDlgItemText(*this, IDC_ERROR, _T(""));
+            }
+            else
+            {
+                SetDlgItemText(*this, IDC_RETVALUE, _T(""));
+                SetDlgItemText(*this, IDC_ERROR, _T("Window not found"));
+            }
+            break;
         case IDC_ABOUTLINK: {
             CAboutDlg dlgAbout(*this);
             dlgAbout.DoModal(hResource, IDD_ABOUTBOX, *this);
