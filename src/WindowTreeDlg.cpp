@@ -158,7 +158,7 @@ BOOL CWindowTreeDlg::ChildWindowEnumerator(HWND hwnd, LPARAM lParam)
 
     TCHAR filter[MAX_PATH]{};
     ::GetDlgItemText(*pThis, IDC_FILTER, filter, _countof(filter));
-    if (filter[0] == '\0' || StrStrI(buf, filter) != nullptr)
+    if (filter[0] == '\0' || (StrStrI(buf, filter) != nullptr && GetDlgItem(*pThis, IDC_FILTER) != hwnd))
     {
         TVINSERTSTRUCT is = {nullptr};
         is.hParent        = pThis->m_lastTreeItem;
