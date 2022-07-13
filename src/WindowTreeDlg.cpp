@@ -141,6 +141,10 @@ BOOL CWindowTreeDlg::WindowEnumerator(HWND hwnd, LPARAM lParam)
 
         pThis->m_lastTreeItem = TreeView_InsertItem(GetDlgItem(*pThis, IDC_WINDOWTREE), &is);
     }
+    else
+    {
+        pThis->m_lastTreeItem = TVI_ROOT;
+    }
     EnumChildWindows(hwnd, ChildWindowEnumerator, lParam);
     return TRUE;
 }
