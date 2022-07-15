@@ -64,6 +64,12 @@ LRESULT CMainDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
                     AppendMenu(hSysMenu, MF_SEPARATOR, NULL, nullptr);
                     AppendMenu(hSysMenu, MF_STRING, ID_ABOUTBOX, _T("&About SendMessage..."));
                 }
+
+                MENUITEMINFO stItem;
+                stItem.cbSize     = sizeof(MENUITEMINFO);
+                stItem.fMask      = MIIM_STRING;
+                stItem.dwTypeData = (LPTSTR)TEXT("Always On Top");
+                SetMenuItemInfo(hSysMenu, SC_MAXIMIZE, FALSE, &stItem);
             }
             m_link.ConvertStaticToHyperlink(hwndDlg, IDC_ABOUTLINK, _T(""));
 
@@ -97,14 +103,33 @@ LRESULT CMainDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             return FALSE;
         case WM_COMMAND:
             return DoCommand(LOWORD(wParam), HIWORD(wParam));
-        case WM_SYSCOMMAND: {
-            if ((wParam & 0xFFF0) == ID_ABOUTBOX)
+        case WM_SYSCOMMAND:
+            switch (wParam & 0xFFF0)
             {
-                CAboutDlg dlgAbout(*this);
-                dlgAbout.DoModal(hResource, IDD_ABOUTBOX, *this);
+                case ID_ABOUTBOX:
+                    CAboutDlg(*this).DoModal(hResource, IDD_ABOUTBOX, *this);
+                    break;
+                case SC_MINIMIZE:
+                    SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE) & ~WS_MAXIMIZE);
+                    break;
+                case SC_MAXIMIZE:
+                    SetWindowPos(hwndDlg, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+                    return TRUE;
+                case SC_RESTORE:
+                    if (!IsIconic(hwndDlg))
+                    {
+                        SetWindowPos(hwndDlg, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+                        return TRUE;
+                    }
+                    break;
             }
-        }
-        break;
+            break;
+        case WM_WINDOWPOSCHANGED:
+            if (GetWindowLongPtr(hwndDlg, GWL_EXSTYLE) & WS_EX_TOPMOST)
+                SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE) | WS_MAXIMIZE);
+            else
+                SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE) & ~WS_MAXIMIZE);
+            break;
         case WM_MOUSEMOVE:
             if (m_bStartSearchWindow)
                 DoMouseMove(uMsg, wParam, lParam);
