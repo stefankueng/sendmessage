@@ -59,6 +59,13 @@ LRESULT CWindowTreeDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
             RefreshTree();
         }
             return FALSE;
+        case WM_DESTROY:
+            KillTimer(*this, 0);
+            break;
+        case WM_TIMER:
+            KillTimer(*this, 0);
+            RefreshTree();
+            return TRUE;
         case WM_COMMAND:
             return DoCommand(LOWORD(wParam), HIWORD(wParam));
         case WM_SIZE: {
@@ -91,7 +98,7 @@ LRESULT CWindowTreeDlg::DoCommand(int id, int msg)
             switch (msg)
             {
                 case EN_CHANGE:
-                    RefreshTree();
+                    SetTimer(*this, 0, 500, nullptr);
             }
             break;
         case IDC_REFRESH:
@@ -141,6 +148,10 @@ BOOL CWindowTreeDlg::WindowEnumerator(HWND hwnd, LPARAM lParam)
 
         pThis->m_lastTreeItem = TreeView_InsertItem(GetDlgItem(*pThis, IDC_WINDOWTREE), &is);
     }
+    else
+    {
+        pThis->m_lastTreeItem = TVI_ROOT;
+    }
     EnumChildWindows(hwnd, ChildWindowEnumerator, lParam);
     return TRUE;
 }
@@ -154,7 +165,7 @@ BOOL CWindowTreeDlg::ChildWindowEnumerator(HWND hwnd, LPARAM lParam)
 
     TCHAR filter[MAX_PATH]{};
     ::GetDlgItemText(*pThis, IDC_FILTER, filter, _countof(filter));
-    if (filter[0] == '\0' || StrStrI(buf, filter) != nullptr)
+    if (filter[0] == '\0' || (StrStrI(buf, filter) != nullptr && GetDlgItem(*pThis, IDC_FILTER) != hwnd))
     {
         TVINSERTSTRUCT is = {nullptr};
         is.hParent        = pThis->m_lastTreeItem;
