@@ -31,9 +31,10 @@
 #define IDC_SENDGROUP                   1014
 #define IDC_ABOUTLINK                   1015
 #define IDC_POS                         1016
+#define IDC_PINWINDOW                   1017
+#define IDC_UNPINWINDOW                 1018
 #define IDC_ERROR                       1024
 #define IDC_WINDOWTREE                  1025
-#define IDC_BUTTON1                     1026
 #define IDC_REFRESH                     1026
 #define IDC_FILTER                      1027
 #define IDC_STATIC                      -1
