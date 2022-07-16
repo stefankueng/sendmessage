@@ -33,6 +33,8 @@
 #define IDC_POS                         1016
 #define IDC_PINWINDOW                   1017
 #define IDC_UNPINWINDOW                 1018
+#define IDC_SHOWWINDOW                  1019
+#define IDC_CMDSHOW                     1020
 #define IDC_ERROR                       1024
 #define IDC_WINDOWTREE                  1025
 #define IDC_REFRESH                     1026

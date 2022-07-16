@@ -99,6 +99,23 @@ LRESULT CMainDlg::DlgFunc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             m_aerocontrols.SubclassControl(GetDlgItem(*this, IDC_EDIT_STATUS));
             m_aerocontrols.SubclassControl(GetDlgItem(*this, IDC_WINDOWTREE));
             m_aerocontrols.SubclassControl(GetDlgItem(*this, IDOK));
+
+            if (HWND hCmdShow = GetDlgItem(*this, IDC_CMDSHOW))
+            {
+                ComboBox_AddString(hCmdShow, TEXT("SW_HIDE"));
+                ComboBox_AddString(hCmdShow, TEXT("SW_SHOWNORMAL"));
+                ComboBox_AddString(hCmdShow, TEXT("SW_SHOWMINIMIZED"));
+                ComboBox_AddString(hCmdShow, TEXT("SW_SHOWMAXIMIZED"));
+                ComboBox_AddString(hCmdShow, TEXT("SW_SHOWNOACTIVATE"));
+                ComboBox_AddString(hCmdShow, TEXT("SW_SHOW"));
+                ComboBox_AddString(hCmdShow, TEXT("SW_MINIMIZE"));
+                ComboBox_AddString(hCmdShow, TEXT("SW_SHOWMINNOACTIVE"));
+                ComboBox_AddString(hCmdShow, TEXT("SW_SHOWNA"));
+                ComboBox_AddString(hCmdShow, TEXT("SW_RESTORE"));
+                ComboBox_AddString(hCmdShow, TEXT("SW_SHOWDEFAULT"));
+                ComboBox_AddString(hCmdShow, TEXT("SW_FORCEMINIMIZE"));
+                ComboBox_SetCurSel(hCmdShow, 0);
+            }
         }
             return FALSE;
         case WM_COMMAND:
@@ -188,6 +205,22 @@ LRESULT CMainDlg::DoCommand(int id, int msg)
             {
                 HWND hWndInsertAfter = id == IDC_PINWINDOW ? HWND_TOPMOST : HWND_NOTOPMOST;
                 int res = SetWindowPos(hWnd, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+                TCHAR buf[MAX_PATH]{};
+                _stprintf_s(buf, _countof(buf), _T("0x%08x (%d)"), res, res);
+                SetDlgItemText(*this, IDC_RETVALUE, buf);
+                SetDlgItemText(*this, IDC_ERROR, _T(""));
+            }
+            else
+            {
+                SetDlgItemText(*this, IDC_RETVALUE, _T(""));
+                SetDlgItemText(*this, IDC_ERROR, _T("Window not found"));
+            }
+            break;
+        case IDC_SHOWWINDOW:
+            if (HWND hWnd = GetSelectedHandle())
+            {
+                int nCmdShow = ComboBox_GetCurSel(GetDlgItem(*this, IDC_CMDSHOW));
+                int res = ShowWindow(hWnd, nCmdShow);
                 TCHAR buf[MAX_PATH]{};
                 _stprintf_s(buf, _countof(buf), _T("0x%08x (%d)"), res, res);
                 SetDlgItemText(*this, IDC_RETVALUE, buf);
