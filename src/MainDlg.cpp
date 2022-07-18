@@ -436,14 +436,16 @@ bool CMainDlg::DisplayInfoOnFoundWindow(HWND hwndFoundWindow)
     GetClassName(hwndFoundWindow, szClassName, _countof(szClassName));
 
     // Display some information on the found window.
-    auto sText = CStringUtils::Format(L"Window Handle == 0x%p\r\nClass Name : %s\r\nAccessible Name : %s\r\nRECT == { Left: %d, Top: %d, Right: %d, Bottom: %d }\r\n",
+    auto sText = CStringUtils::Format(L"Window Handle == 0x%p\r\nClass Name : %s\r\nAccessible Name : %s\r\nRECT == { Left: %d, Top: %d, Right: %d, Bottom: %d } [ %d x %d ]\r\n",
                                       hwndFoundWindow,
                                       szClassName,
                                       CAccessibleName(hwndFoundWindow).c_str(),
                                       rect.left,
                                       rect.top,
                                       rect.right,
-                                      rect.bottom);
+                                      rect.bottom,
+                                      rect.right - rect.left,
+                                      rect.bottom - rect.top);
 
     SetDlgItemText(*this, IDC_EDIT_STATUS, sText.c_str());
 
